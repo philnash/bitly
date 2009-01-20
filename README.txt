@@ -1,32 +1,16 @@
 = bitly
 
-* FIX (url)
-
 == DESCRIPTION:
 
-FIX (describe your package)
+A Ruby API for bit.ly
 
-== FEATURES/PROBLEMS:
-
-* FIX (list of features or problems)
-
-== SYNOPSIS:
-
-  FIX (code sample of usage)
-
-== REQUIREMENTS:
-
-* FIX (list of requirements)
-
-== INSTALL:
-
-* FIX (sudo gem install, anything else)
+Under development... this may take me a while.
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIX
+Copyright (c) 2009 Phil Nash
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
