@@ -6,12 +6,7 @@ class TestBitly < Test::Unit::TestCase
   def setup
     @api_key = 'test_key'
     @login = 'login'
-    @bitly = Bitly.new(@login,@api_key)
-  end
-  
-  def test_initializer_sets_required_parameters
-    assert_equal @bitly.api_key, @api_key
-    assert_equal @bitly.login, @login
+    @bitly = Bitly::LongURL.new(@login,@api_key)
   end
   
   def test_creates_url_parameters

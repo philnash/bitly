@@ -1,4 +1,5 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'bitly/bitly'
+require 'bitly/base'
+require 'bitly/long_url'
 require 'bitly/version'
