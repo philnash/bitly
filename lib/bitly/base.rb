@@ -23,41 +23,14 @@ module Bitly
     
     def expand(opt)
       url = Bitly::Url.new(@login,@api_key)
-      url.expand(opt)
-      url
-    end
-    
-    def create_url(resource="",args={})
-      args = args.merge({:login => @login, :apiKey => @api_key, :version => API_VERSION})
-      url = URI.join(API_URL,resource)
-      url.query = args.map { |k,v| "%s=%s" % [URI.encode(k.to_s), URI.encode(v.to_s)] }.join("&")
-      url
-    end
-    
-    def underscore(camel_cased_word) # stolen from rails
-      camel_cased_word.to_s.gsub(/::/, '/').
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      tr("-", "_").
-      downcase
-    end
-    
-    def attr_define(k,v)
-      instance_variable_set("@#{k}", v)
-      meta = class << self; self; end
-      meta.class_eval { attr_reader k.to_sym }
-    end
-
-    def instance_variablise(obj)
-      if obj.is_a? Hash
-        obj.each do |k,v|
-          if v.is_a? Hash
-            instance_variablise(v)
-          else
-            attr_define(underscore(k),v)
-          end
-        end
+      if opt[:short_url]
+        url.expand_short_url(opt[:short_url])
+      elsif opt[:hash]
+        url.expand_hash(opt[:hash])
+      else
+        return nil
       end
+      url
     end
     
   end
