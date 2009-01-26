@@ -1,3 +1,9 @@
+=== 0.1.1 / 2009-01-26
+
+* 1 bug fix
+
+  * Didn't include dependency on JSON
+
 === 0.1.0 / 2009-01-26
 
 * 1 major enhancement

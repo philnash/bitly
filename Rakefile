@@ -10,6 +10,7 @@ Echoe.new('bitly', Bitly::VERSION) do |p|
   p.url = "http://github.com/philnash/bitly"
   p.author = "Phil Nash"
   p.email = "philnash@gmail.com"
+  p.runtime_dependencies = ['json']
   p.development_dependencies = []
 end
 
