@@ -4,7 +4,33 @@
 
 A Ruby API for bit.ly
 
-Under development... this may take me a while.
+http://code.google.com/p/bitly-api/wiki/ApiDocumentation
+
+== USAGE:
+
+Create a Bitly client using your username and api key as follows:
+
+bitly = Bitly.new(username, api_key)
+
+You can then use that client to shorten or expand urls or return more information or statistics as so:
+
+bitly.shorten('http://www.google.com')
+bitly.expand('wQaT')
+bitly.info('http://bit.ly/wQaT')
+bitly.stats('http://bit.ly/wQaT')
+
+Each can be used in all the methods described in the API docs, the shorten function, for example, takes a url or an array of urls.
+
+All four functions return a Bitly::Url object (or an array of Bitly::Url objects if you supplied an array as the input). You can then get all the information required from that object.
+
+u = bitly.shorten('http://www.google.com') #=> Bitly::Url
+
+u.long_url #=> "http://www.google.com"
+u.short_url #=> "http://bit.ly/Ywd1"
+u.user_hash #=> "Ywd1"
+u.hash #=> "2V6CFi"
+u.info #=> a ruby hash of the JSON returned from the API
+u.stats #=> a ruby hash of the JSON returned from the API
 
 == LICENSE:
 
