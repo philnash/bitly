@@ -6,7 +6,7 @@ class TestBitly < Test::Unit::TestCase
   def setup
     @api_key = 'R_7776acc394294b2b0ad2c261a91c483d'
     @login = 'philnash'
-    @bitly = Bitly::Client.new(@login,@api_key)
+    @bitly = Bitly.new(@login,@api_key)
   end
   
   # not a good test, but it makes sure things are working for now.

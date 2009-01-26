@@ -1,12 +1,16 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require 'hoe'
+require 'rake'
+require 'echoe'
 require './lib/bitly.rb'
 
-Hoe.new('bitly', Bitly::VERSION) do |p|
-  # p.rubyforge_name = 'bitlyx' # if different than lowercase project name
-  p.developer('philnash', 'philnash@gmail.com')
+Echoe.new('bitly', Bitly::VERSION) do |p|
+  p.description = "Use the bit.ly API to shorten or expand URLs"
+  p.url = "http://github.com/philnash/bitly"
+  p.author = "Phil Nash"
+  p.email = "philnash@gmail.com"
+  p.development_dependencies = []
 end
 
 # vim: syntax=Ruby
