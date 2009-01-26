@@ -15,13 +15,13 @@ module Bitly
       meta.class_eval { attr_reader k.to_sym }
     end
 
-    def instance_variablise(obj)
+    def instance_variablise(obj,variables)
       if obj.is_a? Hash
         obj.each do |k,v|
           if v.is_a? Hash
             instance_variablise(v)
           else
-            attr_define(underscore(k),v)
+            attr_define(underscore(k),v) if variables.include?(underscore(k))
           end
         end
       end

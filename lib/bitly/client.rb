@@ -46,16 +46,57 @@ module Bitly
         else
           request = create_url "expand", :hash => input
           result = get_result(request)
-          result = { :hash => input }.merge result[input]
+          result = { :hash => input, :short_url => "http://bit.ly/#{input}" }.merge result[input]
         end
         Bitly::Url.new(@login,@api_key,result)        
       elsif input.is_a? Array
         request = create_url "expand", :hash => input.join(',')
         result = get_result(request)
         input.map do |hsh|
-          new_url = {:hash => hsh}.merge result[hsh]
+          new_url = {:hash => hsh, :short_url => "http://bit.ly/#{hsh}"}.merge result[hsh]
           hsh = Bitly::Url.new(@login,@api_key,new_url)
         end
+      else
+        raise ArgumentError
+      end
+    end
+    
+    def info(input)
+      if input.is_a? String
+        if input.include? "bit.ly/"
+          hash = input.gsub(/^.*bit.ly\//,'')
+          request = create_url 'info', :hash => hash
+          result = get_result(request)
+          result = { :short_url => "http://bit.ly/#{hash}", :hash => hash }.merge result[hash]
+        else
+          request = create_url 'info', :hash => input
+          result = get_result(request)
+          result = { :short_url => "http://bit.ly/#{input}", :hash => input }.merge result[input]
+        end
+        Bitly::Url.new(@login,@api_key,result)
+      elsif input.is_a? Array
+        request = create_url "info", :hash => input.join(',')
+        result = get_result(request)
+        input.map do |hsh|
+          new_url = {:hash => hsh, :short_url => "http://bit.ly/#{hsh}"}.merge result[hsh]
+          hsh = Bitly::Url.new(@login,@api_key,:info => new_url)
+        end
+      end
+    end
+    
+    def stats(input)
+      if input.is_a? String
+        if input.include? "bit.ly/"
+          hash = input.gsub(/^.*bit.ly\//,'')
+          request = create_url 'stats', :hash => hash
+          result = get_result(request)
+          result = { :short_url => "http://bit.ly/#{hash}", :hash => hash }.merge result
+        else
+          request = create_url 'stats', :hash => input
+          result = get_result(request)
+          result = { :short_url => "http://bit.ly/#{input}", :hash => input }.merge result
+        end
+        Bitly::Url.new(@login,@api_key,result)
       else
         raise ArgumentError
       end
@@ -80,9 +121,6 @@ module Bitly
         raise BitlyError.new(result['errorMessage'],result['errorCode'],'expand')
       end
     end
-    
-
-    
   end
   
 end
