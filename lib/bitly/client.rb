@@ -22,9 +22,9 @@ module Bitly
       @api_key = api_key
     end
     
-    def shorten(input)
+    def shorten(input, keyword=nil)
       if input.is_a? String
-        request = create_url "shorten", :longUrl => input
+        request = create_url "shorten", :longUrl => input, :keyword => keyword
         result = get_result(request)
         result = {:long_url => input}.merge result[input]
         Bitly::Url.new(@login,@api_key,result)

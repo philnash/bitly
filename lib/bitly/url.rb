@@ -7,6 +7,9 @@ module Bitly
     
     def initialize(login,api_key,obj=nil)
       unless obj.nil?
+        
+        raise BitlyError.new(obj['errorMessage'],obj['errorCode'],'expand') if obj['statusCode'] == "ERROR"
+        
         instance_variablise(obj, VARIABLES)
         @info = obj[:info] if obj[:info]
         @stats = obj[:stats] if obj[:stats]
@@ -20,6 +23,7 @@ module Bitly
         if @hash
           request = create_url "info", :hash => @hash
           result = get_result(request)[@hash]
+          puts result.inspect
           instance_variablise(result, VARIABLES)
           @info = result
         elsif @short_url
