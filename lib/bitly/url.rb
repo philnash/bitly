@@ -23,7 +23,6 @@ module Bitly
         if @hash
           request = create_url "info", :hash => @hash
           result = get_result(request)[@hash]
-          puts result.inspect
           instance_variablise(result, VARIABLES)
           @info = result
         elsif @short_url
