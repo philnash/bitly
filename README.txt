@@ -15,6 +15,7 @@ bitly = Bitly.new(username, api_key)
 You can then use that client to shorten or expand urls or return more information or statistics as so:
 
 bitly.shorten('http://www.google.com')
+bitly.shorten('http://www.google.com', 'keyword') # returns a shortened url using the given keyword
 bitly.expand('wQaT')
 bitly.info('http://bit.ly/wQaT')
 bitly.stats('http://bit.ly/wQaT')

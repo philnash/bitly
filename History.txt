@@ -1,3 +1,10 @@
+=== 0.1.2 / 2009-04-12
+
+* 1 minor enhancement
+
+	* Allows to add a keyword for shortening urls
+
+
 === 0.1.1 / 2009-01-26
 
 * 1 bug fix
