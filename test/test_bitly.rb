@@ -12,31 +12,35 @@ class TestBitly < Test::Unit::TestCase
   # not a good test, but it makes sure things are working for now.
   def test_returns_short_url
     url = @bitly.shorten("http://google.com")
-    assert_equal url.class, Bitly::Url
-    assert_equal url.long_url, "http://google.com"
-    assert_equal url.short_url, "http://bit.ly/wQaT"
+    assert_kind_of Bitly::Url, url
+    assert_equal "http://google.com", url.long_url
+    assert_equal "http://bit.ly/wQaT", url.short_url
     urls = @bitly.shorten(["http://google.com","http://cnn.com"])
-    assert_equal urls[0].long_url, "http://google.com"
-    assert_equal urls[0].short_url, "http://bit.ly/wQaT"
+    assert_equal "http://google.com", urls[0].long_url
+    assert_equal "http://bit.ly/wQaT", urls[0].short_url
+		url = @bitly.shorten("http://www.google.com/search?hl=en&q=url&btnG=Google+Search&aq=f&oq=")
+		assert_kind_of Bitly::Url, url
+		assert_equal "http://www.google.com/search?hl=en&q=url&btnG=Google+Search&aq=f&oq=", url.long_url
+		assert_equal "http://bit.ly/NqK6i", url.short_url
   end
   
   def test_returns_a_long_url
     urls = @bitly.expand(["2bYgqR","1RmnUT"])
-    assert_equal urls[0].class, Bitly::Url
-    assert_equal urls[0].long_url, "http://cnn.com"
-    assert_equal urls[0].hash, "2bYgqR"
-    assert_equal urls[1].long_url, "http://google.com"
-    assert_equal urls[1].hash, "1RmnUT"
+    assert_kind_of Bitly::Url, urls[0]
+    assert_equal "http://cnn.com", urls[0].long_url
+    assert_equal "2bYgqR", urls[0].hash
+    assert_equal "http://google.com", urls[1].long_url
+    assert_equal "1RmnUT", urls[1].hash
     url = @bitly.expand("http://bit.ly/wQaT")
-    assert_equal url.class, Bitly::Url
-    assert_equal url.short_url, "http://bit.ly/wQaT"
-    assert_equal url.long_url, "http://google.com/"
-    assert_equal url.hash, "wQaT"
+    assert_kind_of Bitly::Url, url
+    assert_equal "http://bit.ly/wQaT", url.short_url
+    assert_equal "http://google.com/", url.long_url
+    assert_equal "wQaT", url.hash
     url2 = @bitly.expand("wQaT")
-    assert_equal url2.class, Bitly::Url
-    assert_equal url2.hash, "wQaT"
-    assert_equal url2.short_url, "http://bit.ly/wQaT"
-    assert_equal url2.long_url, "http://google.com/"
+    assert_kind_of Bitly::Url, url2
+    assert_equal "wQaT", url2.hash
+    assert_equal "http://bit.ly/wQaT", url2.short_url
+    assert_equal "http://google.com/", url2.long_url
   end
   
   def test_returns_keyword_url
