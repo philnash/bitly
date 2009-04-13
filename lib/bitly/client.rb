@@ -28,7 +28,7 @@ module Bitly
         Bitly::Url.new(@login,@api_key,result)
       elsif input.is_a? Array
         request = create_url "shorten"
-        request.query << "&" + input.map { |long_url| "longUrl=#{URI.encode(long_url)}" }.join("&") unless input.nil?
+        request.query << "&" + input.map { |long_url| "longUrl=#{CGI.escape(long_url)}" }.join("&") unless input.nil?
         result = get_result(request)
         input.map do |long_url|
           new_url = {:long_url => long_url}.merge result[long_url]
