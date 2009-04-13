@@ -6,8 +6,6 @@ require 'json'
 module Bitly
   API_URL     = 'http://api.bit.ly/'
   API_VERSION = '2.0.1'
-  # login = 'philnash'
-  # api_key = 'R_7776acc394294b2b0ad2c261a91c483d'
 
   def self.new(login, api_key)
     Bitly::Client.new(login,api_key)
