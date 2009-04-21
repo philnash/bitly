@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'net/http'
 require 'uri'
-require 'json'
 
 module Bitly
   API_URL     = 'http://api.bit.ly/'

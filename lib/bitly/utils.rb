@@ -39,7 +39,7 @@ module Bitly
     end
     
     def get_result(request)
-      result = JSON.parse(Net::HTTP.get(request))
+      result = Crack::JSON.parse(Net::HTTP.get(request))
       if result['statusCode'] == "OK"
         result = result['results']
       else
