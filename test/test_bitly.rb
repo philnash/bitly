@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'rubygems'
 require 'bitly'
 
 class TestBitly < Test::Unit::TestCase
