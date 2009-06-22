@@ -43,6 +43,7 @@ module Bitly
         result = JSON.parse(Net::HTTP.get(request))
       rescue
         result = {'statusCode' => 'JSON Parse Error(Bit.ly messed up)', 'errorCode' => 69}
+      end
       if result['statusCode'] == "OK"
         result = result['results']
       else
