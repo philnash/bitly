@@ -5,12 +5,14 @@ require 'rake'
 require 'echoe'
 require './lib/bitly.rb'
 
+# modified by coryosborn to remove native JSON dependency
+
 Echoe.new('bitly', Bitly::VERSION) do |p|
   p.description = "Use the bit.ly API to shorten or expand URLs"
   p.url = "http://github.com/philnash/bitly"
   p.author = "Phil Nash"
   p.email = "philnash@gmail.com"
-  p.runtime_dependencies = ['json']
+  p.extra_deps      = [['crack', '>= 0.1.1']]
   p.development_dependencies = []
 end
 
