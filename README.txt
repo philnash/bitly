@@ -33,6 +33,10 @@ u.hash #=> "2V6CFi"
 u.info #=> a ruby hash of the JSON returned from the API
 u.stats #=> a ruby hash of the JSON returned from the API
 
+You should be able to specify a keyword when shortening (though at last test, this didn't seem to be working http://code.google.com/p/bitly-api/issues/detail?id=5). To do so, just add a keyword parameter:
+
+bitly.shorten('http://www.google.com', 'keyword')
+
 == LICENSE:
 
 (The MIT License)

@@ -1,3 +1,13 @@
+=== 0.2 / 2009-06-23
+
+* 1 enhancement
+
+  * Depends on Crack instead of JSON, so can run on Jruby
+  
+* 1 bug fix
+
+  * Does not choke when bit.ly chokes. Returns a BitlyError instead
+
 === 0.1.4 / 2009-04-13
 
 * 1 bug fix
