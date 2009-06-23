@@ -6,6 +6,10 @@ A Ruby API for bit.ly
 
 http://code.google.com/p/bitly-api/wiki/ApiDocumentation
 
+== INSTALLATION:
+
+gem install bitly
+
 == USAGE:
 
 Create a Bitly client using your username and api key as follows:
