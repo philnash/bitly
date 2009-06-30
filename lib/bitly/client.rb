@@ -19,14 +19,14 @@ module Bitly
       @api_key = api_key
     end
     
-    def shorten(input, keyword=nil)
+    def shorten(input, keyword=nil, history=true)
       if input.is_a? String
-        request = create_url "shorten", :longUrl => input, :keyword => keyword
+        request = create_url "shorten", :longUrl => input, :keyword => keyword, :history => history ? 1 : nil
         result = get_result(request)
         result = {:long_url => input}.merge result[input]
         Bitly::Url.new(@login,@api_key,result)
       elsif input.is_a? Array
-        request = create_url "shorten"
+        request = create_url "shorten", :history => history ? 1 : nil
         request.query << "&" + input.map { |long_url| "longUrl=#{CGI.escape(long_url)}" }.join("&") unless input.nil?
         result = get_result(request)
         input.map do |long_url|
