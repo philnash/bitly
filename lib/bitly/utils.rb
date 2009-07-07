@@ -41,12 +41,12 @@ module Bitly
       begin
         result = Crack::JSON.parse(Net::HTTP.get(request))
       rescue
-        result = {'statusCode' => 'JSON Parse Error(Bit.ly messed up)', 'errorCode' => 69}
+        result = {'errorMessage' => 'JSON Parse Error(Bit.ly messed up)', 'errorCode' => 69, 'statusCode' => 'ERROR'}
       end
       if result['statusCode'] == "OK"
         result = result['results']
       else
-        raise BitlyError.new(result['errorMessage'],result['errorCode'],'expand')
+        raise BitlyError.new(result['errorMessage'],result['errorCode'])
       end
     end
     

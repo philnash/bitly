@@ -29,15 +29,15 @@ class TestUtils < Test::Unit::TestCase
   
   context "creating a url" do
     setup do
-      @api_key = API_KEY
-      @login = LOGIN
+      @api_key = api_key
+      @login = login
     end
     should "contain all the basic information" do
       url = create_url.to_s
       assert url.include?('http://api.bit.ly/')
       assert url.include?("version=#{API_VERSION}")
-      assert url.include?("apiKey=#{@api_key}")
-      assert url.include?("login=#{@login}")
+      assert url.include?("apiKey=#{api_key}")
+      assert url.include?("login=#{login}")
     end
     should "contain the right resource" do
       url = create_url('shorten').to_s
@@ -50,12 +50,24 @@ class TestUtils < Test::Unit::TestCase
   end
   
   context "fetching a url" do
-    setup do
-      stub_get("http://example.com","cnn.json")
+    context "successfully" do
+      setup do
+        stub_get("http://example.com","cnn.json")
+      end
+      should "return a json object successfully" do
+        result = get_result(URI.join("http://example.com"))
+        assert_equal Hash, result.class
+      end
     end
-    should "return a json object successfully" do
-      result = get_result(URI.join("http://example.com"))
-      assert_equal Hash, result.class
+    context "unsuccessfully" do
+      setup do
+        stub_get("http://example.com", 'shorten_error.json')
+      end
+      should "raise BitlyError" do
+        assert_raise BitlyError do
+          result = get_result(URI.join("http://example.com"))
+        end
+      end
     end
   end
 end

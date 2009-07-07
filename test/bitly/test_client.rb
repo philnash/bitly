@@ -3,19 +3,19 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 class TestClient < Test::Unit::TestCase
   context "bitly module" do
     should "create a new bitly client" do
-      b = Bitly.new(LOGIN, API_KEY)
+      b = Bitly.new(login, api_key)
       assert_equal Bitly::Client, b.class
     end
   end
   context "using the bitly client" do
     setup do
-      @bitly = Bitly.new(LOGIN, API_KEY)
+      @bitly = Bitly.new(login, api_key)
     end
     
     context "shortening" do
       context "a single link" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/shorten?.*longUrl=.*cnn.com.+/,"cnn.json")
+          stub_get(/^http:\/\/api.bit.ly\/shorten\?.*longUrl=.*cnn.com.*$/,"cnn.json")
           @url = @bitly.shorten('http://cnn.com')
         end
         should "return a Bitly::Url" do
@@ -30,7 +30,7 @@ class TestClient < Test::Unit::TestCase
       end
       context "multiple links" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/shorten?.*longUrl=.*longUrl=.+/,"cnn_and_google.json")
+          stub_get(/^http:\/\/api.bit.ly\/shorten\?.*longUrl=.*longUrl=.*$/,"cnn_and_google.json")
           @urls = @bitly.shorten(['http://cnn.com', 'http://google.com'])
         end
         should "return an array of Bitly::Urls" do

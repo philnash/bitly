@@ -21,7 +21,7 @@ module Bitly
 
     def shorten(input, opts={})
       if input.is_a? String
-        request = create_url("shorten", :longUrl => input, :keyword => opts[:keyword], :history => (opts[:history] ? 1 : nil))
+        request = create_url("shorten", :longUrl => input, :history => (opts[:history] ? 1 : nil))
         result = get_result(request)
         result = {:long_url => input}.merge result[input]
         Bitly::Url.new(@login,@api_key,result)
@@ -111,9 +111,9 @@ end
 class BitlyError < StandardError
   attr_reader :code
   alias :msg :message
-  def initialize(msg, code, req)
+  def initialize(msg, code)
     @code = code
-    super("'#{req}' - #{msg}")
+    super("#{msg} - '#{code}'")
   end
 end
 

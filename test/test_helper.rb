@@ -21,5 +21,9 @@ def stub_get(url, filename, status=nil)
   FakeWeb.register_uri(:get, url, options)
 end
 
-API_KEY = 'test_key'
-LOGIN = 'test_account'
+def api_key
+  'test_key'
+end
+def login
+  'test_account'
+end

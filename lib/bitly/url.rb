@@ -3,7 +3,7 @@ module Bitly
   class Url
     include Bitly::Utils
     
-    VARIABLES = ['long_url', 'short_url', 'hash', 'user_hash', 'short_keyword_url']
+    VARIABLES = ['long_url', 'short_url', 'hash', 'user_hash']
     
     def initialize(login,api_key,obj=nil)
       unless obj.nil?
