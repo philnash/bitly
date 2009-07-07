@@ -2,7 +2,6 @@ require 'cgi'
 
 module Bitly
   module Utils
-    private
     def underscore(camel_cased_word) # stolen from rails
       camel_cased_word.to_s.gsub(/::/, '/').
       gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').

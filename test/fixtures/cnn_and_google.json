@@ -1,0 +1,1 @@
+{ "errorCode": 0, "errorMessage": "", "results": { "http://cnn.com": { "hash": "31IqMl", "shortKeywordUrl": "", "shortUrl": "http://bit.ly/15DlK", "userHash": "15DlK" }, "http://google.com": { "hash": "3j4ir4", "shortKeywordUrl": "", "shortUrl": "http://bit.ly/11etr", "userHash": "11etr" } }, "statusCode": "OK" }

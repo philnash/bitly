@@ -18,7 +18,7 @@ module Bitly
       @login = login
       @api_key = api_key
     end
-    # keyword=nil, history=true
+
     def shorten(input, opts={})
       if input.is_a? String
         request = create_url("shorten", :longUrl => input, :keyword => opts[:keyword], :history => (opts[:history] ? 1 : nil))
