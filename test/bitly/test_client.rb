@@ -54,5 +54,62 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+    context "expanding" do
+      context "a hash" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          @url = @bitly.expand("31IqMl")
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return the expanded url" do
+          assert_equal "http://cnn.com/", @url.long_url
+        end
+        should "save the hash" do
+          assert_equal "31IqMl", @url.hash
+        end
+        should "save the short url" do
+          assert_equal "http://bit.ly/31IqMl", @url.short_url
+        end
+      end
+      context "a short url" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          @url = @bitly.expand("http://bit.ly/31IqMl")
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return the expanded url" do
+          assert_equal "http://cnn.com/", @url.long_url
+        end
+        should "save the hash" do
+          assert_equal "31IqMl", @url.hash
+        end
+        should "save the short url" do
+          assert_equal "http://bit.ly/31IqMl", @url.short_url
+        end
+      end
+      context "multiple hashes" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=15DlK.*3j4ir4.*$/,"expand_cnn_and_google.json")
+          @urls = @bitly.expand(["15DlK","3j4ir4"])
+        end
+        should "return an array of Bitly::Urls" do
+          assert_kind_of Array, @urls
+          assert_kind_of Bitly::Url, @urls[0]
+          assert_kind_of Bitly::Url, @urls[1]
+        end
+        should "expand the hashes in order" do
+          assert_equal "http://cnn.com/", @urls[0].long_url
+          assert_equal "http://google.com/", @urls[1].long_url
+        end
+        should "save the hash to each url" do
+          assert_equal "15DlK", @urls[0].hash
+          assert_equal "3j4ir4", @urls[1].hash
+        end
+      end
+    end
   end
 end
