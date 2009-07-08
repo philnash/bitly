@@ -111,5 +111,77 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+    context "to get info on" do
+      context "a single link" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          @url = @bitly.info('http://bit.ly/3j4ir4')
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return an info object with the url" do
+          assert_not_nil @url.info
+        end
+      end
+      context "a single hash" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          @url = @bitly.info('3j4ir4')
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return an info object with the url" do
+          assert_not_nil @url.info
+        end
+      end
+      context "a list of hashes" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*31IqMl.*$/,"google_and_cnn_info.json")
+          @urls = @bitly.info(['3j4ir4','31IqMl'])
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Array, @urls
+        end
+        should "return an info object with the url" do
+          assert_not_nil @urls[0].info
+          assert_not_nil @urls[1].info
+        end
+      end
+    end
+    context "to get stats on" do
+      context "a single link" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          @url = @bitly.stats('http://bit.ly/3j4ir4')
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return an info object" do
+          assert_not_nil @url.stats
+        end
+      end
+      context "a single hash" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          @url = @bitly.stats('3j4ir4')
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return an info object" do
+          assert_not_nil @url.stats
+        end
+      end
+      context "a list of hashes" do
+        should "return an argument error" do
+          assert_raise ArgumentError do
+            @bitly.stats(['3j4ir4','31IqMl'])
+          end
+        end
+      end
+    end
   end
 end
