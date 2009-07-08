@@ -3,28 +3,33 @@ module Bitly
   class Url
     include Bitly::Utils
     
+    attr_accessor :long_url, :short_url, :hash, :user_hash
     VARIABLES = ['long_url', 'short_url', 'hash', 'user_hash']
     
     def initialize(login,api_key,obj=nil)
-      if obj.nil?
-        
-      else
-        raise BitlyError.new(obj['errorMessage'],obj['errorCode'],'expand') if obj['statusCode'] == "ERROR"
+      unless obj.nil?
+        raise BitlyError.new(result['errorMessage'],result['errorCode']) if obj['statusCode'] == "ERROR"
         instance_variablise(obj, VARIABLES)
-        raise ArgumentError.new("A Bitly::Url requires a long url, short url or a hash") if @long_url.nil? && @short_url.nil? && @hash.nil?
         @info = obj[:info] if obj[:info]
         @stats = obj[:stats] if obj[:stats]
       end
       @login = login
       @api_key = api_key
+      raise ArgumentError.new("Please provide a login and api_key") if @login.nil? || @api_key.nil?
     end
     
     def shorten(opts = {})
-      if @long_url
+      unless @long_url.nil?
         request = create_url("shorten", :longUrl => @long_url, :history => (opts[:history] ? 1 : nil))
         result = get_result(request)[@long_url.gsub(/\/$/,'')]
-        instance_variablise(result,VARIABLES)
-        return @short_url
+        if result['statusCode'] == "ERROR"
+          raise BitlyError.new(result['errorMessage'],result['errorCode'])
+        else
+          instance_variablise(result,VARIABLES)
+          return @short_url
+        end
+      else
+        raise ArgumentError.new("You need a long_url in order to shorten it")
       end
     end
     
