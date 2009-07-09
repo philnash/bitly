@@ -159,7 +159,7 @@ class TestClient < Test::Unit::TestCase
         should "return a Bitly::Url" do
           assert_kind_of Bitly::Url, @url
         end
-        should "return an info object" do
+        should "return an stats object" do
           assert_not_nil @url.stats
         end
       end
@@ -171,7 +171,7 @@ class TestClient < Test::Unit::TestCase
         should "return a Bitly::Url" do
           assert_kind_of Bitly::Url, @url
         end
-        should "return an info object" do
+        should "return an stats object" do
           assert_not_nil @url.stats
         end
       end

@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'rubygems'
 require 'shoulda'
-require 'flexmock'
+require 'flexmock/test_unit'
 require 'fakeweb'
 
 require File.join(File.dirname(__FILE__), '..', 'lib', 'bitly')
