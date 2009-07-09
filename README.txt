@@ -19,7 +19,7 @@ bitly = Bitly.new(username, api_key)
 You can then use that client to shorten or expand urls or return more information or statistics as so:
 
 bitly.shorten('http://www.google.com')
-bitly.shorten('http://www.google.com', 'keyword') # returns a shortened url using the given keyword
+bitly.shorten('http://www.google.com', :history => 1) # adds the url to the api user's history
 bitly.expand('wQaT')
 bitly.info('http://bit.ly/wQaT')
 bitly.stats('http://bit.ly/wQaT')
@@ -36,8 +36,6 @@ u.user_hash #=> "Ywd1"
 u.hash #=> "2V6CFi"
 u.info #=> a ruby hash of the JSON returned from the API
 u.stats #=> a ruby hash of the JSON returned from the API
-
-You should be able to specify a keyword when shortening (though at last test, this didn't seem to be working http://code.google.com/p/bitly-api/issues/detail?id=5). To do so, just add a keyword parameter:
 
 bitly.shorten('http://www.google.com', 'keyword')
 

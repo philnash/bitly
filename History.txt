@@ -1,3 +1,17 @@
+=== 0.3 / 2009-07-09
+
+* 1 major enhancement
+
+  * a full set of tests, properly mocked
+
+* 1 minor enhancement
+
+  * calling bitly.shorten(:history => 1) will add the url to the api user's history.
+  
+* 1 bug fix
+
+  * you can no longer call shorten with a keyword, this was unsupported in the API and consequently removed
+
 === 0.2 / 2009-06-23
 
 * 1 enhancement
