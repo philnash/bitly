@@ -8,6 +8,9 @@ class TestUtils < Test::Unit::TestCase
     should "underscore a word" do
       assert_equal "hello_world", underscore("HelloWorld")
     end
+    should "create a hash from a short url" do
+      assert_equal "hello", create_hash_from_url("http://bit.ly/hello")
+    end
   end
   
   context "class utils" do

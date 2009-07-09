@@ -33,6 +33,24 @@ module Bitly
       end
     end
     
+    def expand
+      unless !(@short_url || @hash)
+        unless @hash
+          @hash = create_hash_from_url(@short_url)
+        end
+        request = create_url("expand", :hash => @hash)
+        result = get_result(request)[@hash]
+        if result['statusCode'] == "ERROR"
+          raise BitlyError.new(result['errorMessage'],result['errorCode'])
+        else
+          instance_variablise(result,VARIABLES)
+          return @long_url
+        end
+      else
+        raise ArgumentError.new("You need a short_url or a hash in order to expand it")
+      end
+    end
+    
     def info
       if @info.nil?
         if @hash

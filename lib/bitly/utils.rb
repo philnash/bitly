@@ -10,6 +10,10 @@ module Bitly
       downcase
     end
     
+    def create_hash_from_url(url)
+      url.gsub(/^.*bit.ly\//,'')
+    end
+    
     def attr_define(k,v)
       instance_variable_set("@#{k}", v)
       meta = class << self; self; end

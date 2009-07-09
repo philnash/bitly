@@ -41,7 +41,7 @@ module Bitly
     def expand(input)
       if input.is_a? String
         if input.include? "bit.ly/"
-          hash = input.gsub(/^.*bit.ly\//,'')
+          hash = create_hash_from_url(input)
           request = create_url "expand", :hash => hash
           result = get_result(request)
           result = { :short_url => input, :hash => hash }.merge result[hash]
@@ -66,7 +66,7 @@ module Bitly
     def info(input)
       if input.is_a? String
         if input.include? "bit.ly/"
-          hash = input.gsub(/^.*bit.ly\//,'')
+          hash = create_hash_from_url(input)
           request = create_url 'info', :hash => hash
           result = get_result(request)
           result = { :short_url => "http://bit.ly/#{hash}", :hash => hash }.merge result[hash]
@@ -91,7 +91,7 @@ module Bitly
     def stats(input)
       if input.is_a? String
         if input.include? "bit.ly/"
-          hash = input.gsub(/^.*bit.ly\//,'')
+          hash = create_hash_from_url(input)
           request = create_url 'stats', :hash => hash
           result = get_result(request)
           result = { :short_url => "http://bit.ly/#{hash}", :hash => hash }.merge result
