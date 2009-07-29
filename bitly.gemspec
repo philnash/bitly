@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bitly}
-  s.version = "0.3"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Phil Nash"]
-  s.date = %q{2009-07-09}
+  s.date = %q{2009-07-29}
   s.description = %q{Use the bit.ly API to shorten or expand URLs}
   s.email = %q{philnash@gmail.com}
   s.extra_rdoc_files = ["lib/bitly/client.rb", "lib/bitly/url.rb", "lib/bitly/utils.rb", "lib/bitly/version.rb", "lib/bitly.rb", "README.txt"]
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = %q{bitly}
   s.rubygems_version = %q{1.3.4}
   s.summary = %q{Use the bit.ly API to shorten or expand URLs}
-  s.test_files = ["test/bitly/test_client.rb", "test/bitly/test_url.rb", "test/bitly/test_utils.rb", "test/test_bitly.rb", "test/test_helper.rb"]
+  s.test_files = ["test/bitly/test_client.rb", "test/bitly/test_url.rb", "test/bitly/test_utils.rb", "test/test_helper.rb"]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
