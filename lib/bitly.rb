@@ -1,7 +1,5 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'rubygems'
-gem 'crack'
 require 'crack'
 
 require 'bitly/utils'
