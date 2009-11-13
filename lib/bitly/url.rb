@@ -9,7 +9,7 @@ module Bitly
     
     def initialize(login,api_key,obj=nil)
       unless obj.nil?
-        raise BitlyError.new(result['errorMessage'],result['errorCode']) if obj['statusCode'] == "ERROR"
+        raise BitlyError.new(obj['errorMessage'],obj['errorCode']) if obj['statusCode'] == "ERROR"
         instance_variablise(obj, VARIABLES)
         @info = obj[:info] if obj[:info]
         @stats = obj[:stats] if obj[:stats]
