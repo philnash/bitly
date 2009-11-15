@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bitly}
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Phil Nash"]
-  s.date = %q{2009-07-29}
+  s.date = %q{2009-11-15}
   s.description = %q{Use the bit.ly API to shorten or expand URLs}
   s.email = %q{philnash@gmail.com}
   s.extra_rdoc_files = ["lib/bitly/client.rb", "lib/bitly/url.rb", "lib/bitly/utils.rb", "lib/bitly/version.rb", "lib/bitly.rb", "README.txt"]
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Bitly", "--main", "README.txt"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{bitly}
-  s.rubygems_version = %q{1.3.4}
+  s.rubygems_version = %q{1.3.5}
   s.summary = %q{Use the bit.ly API to shorten or expand URLs}
   s.test_files = ["test/bitly/test_client.rb", "test/bitly/test_url.rb", "test/bitly/test_utils.rb", "test/test_helper.rb"]
 
