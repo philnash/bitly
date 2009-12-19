@@ -92,6 +92,13 @@ module Bitly
       end
     end
     
+    def bitly_url
+      @short_url.nil? ? nil : @short_url.gsub(/j\.mp/,'bit.ly')
+    end
+    
+    def jmp_url
+      @short_url.nil? ? nil : @short_url.gsub(/bit\.ly/,'j.mp')
+    end
   end
 
 end

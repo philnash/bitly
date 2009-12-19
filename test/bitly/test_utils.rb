@@ -8,8 +8,11 @@ class TestUtils < Test::Unit::TestCase
     should "underscore a word" do
       assert_equal "hello_world", underscore("HelloWorld")
     end
-    should "create a hash from a short url" do
+    should "create a hash from a bitly url" do
       assert_equal "hello", create_hash_from_url("http://bit.ly/hello")
+    end
+    should "create a hash from a jmp url" do
+      assert_equal "hello", create_hash_from_url("http://j.mp/hello")
     end
   end
   

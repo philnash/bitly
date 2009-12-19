@@ -11,7 +11,7 @@ module Bitly
     end
     
     def create_hash_from_url(url)
-      url.gsub(/^.*bit.ly\//,'')
+      url.gsub(/^.*(bit\.ly|j\.mp)\//,'')
     end
     
     def attr_define(k,v)

@@ -22,6 +22,11 @@ class TestUrl < Test::Unit::TestCase
         should "return a short url" do
           assert_equal "http://bit.ly/15DlK", @url.shorten
         end
+        should "create bitly and jmp urls" do
+          @url.shorten
+          assert_equal "http://bit.ly/15DlK", @url.bitly_url
+          assert_equal "http://j.mp/15DlK", @url.jmp_url
+        end
       end
       context "with no long url" do
         setup do

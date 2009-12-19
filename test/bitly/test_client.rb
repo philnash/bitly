@@ -23,6 +23,10 @@ class TestClient < Test::Unit::TestCase
         end
         should "return a short bitly url" do
           assert_equal "http://bit.ly/15DlK", @url.short_url
+          assert_equal "http://bit.ly/15DlK", @url.bitly_url
+        end
+        should "return a short jmp url" do
+          assert_equal "http://j.mp/15DlK", @url.jmp_url
         end
         should "save the long url" do
           assert_equal "http://cnn.com", @url.long_url
@@ -73,7 +77,7 @@ class TestClient < Test::Unit::TestCase
           assert_equal "http://bit.ly/31IqMl", @url.short_url
         end
       end
-      context "a short url" do
+      context "a short bitly url" do
         setup do
           stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
           @url = @bitly.expand("http://bit.ly/31IqMl")
@@ -87,8 +91,32 @@ class TestClient < Test::Unit::TestCase
         should "save the hash" do
           assert_equal "31IqMl", @url.hash
         end
-        should "save the short url" do
-          assert_equal "http://bit.ly/31IqMl", @url.short_url
+        should "save the bitly url" do
+          assert_equal "http://bit.ly/31IqMl", @url.bitly_url
+        end
+        should "save a jmp url" do
+          assert_equal "http://j.mp/31IqMl", @url.jmp_url
+        end
+      end
+      context "a short jmp url" do
+        setup do
+          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          @url = @bitly.expand("http://j.mp/31IqMl")
+        end
+        should "return a Bitly::Url" do
+          assert_kind_of Bitly::Url, @url
+        end
+        should "return the expanded url" do
+          assert_equal "http://cnn.com/", @url.long_url
+        end
+        should "save the hash" do
+          assert_equal "31IqMl", @url.hash
+        end
+        should "save the bitly url" do
+          assert_equal "http://bit.ly/31IqMl", @url.bitly_url
+        end
+        should "save a jmp url" do
+          assert_equal "http://j.mp/31IqMl", @url.jmp_url
         end
       end
       context "multiple hashes" do

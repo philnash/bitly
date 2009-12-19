@@ -40,7 +40,7 @@ module Bitly
     
     def expand(input)
       if input.is_a? String
-        if input.include? "bit.ly/"
+        if input.include?('bit.ly/') || input.include?('j.mp/')
           hash = create_hash_from_url(input)
           request = create_url "expand", :hash => hash
           result = get_result(request)
@@ -118,33 +118,3 @@ class BitlyError < StandardError
     super("#{msg} - '#{code}'")
   end
 end
-
-
-# How it should work
-# ==================
-# bitly = Bitly::Base.new('philnash','R_7776acc394294b2b0ad2c261a91c483d')
-# bitly.shorten("http://www.google.com")
-# #=> Bitly::Url
-# bitly.shorten(["http://www.google.com","http://cnn.com"])
-# #=> [Bitly::Url,Bitly::Url]
-# 
-# bitly.expand("http://bit.ly/wIRm")
-# #=> Bitly::Url
-# bitly.expand("wIRm")
-# #=> Bitly::Url
-# bitly.expand(["wIRm","sdfsd"])
-# #=> [Bitly::Url,Bitly::Url]
-#
-# bitly.info("http://bit.ly/wIRm") || bitly.info("wIRm")
-# #=> b = Bitly::Url
-# #=> b.info #=> hash of data back from info
-# bitly.info(['wIRm','qsads'])
-# #=> [Bitly::Url, Bitly::Url]
-# also, with any url = Bitly::Url
-# url.info #=> hash of info data
-
-# bitly.stats("http://bit.ly/wIRm") || bitly.stats("wIRm")
-# #=> b = Bitly::Url
-# #=> b.stats #=> hash of stats
-# also, any url = Bitly::Url
-# url.stats #=> hash of stats
