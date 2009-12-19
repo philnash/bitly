@@ -2,7 +2,7 @@
 
 == DESCRIPTION:
 
-A Ruby API for bit.ly
+A Ruby API for http://bit.ly (and now http://j.mp)
 
 http://code.google.com/p/bitly-api/wiki/ApiDocumentation
 
@@ -32,6 +32,8 @@ u = bitly.shorten('http://www.google.com') #=> Bitly::Url
 
 u.long_url #=> "http://www.google.com"
 u.short_url #=> "http://bit.ly/Ywd1"
+u.bitly_url #=> "http://bit.ly/Ywd1"
+u.jmp_url #=> "http://j.mp/Ywd1"
 u.user_hash #=> "Ywd1"
 u.hash #=> "2V6CFi"
 u.info #=> a ruby hash of the JSON returned from the API

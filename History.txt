@@ -1,3 +1,9 @@
+=== 0.4.0 / 2009-12-19
+
+* 1 major enhancement
+
+  * support for j.mp urls
+
 === 0.3.2 / 2009-11-15
 
 * 1 bug fix
