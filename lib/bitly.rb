@@ -1,8 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
-require 'crack'
+require 'httparty'
 
-require 'bitly/utils'
+require 'bitly/bitly'
 require 'bitly/client'
 require 'bitly/url'
-require 'bitly/version'
