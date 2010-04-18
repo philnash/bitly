@@ -17,7 +17,12 @@ def fixture_file(filename)
 end
 
 def stub_get(path, filename)
-  FakeWeb.register_uri(:get, path, :body => fixture_file(filename), :content_type => 'text/json')
+  if filename.is_a?(Array)
+    response = filename.map { |f| { :body => fixture_file(f), :content_type => 'text/json' } }
+  else
+    response = { :body => fixture_file(filename), :content_type => 'text/json' }
+  end
+  FakeWeb.register_uri(:get, path, response)
 end
 
 def api_key

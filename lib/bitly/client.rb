@@ -14,16 +14,23 @@ module Bitly
     
     # Validates a login and api key
     def validate(x_login, x_api_key)
-      response = get('/validate', :query => { :x_login => x_login, :x_apiKey => x_api_key})
+      response = get('/validate', :query => { :x_login => x_login, :x_apiKey => x_api_key })
       return response['data']['valid'] == 1
     end
     alias :valid? :validate
     
+    # Checks whether a domain is a bitly.Pro domain
     def bitly_pro_domain(domain)
       response = get('/bitly_pro_domain', :query => { :domain => domain })
       return response['data']['bitly_pro_domain']
     end
     alias :pro? :bitly_pro_domain
+    
+    def shorten(long_url, opts={})
+      query = { :longUrl => long_url }.merge(opts)
+      response = get('/shorten', :query => query)
+      return Bitly::Url.new(response['data'])
+    end
         
     private
     
