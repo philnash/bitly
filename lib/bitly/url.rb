@@ -10,6 +10,7 @@ module Bitly
         @global_hash = opts['global_hash']
         @new_hash = (opts['new_hash'] == 1)
       end
+      @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
     end
     
     def new_hash?

@@ -154,19 +154,67 @@ class TestClient < Test::Unit::TestCase
       end
     end
     
-    # context "expanding a url" do
-    #   context "a single url" do
-    #     context "with a hash" do
-    #       
-    #     end
-    #     context "with the short url" do
-    #       
-    #     end
-    #     context "that doesn't exist" do
-    #       
-    #     end
-    #   end
-    # end
+    context "expanding a url" do
+      context "a single url" do
+        context "with a hash" do
+          setup do
+            @hash = '9uX1TE'
+            stub_get(%r|http://api\.bit\.ly/v3/expand?.*hash=9uX1TE.*|, '9uX1TE.json')
+            @url = @bitly.expand(@hash)
+          end
+          should 'return a url object' do
+            assert_instance_of Bitly::Url, @url
+          end
+          should 'return the original hash' do
+            assert_equal @hash, @url.user_hash
+          end
+          should "return a global hash" do
+            assert_equal '18H1ET', @url.global_hash
+          end
+          should 'return a long url' do
+            assert_equal 'http://betaworks.com/', @url.long_url
+          end
+          should 'return a short url' do
+            assert_equal "http://bit.ly/#{@hash}", @url.short_url
+          end
+        end
+        context "with the short url" do
+          setup do
+            @short_url = 'http://bit.ly/9uX1TE'
+            stub_get(%r|http://api\.bit\.ly/v3/expand?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TE.*|, 'bitly9uX1TE.json')
+            @url = @bitly.expand(@short_url)
+          end
+          should 'return a url object' do
+            assert_instance_of Bitly::Url, @url
+          end
+          should 'return the original hash' do
+            assert_equal @hash, @url.user_hash
+          end
+          should "return a global hash" do
+            assert_equal '18H1ET', @url.global_hash
+          end
+          should 'return a long url' do
+            assert_equal 'http://betaworks.com/', @url.long_url
+          end
+        end
+        context "that doesn't exist" do
+          setup do
+            @shortUrl = 'http://bit.ly/9uX1TEsd'
+            stub_get(%r|http://api\.bit\.ly/v3/expand?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TEsd.*|, 'missing_hash.json')
+            @url = @bitly.expand(@shortUrl)
+          end
+          should 'return a missing url' do
+            assert_instance_of Bitly::MissingUrl, @url
+          end
+          should 'return an error' do
+            assert_equal 'NOT_FOUND', @url.error
+          end
+          should 'return the original url' do
+            assert_equal @shortUrl, @url.short_url
+          end
+        end
+      end
+    end
   end
 
   context "without valid credentials" do

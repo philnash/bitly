@@ -31,6 +31,16 @@ module Bitly
       response = get('/shorten', :query => query)
       return Bitly::Url.new(response['data'])
     end
+    
+    def expand(input)
+      query = is_a_short_url?(input) ? { :shortUrl => input } : { :hash => input }
+      response = get('/expand', :query => query)
+      if response['data']['expand'][0]['error']
+        return Bitly::MissingUrl.new(response['data']['expand'][0])
+      else
+        return Bitly::Url.new(response['data']['expand'][0])
+      end
+    end
         
     private
     
@@ -43,6 +53,10 @@ module Bitly
       else
         raise BitlyError.new(response['status_txt'], response['status_code'])
       end
+    end
+    
+    def is_a_short_url?(input)
+      input.include?('bit.ly/') || input.include?('j.mp/')
     end
     
   end
