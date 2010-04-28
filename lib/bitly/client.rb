@@ -1,4 +1,8 @@
 module Bitly
+  
+  # The client is the main part of this gem. You need to initialize the client with your
+  # username and API key and then you will be able to use the client to perform
+  # all the rest of the actions available through the API.
   class Client
     include HTTParty
     base_uri 'http://api.bit.ly/v3/'
@@ -26,25 +30,51 @@ module Bitly
     end
     alias :pro? :bitly_pro_domain
     
+    # Shortens a long url
+    #
+    # Options can be:
+    #
+    # [domain]                choose bit.ly or j.mp (bit.ly is default)
+    #
+    # [x_login and x_apiKey]  add this link to another user's history (both required)
+    #
     def shorten(long_url, opts={})
       query = { :longUrl => long_url }.merge(opts)
       response = get('/shorten', :query => query)
       return Bitly::Url.new(response['data'])
     end
     
+    # Expands either a hash, short url or array of either
     def expand(input)
-      query = is_a_short_url?(input) ? { :shortUrl => input } : { :hash => input }
-      response = get('/expand', :query => query)
-      if response['data']['expand'][0]['error']
-        return Bitly::MissingUrl.new(response['data']['expand'][0])
-      else
-        return Bitly::Url.new(response['data']['expand'][0])
+      input = [input] if input.is_a? String
+      query = []
+      input.each do |i|
+        if is_a_short_url?(i)
+          query << "shortUrl=#{CGI.escape(i)}"
+        else
+          query << "hash=#{CGI.escape(i)}"
+        end
       end
+      query = '/expand?' + query.join('&')
+      response = get(query)
+      results = []
+      response['data']['expand'].each do |url|
+        if url['error'].nil?
+          # builds the results array in the same order as the input
+          results[input.index(url['short_url'] || url['hash'])] = Bitly::Url.new(url)
+          # remove the key from the original array, in case the same hash/url was entered twice
+          input[input.index(url['short_url'] || url['hash'])] = nil
+        else
+          results[input.index(url['short_url'] || url['hash'])] = Bitly::MissingUrl.new(url)
+          input[input.index(url['short_url'] || url['hash'])] = nil
+        end
+      end
+      return results.length > 1 ? results : results[0]
     end
         
     private
     
-    def get(method, opts)
+    def get(method, opts={})
       opts[:query] ||= {}
       opts[:query].merge!(@default_query_opts)
       response = self.class.get(method, opts)

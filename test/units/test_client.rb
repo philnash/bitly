@@ -72,7 +72,7 @@ class TestClient < Test::Unit::TestCase
       context "with just the url" do
         setup do
           @long_url = "http://betaworks.com/"
-          stub_get(%r|http://api\.bit\.ly/v3/shorten?.*longUrl=http%3A%2F%2Fbetaworks.com.*|, ['betaworks.json', 'betaworks2.json'])
+          stub_get(%r|http://api\.bit\.ly/v3/shorten\?.*longUrl=http%3A%2F%2Fbetaworks.com.*|, ['betaworks.json', 'betaworks2.json'])
           @url = @bitly.shorten(@long_url)
         end
         should "return a url object" do
@@ -159,7 +159,7 @@ class TestClient < Test::Unit::TestCase
         context "with a hash" do
           setup do
             @hash = '9uX1TE'
-            stub_get(%r|http://api\.bit\.ly/v3/expand?.*hash=9uX1TE.*|, '9uX1TE.json')
+            stub_get(%r|http://api\.bit\.ly/v3/expand\?.*hash=9uX1TE.*|, '9uX1TE.json')
             @url = @bitly.expand(@hash)
           end
           should 'return a url object' do
@@ -181,7 +181,7 @@ class TestClient < Test::Unit::TestCase
         context "with the short url" do
           setup do
             @short_url = 'http://bit.ly/9uX1TE'
-            stub_get(%r|http://api\.bit\.ly/v3/expand?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TE.*|, 'bitly9uX1TE.json')
+            stub_get(%r|http://api\.bit\.ly/v3/expand\?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TE.*|, 'bitly9uX1TE.json')
             @url = @bitly.expand(@short_url)
           end
           should 'return a url object' do
@@ -200,7 +200,7 @@ class TestClient < Test::Unit::TestCase
         context "that doesn't exist" do
           setup do
             @shortUrl = 'http://bit.ly/9uX1TEsd'
-            stub_get(%r|http://api\.bit\.ly/v3/expand?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TEsd.*|, 'missing_hash.json')
+            stub_get(%r|http://api\.bit\.ly/v3/expand\?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TEsd.*|, 'missing_hash.json')
             @url = @bitly.expand(@shortUrl)
           end
           should 'return a missing url' do
@@ -212,6 +212,24 @@ class TestClient < Test::Unit::TestCase
           should 'return the original url' do
             assert_equal @shortUrl, @url.short_url
           end
+        end
+      end
+      context "multiple urls" do
+        setup do
+          @hash = '9uX1TE'
+          @short_url = 'http://bit.ly/cEFx9W'
+          stub_get("http://api.bit.ly/v3/expand?hash=9uX1TE&shortUrl=http%3A%2F%2Fbit.ly%2FcEFx9W&login=test_account&apiKey=test_key", 'multiple_urls.json')
+          @urls = @bitly.expand([@hash, @short_url])
+        end
+        should "return an array of results" do
+          assert_instance_of Array, @urls
+        end
+        should "return an array of bitly urls" do
+          @urls.each { |url| assert_instance_of Bitly::Url, url }
+        end
+        should "return the original url" do
+          assert_equal 'http://betaworks.com/', @urls[0].long_url
+          assert_equal 'http://philnash.co.uk', @urls[1].long_url
         end
       end
     end
