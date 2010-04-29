@@ -1,6 +1,6 @@
 module Bitly
   class Url
-    attr_accessor :short_url, :long_url, :user_hash, :global_hash
+    attr_accessor :short_url, :long_url, :user_hash, :global_hash, :user_clicks, :global_clicks
     
     def initialize(opts={})
       if opts
@@ -9,6 +9,8 @@ module Bitly
         @user_hash = opts['hash']
         @global_hash = opts['global_hash']
         @new_hash = (opts['new_hash'] == 1)
+        @user_clicks = opts['user_clicks']
+        @global_clicks = opts['global_clicks']
       end
       @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
     end

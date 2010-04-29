@@ -233,6 +233,30 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+
+    context "clicks for urls" do
+      context "with multiple urls" do
+        setup do
+          @hash = '9uX1TE'
+          @short_url = 'http://bit.ly/cEFx9W'
+          stub_get("http://api.bit.ly/v3/clicks?hash=9uX1TE&shortUrl=http%3A%2F%2Fbit.ly%2FcEFx9W&login=test_account&apiKey=test_key", 'multiple_url_click.json')
+          @urls = @bitly.clicks([@hash, @short_url])
+        end
+        
+        should "return an array of results" do
+          assert_instance_of Array, @urls
+        end
+        should "return an array of bitly urls" do
+          @urls.each { |url| assert_instance_of Bitly::Url, url }
+        end
+        should "return the user and global clicks for each url" do
+          assert_equal 0, @urls[0].user_clicks
+          assert_equal 67, @urls[0].global_clicks
+          assert_equal 0, @urls[1].user_clicks
+          assert_equal 0, @urls[1].global_clicks
+        end
+      end
+    end
   end
 
   context "without valid credentials" do

@@ -46,30 +46,11 @@ module Bitly
     
     # Expands either a hash, short url or array of either
     def expand(input)
-      input = [input] if input.is_a? String
-      query = []
-      input.each do |i|
-        if is_a_short_url?(i)
-          query << "shortUrl=#{CGI.escape(i)}"
-        else
-          query << "hash=#{CGI.escape(i)}"
-        end
-      end
-      query = '/expand?' + query.join('&')
-      response = get(query)
-      results = []
-      response['data']['expand'].each do |url|
-        if url['error'].nil?
-          # builds the results array in the same order as the input
-          results[input.index(url['short_url'] || url['hash'])] = Bitly::Url.new(url)
-          # remove the key from the original array, in case the same hash/url was entered twice
-          input[input.index(url['short_url'] || url['hash'])] = nil
-        else
-          results[input.index(url['short_url'] || url['hash'])] = Bitly::MissingUrl.new(url)
-          input[input.index(url['short_url'] || url['hash'])] = nil
-        end
-      end
-      return results.length > 1 ? results : results[0]
+      get_method(:expand, input)
+    end
+    
+    def clicks(input)
+      get_method(:clicks, input)
     end
         
     private
@@ -87,6 +68,33 @@ module Bitly
     
     def is_a_short_url?(input)
       input.include?('bit.ly/') || input.include?('j.mp/')
+    end
+    
+    def get_method(method, input)
+      input = [input] if input.is_a? String
+      query = []
+      input.each do |i|
+        if is_a_short_url?(i)
+          query << "shortUrl=#{CGI.escape(i)}"
+        else
+          query << "hash=#{CGI.escape(i)}"
+        end
+      end
+      query = "/#{method}?" + query.join('&')
+      response = get(query)
+      results = []
+      response['data'][method.to_s].each do |url|
+        if url['error'].nil?
+          # builds the results array in the same order as the input
+          results[input.index(url['short_url'] || url['hash'])] = Bitly::Url.new(url)
+          # remove the key from the original array, in case the same hash/url was entered twice
+          input[input.index(url['short_url'] || url['hash'])] = nil
+        else
+          results[input.index(url['short_url'] || url['hash'])] = Bitly::MissingUrl.new(url)
+          input[input.index(url['short_url'] || url['hash'])] = nil
+        end
+      end
+      return results.length > 1 ? results : results[0]
     end
     
   end
