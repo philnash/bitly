@@ -20,7 +20,7 @@ Then use that client to shorten or expand urls and hashes.
 
 <tt>bitly.shorten('http://google.com')</tt>
 
-See the {documentation}[http://philnash.github.com/bitly/rdoc/] for more details.
+See the {documentation}[http://philnash.github.com/bitly/rdoc/index.html] for more details.
 
 == Note on Patches/Pull Requests
  
