@@ -41,7 +41,7 @@ module Bitly
     def shorten(long_url, opts={})
       query = { :longUrl => long_url }.merge(opts)
       response = get('/shorten', :query => query)
-      return Bitly::Url.new(response['data'])
+      return Bitly::Url.new(self, response['data'])
     end
     
     # Expands either a hash, short url or array of either
@@ -67,7 +67,7 @@ module Bitly
     end
     
     def is_a_short_url?(input)
-      input.include?('bit.ly/') || input.include?('j.mp/')
+      input.match(/^http:\/\//)
     end
     
     def get_method(method, input)
@@ -86,7 +86,7 @@ module Bitly
       response['data'][method.to_s].each do |url|
         if url['error'].nil?
           # builds the results array in the same order as the input
-          results[input.index(url['short_url'] || url['hash'])] = Bitly::Url.new(url)
+          results[input.index(url['short_url'] || url['hash'])] = Bitly::Url.new(self, url)
           # remove the key from the original array, in case the same hash/url was entered twice
           input[input.index(url['short_url'] || url['hash'])] = nil
         else
