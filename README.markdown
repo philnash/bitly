@@ -2,25 +2,13 @@
 
 == DESCRIPTION:
 
-A Ruby API for version 3 of the http://bit.ly API, including j.mp and bitly.Pro support.
+A Ruby API for version 3 of the http://bit.ly API, including j.mp and bitly.Pro support
 
 http://api.bit.ly
 
 == INSTALLATION:
 
-<tt>gem install bitly</tt>
-
-== USAGE:
-
-Create a client using your username and API key from http://bit.ly
-
-<tt>bitly = Bitly.new(username, api_key)</tt>
-
-Then use that client to shorten or expand urls and hashes.
-
-<tt>bitly.shorten('http://google.com')</tt>
-
-See the <a href="http://philnash.github.com/bitly/rdoc/">documentation</a> for more details.
+gem install bitly
 
 == Note on Patches/Pull Requests
  
