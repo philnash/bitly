@@ -1,3 +1,10 @@
+=== 0.5.0 / 2010-05-12
+
+* Loads of major enhancements
+
+  * Support for version 3 of the bit.ly API
+  * deprecation for version 2 client object
+
 === 0.4.0 / 2009-12-19
 
 * 1 major enhancement

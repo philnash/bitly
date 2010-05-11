@@ -43,7 +43,9 @@ module Bitly
     
     def get_result(request)
       begin
-        result = Crack::JSON.parse(Net::HTTP.get(request))
+        json = Net::HTTP.get(request)
+        # puts json.inspect
+        result = Crack::JSON.parse(json)
       rescue
         result = {'errorMessage' => 'JSON Parse Error(Bit.ly messed up)', 'errorCode' => 69, 'statusCode' => 'ERROR'}
       end

@@ -27,3 +27,9 @@ end
 def login
   'test_account'
 end
+
+class Test::Unit::TestCase
+  def teardown
+    FakeWeb.clean_registry
+  end
+end

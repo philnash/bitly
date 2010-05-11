@@ -7,7 +7,19 @@ module Bitly
   API_VERSION = '2.0.1'
 
   def self.new(login, api_key)
-    Bitly::Client.new(login,api_key)
+    if @version == 3
+      Bitly::V3::Client.new(login, api_key)
+    else
+      Bitly::Client.new(login,api_key)
+    end
+  end
+  
+  def self.use_api_version_3
+    @version = 3
+  end
+  
+  def self.use_api_version_2
+    @version = 2
   end
 
   class Client
@@ -15,6 +27,7 @@ module Bitly
     include Bitly::Utils
     
     def initialize(login,api_key)
+      warn "[DEPRECATION] The bit.ly version 2 API has been superceded by version 3 and will be removed. See the README for details"
       @login = login
       @api_key = api_key
     end

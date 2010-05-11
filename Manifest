@@ -3,6 +3,11 @@ History.txt
 lib/bitly/client.rb
 lib/bitly/url.rb
 lib/bitly/utils.rb
+lib/bitly/v3/bitly.rb
+lib/bitly/v3/client.rb
+lib/bitly/v3/missing_url.rb
+lib/bitly/v3/url.rb
+lib/bitly/v3.rb
 lib/bitly/version.rb
 lib/bitly.rb
 Manifest

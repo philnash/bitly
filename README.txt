@@ -6,6 +6,20 @@ A Ruby API for http://bit.ly (and now http://j.mp)
 
 http://code.google.com/p/bitly-api/wiki/ApiDocumentation
 
+== NOTE:
+
+Bitly recently released their version 3 API. From this 0.5.0 release, the gem will continue to work the same but also provide a V3 module, using the version 3 API. The standard module will become deprecated, as Bitly do not plan to keep the version 2 API around forever.
+
+To move to using the version 3 API, call:
+
+Bitly.use_api_version_3
+
+Then, when you call Bitly.new(username, api_key) you will get a Bitly::V3::Client instead, which provides the version 3 api calls (shorten, expand, clicks, validate and bitly_pro_domain). See http://api.bit.ly for details.
+
+Eventually, this will become the default version used and finally, the V3 module will disappear, with the version 3 classes replacing the version 2 classes.
+
+(Please excuse the lack of tests for the v3 classes, they are fully tested and ready to replace this whole codebase in the v3 branch of the github repo, until I realised it would break everything.)
+
 == INSTALLATION:
 
 gem install bitly
