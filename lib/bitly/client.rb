@@ -6,14 +6,10 @@ module Bitly
   class Client
     include HTTParty
     base_uri 'http://api.bit.ly/v3/'
-    # debug_output
-    
-    attr_reader :login, :api_key
 
+    # Requires a login and api key. Get yours from your account page at http://bit.ly/a/account
     def initialize(login, api_key)
-      @login = login
-      @api_key = api_key
-      @default_query_opts = { :login => @login, :apiKey => @api_key }
+      @default_query_opts = { :login => login, :apiKey => api_key }
     end
     
     # Validates a login and api key
@@ -44,11 +40,16 @@ module Bitly
       return Bitly::Url.new(self, response['data'])
     end
     
-    # Expands either a hash, short url or array of either
+    # Expands either a hash, short url or array of either.
+    #
+    # Returns the results in the order they were entered
     def expand(input)
       get_method(:expand, input)
     end
     
+    # Expands either a hash, short url or array of either and gets click data too.
+    #
+    # Returns the results in the order they were entered
     def clicks(input)
       get_method(:clicks, input)
     end

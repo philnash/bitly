@@ -3,9 +3,9 @@ require 'test_helper'
 class TestClient < Test::Unit::TestCase
   context "creating a new client" do
     should "initialize with login and api key" do
-      client = Bitly::Client.new(login, api_key)
-      assert_equal login, client.login
-      assert_equal api_key, client.api_key
+      assert_nothing_raised do
+        client = Bitly::Client.new(login, api_key)
+      end
     end
   end
   
