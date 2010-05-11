@@ -1,12 +1,4 @@
 require 'rubygems'
-require 'bundler'
-begin
-  Bundler.setup(:runtime, :development)
-rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts "Run `bundle install` to install missing gems"
-  exit e.status_code
-end
 require 'rake'
 
 require 'jeweler'
@@ -17,7 +9,13 @@ Jeweler::Tasks.new do |gem|
   gem.email = "philnash@gmail.com"
   gem.homepage = "http://github.com/philnash/bitly"
   gem.authors = ["philnash"]
-  # Have dependencies? Add them to Gemfile
+  gem.add_dependency 'httparty', ">= 0.5.2"
+  gem.add_dependency 'crack', ">= 0.1.4"
+  gem.add_development_dependency "shoulda", ">= 0"
+  gem.add_development_dependency "jeweler", ">= 1.4.0"
+  gem.add_development_dependency "rcov", ">= 0"
+  gem.add_development_dependency "flexmock", ">= 0.8.6"
+  gem.add_development_dependency "fakeweb", ">= 1.2.8"
 
   # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
 end
