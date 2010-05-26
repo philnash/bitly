@@ -188,13 +188,16 @@ class TestClient < Test::Unit::TestCase
             assert_instance_of Bitly::Url, @url
           end
           should 'return the original hash' do
-            assert_equal @hash, @url.user_hash
+            assert_equal "9uX1TE", @url.user_hash
           end
           should "return a global hash" do
             assert_equal '18H1ET', @url.global_hash
           end
           should 'return a long url' do
             assert_equal 'http://betaworks.com/', @url.long_url
+          end
+          should 'return a short url' do
+            assert_equal "http://bit.ly/9uX1TE", @url.short_url
           end
         end
         context "that doesn't exist" do
