@@ -11,7 +11,7 @@ module Bitly
         if opts
           @short_url = opts['url']
           @long_url = opts['long_url']
-          @user_hash = opts['hash']
+          @user_hash = opts['hash'] || opts['user_hash']
           @global_hash = opts['global_hash']
           @new_hash = (opts['new_hash'] == 1)
           @user_clicks = opts['user_clicks']
