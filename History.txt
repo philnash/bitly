@@ -1,3 +1,9 @@
+=== 0.5.2 / 2010-07-18
+
+* 1 minor enhancement
+
+  * Added the lookup call to the version 3 API.
+
 === 0.5.1 / 2010-05-26
 
 * 1 bug fix
