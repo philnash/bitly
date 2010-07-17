@@ -1,10 +1,23 @@
-=== 1.0.0.pre / 2010-05-12
+=== 1.0.0.pre / 2010-07-18
 
 * loads of major enhancements again
 
   * Removed version 2 API promoted version 3 API to default
   * Reinstated tests for v3 methods
   * Complete rewrite of the whole gem
+
+=== 0.5.2 / 2010-07-18
+
+* 1 minor enhancement
+
+  * Added the lookup call to the version 3 API.
+
+=== 0.5.1 / 2010-05-26
+
+* 1 bug fix
+
+  * When expanding a short url with the v3 module, user hash and short url weren't being set properly
+
 
 === 0.5.0 / 2010-05-12
 
