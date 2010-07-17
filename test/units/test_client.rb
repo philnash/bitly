@@ -260,6 +260,70 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+
+    context "looking up" do
+      context "a single url" do
+        setup do
+          @url = "http://code.google.com/p/bitly-api/"
+          stub_get("http://api.bit.ly/v3/lookup?url=#{CGI.escape(@url)}&login=test_account&apiKey=test_key", 'lookup_single_url.json')
+          @lookup = @bitly.lookup(@url)
+        end
+        should "return a url object" do
+          assert_instance_of Bitly::Url, @lookup
+        end
+        should "return the original url" do
+          assert_equal @url, @lookup.long_url
+        end
+        should "return the global hash" do
+          assert_equal '1oDCU', @lookup.global_hash
+        end
+        should 'return the short url' do
+          assert_equal 'http://bit.ly/1oDCU', @lookup.short_url
+        end
+      end
+      context "multiple urls" do
+        setup do
+          @url1 = 'http://betaworks.com/'
+          @url2 = 'http://code.google.com/p/bitly-api/'
+          stub_get("http://api.bit.ly/v3/lookup?url=#{CGI.escape(@url1)}&url=#{CGI.escape(@url2)}&login=test_account&apiKey=test_key", 'lookup_multiple_url.json')
+          @lookup = @bitly.lookup([@url1, @url2])
+        end
+        should 'return an array' do
+          assert_instance_of Array, @lookup
+        end
+        should 'return an array of urls' do
+          @lookup.each { |url| assert_instance_of Bitly::Url, url }
+        end
+        should 'return the original urls in order' do
+          assert_equal @url1, @lookup[0].long_url
+          assert_equal @url2, @lookup[1].long_url
+        end
+        should 'return global hashes' do
+          assert_equal 'aboutus', @lookup[0].global_hash
+          assert_equal '1oDCU', @lookup[1].global_hash
+        end
+        should 'return short urls' do
+          assert_equal 'http://bit.ly/aboutus', @lookup[0].short_url
+          assert_equal 'http://bit.ly/1oDCU', @lookup[1].short_url
+        end
+      end
+      context "a non existant url" do
+        setup do
+          @url = "asdf://www.google.com/not/a/real/link"
+          stub_get("http://api.bit.ly/v3/lookup?url=#{CGI.escape(@url)}&login=test_account&apiKey=test_key", 'lookup_not_real_url.json')
+          @lookup = @bitly.lookup(@url)
+        end
+        should 'return a missing url' do
+          assert_instance_of Bitly::MissingUrl, @lookup
+        end
+        should 'return the original url' do
+          assert_equal @url, @lookup.long_url
+        end
+        should 'return the error' do
+          assert_equal 'NOT_FOUND', @lookup.error
+        end
+      end
+    end
   end
 
   context "without valid credentials" do

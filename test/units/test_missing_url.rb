@@ -5,7 +5,7 @@ class TestMissingUrl < Test::Unit::TestCase
     setup do
       @url = Bitly::MissingUrl.new
     end
-    [:short_url, :user_hash, :error].each do |method|
+    [:short_url, :user_hash, :long_url, :error].each do |method|
       should "respond to #{method}" do
         assert_respond_to @url, method
       end

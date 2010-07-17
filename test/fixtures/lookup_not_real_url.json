@@ -1,0 +1,1 @@
+{"status_code": 200, "data": {"lookup": [{"url": "asdf://www.google.com/not/a/real/link", "error": "NOT_FOUND"}]}, "status_txt": "OK"}

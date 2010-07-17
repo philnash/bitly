@@ -53,7 +53,32 @@ module Bitly
     def clicks(input)
       get_method(:clicks, input)
     end
-        
+    
+    # Looks up the short url and global hash of a url or array of urls
+    #
+    # Returns the results in the order they were entered
+    def lookup(input)
+      input = [input] if input.is_a?(String)
+      query = input.inject([]) { |query, i| query << "url=#{CGI.escape(i)}" }
+      query = "/lookup?" + query.join('&')
+      response = get(query)
+      results = response['data']['lookup'].inject([]) do |results, url|
+        url['long_url'] = url['url']
+        url['url'] = nil
+        if url['error'].nil?
+          # builds the results array in the same order as the input
+          results[input.index(url['long_url'])] = Bitly::Url.new(self, url)
+          # remove the key from the original array, in case the same hash/url was entered twice
+          input[input.index(url['long_url'])] = nil
+        else
+          results[input.index(url['long_url'])] = Bitly::MissingUrl.new(url)
+          input[input.index(url['long_url'])] = nil
+        end
+        results
+      end
+      return results.length > 1 ? results : results[0]
+    end
+
     private
     
     def get(method, opts={})
@@ -73,8 +98,7 @@ module Bitly
     
     def get_method(method, input)
       input = [input] if input.is_a? String
-      query = []
-      input.each do |i|
+      query = input.inject([]) do |query,i|
         if is_a_short_url?(i)
           query << "shortUrl=#{CGI.escape(i)}"
         else
@@ -83,8 +107,7 @@ module Bitly
       end
       query = "/#{method}?" + query.join('&')
       response = get(query)
-      results = []
-      response['data'][method.to_s].each do |url|
+      results = response['data'][method.to_s].inject([]) do |results, url|
         if url['error'].nil?
           # builds the results array in the same order as the input
           results[input.index(url['short_url'] || url['hash'])] = Bitly::Url.new(self, url)
@@ -94,9 +117,9 @@ module Bitly
           results[input.index(url['short_url'] || url['hash'])] = Bitly::MissingUrl.new(url)
           input[input.index(url['short_url'] || url['hash'])] = nil
         end
+        results
       end
       return results.length > 1 ? results : results[0]
     end
-    
   end
 end
