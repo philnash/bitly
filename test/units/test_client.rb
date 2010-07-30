@@ -324,6 +324,97 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+
+    context "info for urls" do
+      context "a single url" do
+        setup do
+          @url = "http://bit.ly/1YKMfY"
+          stub_get("http://api.bit.ly/v3/info?shortUrl=#{CGI.escape(@url)}&login=test_account&apiKey=test_key", "url_info.json")
+          @info = @bitly.info(@url)
+        end
+        should "return a url object" do
+          assert_instance_of Bitly::Url, @info
+        end
+        should "return the original short url" do
+          assert_equal @url, @info.short_url
+        end
+        should "return the global hash" do
+          assert_equal '1YKMfY', @info.global_hash
+        end
+        should "return the user hash" do
+          assert_equal '1YKMfY', @info.user_hash
+        end
+        should "return the creator" do
+          assert_equal 'bitly', @info.created_by
+        end
+        should "return the title" do
+          assert_equal 'betaworks', @info.title
+        end
+      end
+      context "a single hash" do
+        setup do
+          @hash = "1YKMfY"
+          stub_get("http://api.bit.ly/v3/info?hash=#{@hash}&login=test_account&apiKey=test_key", "url_info.json")
+          @info = @bitly.info(@hash)
+        end
+        should "return a url object" do
+          assert_instance_of Bitly::Url, @info
+        end
+        should "return the original short url" do
+          assert_equal "http://bit.ly/#{@hash}", @info.short_url
+        end
+        should "return the global hash" do
+          assert_equal @hash, @info.global_hash
+        end
+        should "return the user hash" do
+          assert_equal @hash, @info.user_hash
+        end
+        should "return the creator" do
+          assert_equal 'bitly', @info.created_by
+        end
+        should "return the title" do
+          assert_equal 'betaworks', @info.title
+        end
+      end
+      context "multiple urls with urls and hashes" do
+        setup do
+          @url = 'http://bit.ly/1YKMfY'
+          @hash = '9uX1TE'
+          stub_get("http://api.bit.ly/v3/info?shortUrl=#{CGI.escape(@url)}&hash=#{@hash}&login=test_account&apiKey=test_key", "multiple_info.json")
+          @infos = @bitly.info([@url, @hash])
+        end
+        should 'return an array' do
+          assert_instance_of Array, @infos
+        end
+        should 'return an array of urls' do
+          @infos.each { |url| assert_instance_of Bitly::Url, url }
+        end
+        should 'return the original urls in order' do
+          assert_equal @url, @infos[0].short_url
+          assert_equal @hash, @infos[1].user_hash
+        end
+        should 'return info for each' do
+          assert_equal 'bitly', @infos[0].created_by
+          assert_equal 'philnash', @infos[1].created_by
+        end
+      end
+      context "a nonexistant url" do
+        setup do
+          @url = 'http://bit.ly/1YKMfYasb'
+          stub_get("http://api.bit.ly/v3/info?shortUrl=#{CGI.escape(@url)}&login=test_account&apiKey=test_key", 'not_found_info.json')
+          @info = @bitly.info(@url)
+        end
+        should "return a missing url" do
+          assert_instance_of Bitly::MissingUrl, @info
+        end
+        should 'return the original url' do
+          assert_equal @url, @info.short_url
+        end
+        should 'return the error' do
+          assert_equal 'NOT_FOUND', @info.error
+        end
+      end
+    end
   end
 
   context "without valid credentials" do
