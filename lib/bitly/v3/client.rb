@@ -54,6 +54,11 @@ module Bitly
         get_method(:clicks, input)
       end
       
+      # Like expand, but gets the title of the page and who created it
+      def info(input)
+        get_method(:info, input)      
+      end
+      
       # Looks up the short url and global hash of a url or array of urls
       #
       # Returns the results in the order they were entered
@@ -107,15 +112,16 @@ module Bitly
         end
         query = "/#{method}?" + query.join('&')
         response = get(query)
-        results = response['data'][method.to_s].inject do |results, url|
+        results = response['data'][method.to_s].inject([]) do |results, url|
+          result_index = input.index(url['short_url'] || url['hash']) || input.index(url['global_hash'])
           if url['error'].nil?
             # builds the results array in the same order as the input
-            results[input.index(url['short_url'] || url['hash'])] = Bitly::V3::Url.new(self, url)
+            results[result_index] = Bitly::V3::Url.new(self, url)
             # remove the key from the original array, in case the same hash/url was entered twice
-            input[input.index(url['short_url'] || url['hash'])] = nil
+            input[result_index] = nil
           else
-            results[input.index(url['short_url'] || url['hash'])] = Bitly::V3::MissingUrl.new(url)
-            input[input.index(url['short_url'] || url['hash'])] = nil
+            results[result_index] = Bitly::V3::MissingUrl.new(url)
+            input[result_index] = nil
           end
           results
         end

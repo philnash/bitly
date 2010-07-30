@@ -1,3 +1,9 @@
+=== 0.5.3 / 2010-07-30
+
+* 1 minor enhancement
+
+  * Added the info call to the version 3 API
+
 === 0.5.2 / 2010-07-18
 
 * 1 minor enhancement
