@@ -1,0 +1,21 @@
+PATH
+  remote: .
+  specs:
+    bitly (0.5.2)
+      crack (>= 0.1.4)
+      httparty (>= 0.5.2)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    crack (0.1.8)
+    httparty (0.6.1)
+      crack (= 0.1.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bitly!
+  crack (>= 0.1.4)
+  httparty (>= 0.5.2)
