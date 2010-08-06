@@ -1,5 +1,4 @@
 require 'test/unit'
-require 'rubygems'
 require 'shoulda'
 require 'flexmock/test_unit'
 require 'fakeweb'
@@ -17,13 +16,14 @@ end
 def stub_get(url, filename, status=nil)
   options = {:body => fixture_file(filename)}
   options.merge!({:status => status}) unless status.nil?
-  
+
   FakeWeb.register_uri(:get, url, options)
 end
 
 def api_key
   'test_key'
 end
+
 def login
   'test_account'
 end
