@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bitly (0.5.2)
+    bitly (0.5.3)
       crack (>= 0.1.4)
       httparty (>= 0.5.2)
 
@@ -9,8 +9,19 @@ GEM
   remote: http://rubygems.org/
   specs:
     crack (0.1.8)
+    echoe (4.3.1)
+      gemcutter
+      rubyforge
+    fakeweb (1.2.8)
+    flexmock (0.8.7)
+    gemcutter (0.6.1)
     httparty (0.6.1)
       crack (= 0.1.8)
+    json_pure (1.4.6)
+    rake (0.8.7)
+    rubyforge (2.0.4)
+      json_pure (>= 1.1.7)
+    shoulda (2.11.3)
 
 PLATFORMS
   ruby
@@ -18,4 +29,9 @@ PLATFORMS
 DEPENDENCIES
   bitly!
   crack (>= 0.1.4)
+  echoe
+  fakeweb (= 1.2.8)
+  flexmock (= 0.8.7)
   httparty (>= 0.5.2)
+  rake
+  shoulda (= 2.11.3)
