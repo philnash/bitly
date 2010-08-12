@@ -7,6 +7,8 @@ require 'bitly/version'
 
 module Bitly
 
+  @version = 2
+
   def self.use_api_version_3
     @version = 3
   end
@@ -22,7 +24,7 @@ module Bitly
     when 2
       Bitly::V2::Client.new(login,api_key)
     else
-      raise IllegalStateException.new("API version #{@version} is not recognized")
+      raise ::IllegalStateException.new("API version #{@version} is not recognized")
     end
   end
 

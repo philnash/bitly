@@ -10,8 +10,10 @@ module Bitly
 
       include Bitly::V2::Utils
 
-      def initialize(login,api_key)
-        warn "[DEPRECATION] The bit.ly version 2 API has been superceded by version 3 and will be removed. See the README for details"
+      def initialize(login, api_key)
+        unless $VERBOSE == nil
+          warn "[DEPRECATION] The bit.ly version 2 API has been superceded by version 3 and will be removed. See the README for details"
+        end
         @login = login
         @api_key = api_key
       end
@@ -21,14 +23,14 @@ module Bitly
           request = create_url("shorten", :longUrl => input, :history => (opts[:history] ? 1 : nil))
           result = get_result(request)
           result = {:long_url => input}.merge result[input]
-          Bitly::Url.new(@login,@api_key,result)
+          Bitly::V2::Url.new(@login,@api_key,result)
         elsif input.is_a? Array
           request = create_url("shorten", :history => (opts[:history] ? 1 : nil))
           request.query << "&" + input.map { |long_url| "longUrl=#{CGI.escape(long_url)}" }.join("&") unless input.nil?
           result = get_result(request)
           input.map do |long_url|
             new_url = {:long_url => long_url}.merge result[long_url]
-            long_url = Bitly::Url.new(@login,@api_key,new_url)
+            long_url = Bitly::V2::Url.new(@login,@api_key,new_url)
           end
         else
           raise ArgumentError.new("Shorten requires either a url or an array of urls")
@@ -47,13 +49,13 @@ module Bitly
             result = get_result(request)
             result = { :hash => input, :short_url => "http://bit.ly/#{input}" }.merge result[input]
           end
-          Bitly::Url.new(@login,@api_key,result)
+          Bitly::V2::Url.new(@login,@api_key,result)
         elsif input.is_a? Array
           request = create_url "expand", :hash => input.join(',')
           result = get_result(request)
           input.map do |hsh|
             new_url = {:hash => hsh, :short_url => "http://bit.ly/#{hsh}"}.merge result[hsh]
-            hsh = Bitly::Url.new(@login,@api_key,new_url)
+            hsh = Bitly::V2::Url.new(@login,@api_key,new_url)
           end
         else
           raise ArgumentError('Expand requires either a short url, a hash or an array of hashes')
@@ -72,13 +74,13 @@ module Bitly
             result = get_result(request)
             result = { :short_url => "http://bit.ly/#{input}", :hash => input }.merge result[input]
           end
-          Bitly::Url.new(@login,@api_key,result)
+          Bitly::V2::Url.new(@login,@api_key,result)
         elsif input.is_a? Array
           request = create_url "info", :hash => input.join(',')
           result = get_result(request)
           input.map do |hsh|
             new_url = {:hash => hsh, :short_url => "http://bit.ly/#{hsh}"}.merge result[hsh]
-            hsh = Bitly::Url.new(@login,@api_key,:info => new_url)
+            hsh = Bitly::V2::Url.new(@login,@api_key,:info => new_url)
           end
         else
           raise ArgumentError.new('Info requires either a short url, a hash or an array of hashes')
@@ -97,7 +99,7 @@ module Bitly
             result = get_result(request)
             result = { :short_url => "http://bit.ly/#{input}", :hash => input }.merge result
           end
-          Bitly::Url.new(@login,@api_key,:stats => result)
+          Bitly::V2::Url.new(@login,@api_key,:stats => result)
         else
           raise ArgumentError.new("Stats requires either a short url or a hash")
         end
