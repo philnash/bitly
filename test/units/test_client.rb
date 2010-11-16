@@ -415,6 +415,75 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+
+    context "referrers for url" do
+      context "a single url" do
+        setup do
+          @url = 'http://bit.ly/djZ9g4'
+          stub_get("http://api.bit.ly/v3/referrers?shortUrl=#{CGI.escape(@url)}&login=test_account&apiKey=test_key", 'referrer_url.json')
+          @bitly_url = @bitly.referrers(@url)
+        end
+        should 'return a url object' do
+          assert_instance_of Bitly::Url, @bitly_url
+        end
+        should 'return the original short url' do
+          assert_equal @url, @bitly_url.short_url
+        end
+        should 'return the global hash' do
+          assert_equal 'djZ9g4', @bitly_url.global_hash
+        end
+        should 'return the user hash' do
+          assert_equal 'djZ9g4', @bitly_url.user_hash
+        end
+        should 'return an array of referrers' do
+          assert_instance_of Array, @bitly_url.referrers
+        end
+        should 'return a referrer' do
+          assert_instance_of Bitly::Referrer, @bitly_url.referrers.first
+        end
+        should 'return the clicks and referrer from that url' do
+          assert_equal 'direct', @bitly_url.referrers.first.referrer
+          assert_equal 62, @bitly_url.referrers.first.clicks
+        end
+      end
+      context "a single hash" do
+        setup do
+          @hash = 'djZ9g4'
+          stub_get("http://api.bit.ly/v3/referrers?hash=#{CGI.escape(@hash)}&login=test_account&apiKey=test_key", 'referrer_url.json')
+          @bitly_url = @bitly.referrers(@hash)
+        end
+        should 'return a url object' do
+          assert_instance_of Bitly::Url, @bitly_url
+        end
+        should 'return the original short url' do
+          assert_equal "http://bit.ly/#{@hash}", @bitly_url.short_url
+        end
+        should 'return the global hash' do
+          assert_equal @hash, @bitly_url.global_hash
+        end
+        should 'return the user hash' do
+          assert_equal @hash, @bitly_url.user_hash
+        end
+        should 'return an array of referrers' do
+          assert_instance_of Array, @bitly_url.referrers
+        end
+        should 'return a referrer' do
+          assert_instance_of Bitly::Referrer, @bitly_url.referrers.first
+        end
+        should 'return the clicks and referrer from that url' do
+          assert_equal 'direct', @bitly_url.referrers.first.referrer
+          assert_equal 62, @bitly_url.referrers.first.clicks
+        end
+      end
+
+      context "an array" do
+        should "raise an argument error" do
+          assert_raises ArgumentError do
+            @bitly.referrers(['http://bit.ly/djZ9g4'])
+          end
+        end
+      end
+    end
   end
 
   context "without valid credentials" do

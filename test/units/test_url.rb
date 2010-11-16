@@ -17,7 +17,8 @@ class TestUrl < Test::Unit::TestCase
        :global_clicks,
        :new_hash?,
        :title,
-       :created_by].each do |method|
+       :created_by,
+       :referrers].each do |method|
         should "respond to #{method}" do
           assert_respond_to @url, method
         end
@@ -68,6 +69,23 @@ class TestUrl < Test::Unit::TestCase
           assert_equal 'philnash', @url.created_by
           # updating just to prove it works, creator is unlikely to change
           assert_equal 'philnash2', @url.created_by(:force => true)
+        end
+      end
+      context "getting referrers" do
+        setup do
+          stub_get("http://api.bit.ly/v3/referrers?hash=djZ9g4&login=test_account&apiKey=test_key", ['referrer_hash.json', 'referrer_hash2.json'])
+          @url = Bitly::Url.new(@bitly, 'hash' => 'djZ9g4')
+        end
+        should 'get referrers when called' do
+          assert_instance_of Array, @url.referrers
+          assert_instance_of Bitly::Referrer, @url.referrers.first
+          assert_equal 'direct', @url.referrers.first.referrer
+          assert_equal 62, @url.referrers.first.clicks
+        end
+        should 'force update when told to' do
+          assert_equal 62, @url.referrers.first.clicks
+          assert_equal 62, @url.referrers.first.clicks
+          assert_equal 63, @url.referrers(:force => true).first.clicks
         end
       end
     end

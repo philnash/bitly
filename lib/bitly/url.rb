@@ -3,7 +3,7 @@ module Bitly
   # Url objects should only be created by the client object as it collects the correct information
   # from the API.
   class Url
-    attr_reader :short_url, :long_url, :user_hash, :global_hash
+    attr_reader :short_url, :long_url, :user_hash, :global_hash, :referrers
     
     # Initialize with a bitly client and optional hash to fill in the details for the url.
     def initialize(client, opts={})
@@ -18,6 +18,9 @@ module Bitly
         @global_clicks = opts['global_clicks']
         @title = opts['title']
         @created_by = opts['created_by']
+        @referrers = opts['referrers'].inject([]) do |results, referrer|
+          results << Bitly::Referrer.new(referrer)
+        end if opts['referrers']
       end
       @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
     end
@@ -59,6 +62,14 @@ module Bitly
       @created_by
     end
     
+    # If the url already has referrer data, return it.
+    # IF there is no referrer or <tt>:force => true</tt> is passed,
+    # updates the referrers and returns them
+    def referrers(opts={})
+      update_referrers if @referrers.nil? || opts[:force]
+      @referrers
+    end
+    
     private
     
     def update_clicks_data
@@ -71,6 +82,11 @@ module Bitly
       full_url = @client.info(@user_hash || @short_url)
       @created_by = full_url.created_by
       @title = full_url.title
+    end
+    
+    def update_referrers
+      full_url = @client.referrers(@user_hash || @short_url)
+      @referrers = full_url.referrers
     end
   end
 end

@@ -83,6 +83,22 @@ module Bitly
       end
       return results.length > 1 ? results : results[0]
     end
+    
+    
+    # Expands either a short link or hash and gets the referrer data for that link
+    #
+    # This method does not take an array as an input
+    def referrers(input)
+      raise ArgumentError.new("referrers only takes a hash or url input") unless input.is_a? String
+      if is_a_short_url?(input)
+        query = "shortUrl=#{CGI.escape(input)}"
+      else
+        query = "hash=#{CGI.escape(input)}"
+      end
+      query = "/referrers?" + query
+      response = get(query)
+      url = Bitly::Url.new(self,response['data'])
+    end
 
     private
     
