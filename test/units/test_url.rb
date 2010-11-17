@@ -18,7 +18,8 @@ class TestUrl < Test::Unit::TestCase
        :new_hash?,
        :title,
        :created_by,
-       :referrers].each do |method|
+       :referrers,
+       :countries].each do |method|
         should "respond to #{method}" do
           assert_respond_to @url, method
         end
@@ -86,6 +87,23 @@ class TestUrl < Test::Unit::TestCase
           assert_equal 62, @url.referrers.first.clicks
           assert_equal 62, @url.referrers.first.clicks
           assert_equal 63, @url.referrers(:force => true).first.clicks
+        end
+      end
+      context "getting countries" do
+        setup do
+          stub_get("http://api.bit.ly/v3/countries?hash=djZ9g4&login=test_account&apiKey=test_key", ['country_hash.json', 'country_hash2.json'])
+          @url = Bitly::Url.new(@bitly, 'hash' => 'djZ9g4')
+        end
+        should 'get countries when called' do
+          assert_instance_of Array, @url.countries
+          assert_instance_of Bitly::Country, @url.countries.first
+          assert_equal 'US', @url.countries.first.country
+          assert_equal 58, @url.countries.first.clicks
+        end
+        should 'force update when told to' do
+          assert_equal 58, @url.countries.first.clicks
+          assert_equal 58, @url.countries.first.clicks
+          assert_equal 59, @url.countries(:force => true).first.clicks
         end
       end
     end

@@ -3,7 +3,7 @@ module Bitly
   # Url objects should only be created by the client object as it collects the correct information
   # from the API.
   class Url
-    attr_reader :short_url, :long_url, :user_hash, :global_hash, :referrers
+    attr_reader :short_url, :long_url, :user_hash, :global_hash, :referrers, :countries
     
     # Initialize with a bitly client and optional hash to fill in the details for the url.
     def initialize(client, opts={})
@@ -21,6 +21,9 @@ module Bitly
         @referrers = opts['referrers'].inject([]) do |results, referrer|
           results << Bitly::Referrer.new(referrer)
         end if opts['referrers']
+        @countries = opts['countries'].inject([]) do |results, country|
+          results << Bitly::Country.new(country)
+        end if opts['countries']
       end
       @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
     end
@@ -70,6 +73,14 @@ module Bitly
       @referrers
     end
     
+    # If the url already has country data, return it.
+    # IF there is no country or <tt>:force => true</tt> is passed,
+    # updates the countries and returns them
+    def countries(opts={})
+      update_countries if @countries.nil? || opts[:force]
+      @countries
+    end
+    
     private
     
     def update_clicks_data
@@ -87,6 +98,11 @@ module Bitly
     def update_referrers
       full_url = @client.referrers(@user_hash || @short_url)
       @referrers = full_url.referrers
+    end
+    
+    def update_countries
+      full_url = @client.countries(@user_hash || @short_url)
+      @countries = full_url.countries
     end
   end
 end

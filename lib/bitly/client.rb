@@ -89,15 +89,14 @@ module Bitly
     #
     # This method does not take an array as an input
     def referrers(input)
-      raise ArgumentError.new("referrers only takes a hash or url input") unless input.is_a? String
-      if is_a_short_url?(input)
-        query = "shortUrl=#{CGI.escape(input)}"
-      else
-        query = "hash=#{CGI.escape(input)}"
-      end
-      query = "/referrers?" + query
-      response = get(query)
-      url = Bitly::Url.new(self,response['data'])
+      get_single_method('referrers', input)
+    end
+    
+    # Expands either a short link or hash and gets the country data for that link
+    #
+    # This method does not take an array as an input
+    def countries(input)
+      get_single_method('countries', input)
     end
 
     private
@@ -115,6 +114,18 @@ module Bitly
     
     def is_a_short_url?(input)
       input.match(/^http:\/\//)
+    end
+    
+    def get_single_method(method, input)
+      raise ArgumentError.new("This method only takes a hash or url input") unless input.is_a? String
+      if is_a_short_url?(input)
+        query = "shortUrl=#{CGI.escape(input)}"
+      else
+        query = "hash=#{CGI.escape(input)}"
+      end
+      query = "/#{method}?" + query
+      response = get(query)
+      return Bitly::Url.new(self,response['data'])
     end
     
     def get_method(method, input)
