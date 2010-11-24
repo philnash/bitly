@@ -103,6 +103,11 @@ module Bitly
     def clicks_by_minute(input)
       get_method(:clicks_by_minute, input)
     end
+    
+    # Takes a short url, hash or array of either and gets the clicks by day
+    def clicks_by_day(input)
+      get_method(:clicks_by_day, input)
+    end
 
     private
     

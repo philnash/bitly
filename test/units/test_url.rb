@@ -20,7 +20,8 @@ class TestUrl < Test::Unit::TestCase
        :created_by,
        :referrers,
        :countries,
-       :clicks_by_minute].each do |method|
+       :clicks_by_minute,
+       :clicks_by_day].each do |method|
         should "respond to #{method}" do
           assert_respond_to @url, method
         end
@@ -121,6 +122,22 @@ class TestUrl < Test::Unit::TestCase
           assert_equal 0, @url.clicks_by_minute[2]
           assert_equal 0, @url.clicks_by_minute[2]
           assert_equal 1, @url.clicks_by_minute(:force => true)[2]
+        end
+      end
+      context "getting clicks by day" do
+        setup do
+          @hash = "9DguyN"
+          stub_get("http://api.bit.ly/v3/clicks_by_day?hash=#{@hash}&login=test_account&apiKey=test_key", ['clicks_by_day1.json', 'clicks_by_day2.json'])
+          @url = Bitly::Url.new(@bitly, 'hash' => @hash)
+        end
+        should 'get clicks_by_day when called' do
+          assert_instance_of Array, @url.clicks_by_day
+          assert_instance_of Bitly::Day, @url.clicks_by_day[0]
+        end
+        should 'force update when told to' do
+          assert_equal 1, @url.clicks_by_day[0].clicks
+          assert_equal 1, @url.clicks_by_day[0].clicks
+          assert_equal 2, @url.clicks_by_day(:force => true)[0].clicks
         end
       end
     end

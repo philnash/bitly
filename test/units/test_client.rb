@@ -623,6 +623,34 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+
+    context "clicks by day for urls" do
+      context "for multiple hashes" do
+        setup do
+          @hash1 = "9DguyN"
+          @hash2 = "dvxi6W"
+          @hashes = [@hash1, @hash2]
+          stub_get("http://api.bit.ly/v3/clicks_by_day?hash=9DguyN&hash=dvxi6W&login=test_account&apiKey=test_key", 'clicks_by_day.json')
+          @urls = @bitly.clicks_by_day(@hashes)          
+        end
+        should "return an array of urls" do
+          assert_instance_of Array, @urls
+          assert_instance_of Bitly::Url, @urls[0]
+          assert_instance_of Bitly::Url, @urls[1]
+        end
+        should "return an array of days for each url" do
+          assert_instance_of Array, @urls[0].clicks_by_day
+          assert_instance_of Bitly::Day, @urls[0].clicks_by_day[0]
+        end
+        should "return a Time for the day" do
+          assert_instance_of Time, @urls[0].clicks_by_day[0].day_start
+          assert_equal Time.parse('11/23/2010 05:00'), @urls[0].clicks_by_day[0].day_start
+        end
+        should 'return the number of clicks for that day' do
+          assert_equal 1, @urls[0].clicks_by_day[0].clicks
+        end
+      end
+    end
   end
 
   context "without valid credentials" do

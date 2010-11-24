@@ -24,7 +24,13 @@ module Bitly
         @countries = opts['countries'].inject([]) do |results, country|
           results << Bitly::Country.new(country)
         end if opts['countries']
-        @clicks_by_minute = opts['clicks']
+        if opts['clicks'] && opts['clicks'][0].is_a?(Hash)
+          @clicks_by_day = opts['clicks'].inject([]) do |results, day|
+            results << Bitly::Day.new(day)
+          end
+        else
+          @clicks_by_minute = opts['clicks']
+        end
       end
       @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
     end
@@ -88,6 +94,14 @@ module Bitly
         @clicks_by_minute = full_url.clicks_by_minute
       end
       @clicks_by_minute
+    end
+    
+    def clicks_by_day(opts={})
+      if @clicks_by_day.nil? || opts[:force]
+        full_url = @client.clicks_by_day(@user_hash || @short_url)
+        @clicks_by_day = full_url.clicks_by_day
+      end
+      @clicks_by_day
     end
     
     private
