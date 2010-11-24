@@ -19,7 +19,8 @@ class TestUrl < Test::Unit::TestCase
        :title,
        :created_by,
        :referrers,
-       :countries].each do |method|
+       :countries,
+       :clicks_by_minute].each do |method|
         should "respond to #{method}" do
           assert_respond_to @url, method
         end
@@ -104,6 +105,22 @@ class TestUrl < Test::Unit::TestCase
           assert_equal 58, @url.countries.first.clicks
           assert_equal 58, @url.countries.first.clicks
           assert_equal 59, @url.countries(:force => true).first.clicks
+        end
+      end
+      context "getting clicks by minute" do
+        setup do
+          @short_url = "http://j.mp/9DguyN"
+          stub_get("http://api.bit.ly/v3/clicks_by_minute?shortUrl=#{CGI.escape(@short_url)}&login=test_account&apiKey=test_key", ['clicks_by_minute1_url.json', 'clicks_by_minute2_url.json'])
+          @url = Bitly::Url.new(@bitly, 'short_url' => @short_url)
+        end
+        should 'get clicks_by_minute when called' do
+          assert_instance_of Array, @url.clicks_by_minute
+          assert_equal 0, @url.clicks_by_minute[0]
+        end
+        should 'force update when told to' do
+          assert_equal 0, @url.clicks_by_minute[2]
+          assert_equal 0, @url.clicks_by_minute[2]
+          assert_equal 1, @url.clicks_by_minute(:force => true)[2]
         end
       end
     end

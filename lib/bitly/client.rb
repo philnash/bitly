@@ -98,6 +98,11 @@ module Bitly
     def countries(input)
       get_single_method('countries', input)
     end
+    
+    # Takes a short url, hash or array of either and gets the clicks by minute of each of the last hour
+    def clicks_by_minute(input)
+      get_method(:clicks_by_minute, input)
+    end
 
     private
     

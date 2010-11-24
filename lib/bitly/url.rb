@@ -24,6 +24,7 @@ module Bitly
         @countries = opts['countries'].inject([]) do |results, country|
           results << Bitly::Country.new(country)
         end if opts['countries']
+        @clicks_by_minute = opts['clicks']
       end
       @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
     end
@@ -79,6 +80,14 @@ module Bitly
     def countries(opts={})
       update_countries if @countries.nil? || opts[:force]
       @countries
+    end
+    
+    def clicks_by_minute(opts={})
+      if @clicks_by_minute.nil? || opts[:force]
+        full_url = @client.clicks_by_minute(@user_hash || @short_url)
+        @clicks_by_minute = full_url.clicks_by_minute
+      end
+      @clicks_by_minute
     end
     
     private

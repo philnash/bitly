@@ -484,6 +484,7 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
+
     context "countries for url" do
       context "a single url" do
         setup do
@@ -549,6 +550,76 @@ class TestClient < Test::Unit::TestCase
           assert_raises ArgumentError do
             @bitly.countries(['http://bit.ly/djZ9g4'])
           end
+        end
+      end
+    end
+
+    context "clicks by minute for urls" do
+      context "with a single short url" do
+        setup do
+          @short_url = "http://j.mp/9DguyN"
+          stub_get("http://api.bit.ly/v3/clicks_by_minute?shortUrl=#{CGI.escape(@short_url)}&login=test_account&apiKey=test_key", 'clicks_by_minute1_url.json')
+          @url = @bitly.clicks_by_minute(@short_url)
+        end
+        should "return a url object" do
+          assert_instance_of Bitly::Url, @url
+        end
+        should 'return the original hash' do
+          assert_equal "9DguyN", @url.user_hash
+        end
+        should "return a global hash" do
+          assert_equal '9DguyN', @url.global_hash
+        end
+        should 'return a short url' do
+          assert_equal @short_url, @url.short_url
+        end
+        should 'return an array of clicks by minute' do
+          assert_instance_of Array, @url.clicks_by_minute
+          assert_equal 0, @url.clicks_by_minute[0]
+          assert_equal 1, @url.clicks_by_minute[1]
+        end
+      end
+      context "with a single hash" do
+        setup do
+          @hash = '9DguyN'
+          stub_get("http://api.bit.ly/v3/clicks_by_minute?hash=#{@hash}&login=test_account&apiKey=test_key", 'clicks_by_minute_hash.json')
+          @url = @bitly.clicks_by_minute(@hash)
+        end
+        should 'return a url object' do
+          assert_instance_of Bitly::Url, @url
+        end
+        should 'return the original hash' do
+          assert_equal "9DguyN", @url.user_hash
+        end
+        should "return a global hash" do
+          assert_equal '9DguyN', @url.global_hash
+        end
+        should 'return an array of clicks by minute' do
+          assert_instance_of Array, @url.clicks_by_minute
+          assert_equal 0, @url.clicks_by_minute[0]
+          assert_equal 1, @url.clicks_by_minute[6]
+        end
+      end
+      context "with multiple hashes" do
+        setup do
+          @hash1 = '9DguyN'
+          @hash2 = 'dvxi6W'
+          @hashes = [@hash1, @hash2]
+          stub_get("http://api.bit.ly/v3/clicks_by_minute?hash=#{@hash1}&hash=#{@hash2}&login=test_account&apiKey=test_key", 'clicks_by_minute_hashes.json')
+          @urls = @bitly.clicks_by_minute(@hashes)
+        end
+        should 'return an array of urls' do
+          assert_instance_of Array, @urls
+          assert_instance_of Bitly::Url, @urls[0]
+          assert_instance_of Bitly::Url, @urls[1]
+        end
+        should 'return the original hashes in order' do
+          assert_equal @hash1, @urls[0].user_hash
+          assert_equal @hash2, @urls[1].user_hash
+        end
+        should 'return arrays of clicks for each hash' do
+          assert_instance_of Array, @urls[0].clicks_by_minute
+          assert_instance_of Array, @urls[1].clicks_by_minute
         end
       end
     end
