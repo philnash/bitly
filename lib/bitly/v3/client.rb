@@ -83,6 +83,30 @@ module Bitly
         end
         return results.length > 1 ? results : results[0]
       end
+      
+      # Expands either a short link or hash and gets the referrer data for that link
+      #
+      # This method does not take an array as an input
+      def referrers(input)
+        get_single_method('referrers', input)
+      end
+
+      # Expands either a short link or hash and gets the country data for that link
+      #
+      # This method does not take an array as an input
+      def countries(input)
+        get_single_method('countries', input)
+      end
+
+      # Takes a short url, hash or array of either and gets the clicks by minute of each of the last hour
+      def clicks_by_minute(input)
+        get_method(:clicks_by_minute, input)
+      end
+
+      # Takes a short url, hash or array of either and gets the clicks by day
+      def clicks_by_day(input)
+        get_method(:clicks_by_day, input)
+      end
         
       private
     
@@ -99,6 +123,18 @@ module Bitly
     
       def is_a_short_url?(input)
         input.match(/^http:\/\//)
+      end
+      
+      def get_single_method(method, input)
+        raise ArgumentError.new("This method only takes a hash or url input") unless input.is_a? String
+        if is_a_short_url?(input)
+          query = "shortUrl=#{CGI.escape(input)}"
+        else
+          query = "hash=#{CGI.escape(input)}"
+        end
+        query = "/#{method}?" + query
+        response = get(query)
+        return Bitly::V3::Url.new(self,response['data'])
       end
     
       def get_method(method, input)
@@ -127,7 +163,6 @@ module Bitly
         end
         return results.length > 1 ? results : results[0]
       end
-    
     end
   end
 end

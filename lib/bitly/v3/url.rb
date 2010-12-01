@@ -18,6 +18,19 @@ module Bitly
           @global_clicks = opts['global_clicks']
           @title = opts['title']
           @created_by = opts['created_by']
+          @referrers = opts['referrers'].inject([]) do |results, referrer|
+            results << Bitly::V3::Referrer.new(referrer)
+          end if opts['referrers']
+          @countries = opts['countries'].inject([]) do |results, country|
+            results << Bitly::V3::Country.new(country)
+          end if opts['countries']
+          if opts['clicks'] && opts['clicks'][0].is_a?(Hash)
+            @clicks_by_day = opts['clicks'].inject([]) do |results, day|
+              results << Bitly::V3::Day.new(day)
+            end
+          else
+            @clicks_by_minute = opts['clicks']
+          end
         end
         @short_url = "http://bit.ly/#{@user_hash}" unless @short_url
       end
@@ -59,6 +72,38 @@ module Bitly
         @created_by
       end
     
+      # If the url already has referrer data, return it.
+      # IF there is no referrer or <tt>:force => true</tt> is passed,
+      # updates the referrers and returns them
+      def referrers(opts={})
+        update_referrers if @referrers.nil? || opts[:force]
+        @referrers
+      end
+
+      # If the url already has country data, return it.
+      # IF there is no country or <tt>:force => true</tt> is passed,
+      # updates the countries and returns them
+      def countries(opts={})
+        update_countries if @countries.nil? || opts[:force]
+        @countries
+      end
+
+      def clicks_by_minute(opts={})
+        if @clicks_by_minute.nil? || opts[:force]
+          full_url = @client.clicks_by_minute(@user_hash || @short_url)
+          @clicks_by_minute = full_url.clicks_by_minute
+        end
+        @clicks_by_minute
+      end
+
+      def clicks_by_day(opts={})
+        if @clicks_by_day.nil? || opts[:force]
+          full_url = @client.clicks_by_day(@user_hash || @short_url)
+          @clicks_by_day = full_url.clicks_by_day
+        end
+        @clicks_by_day
+      end
+      
       private
     
       def update_clicks_data
@@ -71,6 +116,16 @@ module Bitly
         full_url = @client.info(@user_hash || @short_url)
         @created_by = full_url.created_by
         @title = full_url.title
+      end
+      
+      def update_referrers
+        full_url = @client.referrers(@user_hash || @short_url)
+        @referrers = full_url.referrers
+      end
+
+      def update_countries
+        full_url = @client.countries(@user_hash || @short_url)
+        @countries = full_url.countries
       end
     end
   end
