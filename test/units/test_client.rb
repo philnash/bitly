@@ -39,6 +39,27 @@ class TestClient < Test::Unit::TestCase
       end
     end
     
+    context "looking up the API key for a user" do
+      context "with correct details" do
+        setup do
+          stub_post('http://api.bit.ly/v3/authenticate?x_password=password&login=test_account&x_login=philnash%40gmail.com&apiKey=test_key', 'auth_success.json')
+        end
+        should 'return username and password' do
+          result = @bitly.authenticate('philnash@gmail.com', 'password')
+          assert_equal 'bitlyapidemo', result.username
+          assert_equal 'R_0da49e0a9118ff35f52f629d2d71bf07', result.api_key
+        end
+      end
+      context "with incorrect details" do
+        setup do
+          stub_post('http://api.bit.ly/v3/authenticate?x_password=password&login=test_account&x_login=philnash%40gmail.com&apiKey=test_key', 'auth_fail.json')
+        end
+        should 'return false' do
+          assert !@bitly.authenticate('philnash@gmail.com', 'password')
+        end
+      end
+    end
+    
     context "checking a bitly pro domain" do
       context "with a bitly pro domain" do
         setup do

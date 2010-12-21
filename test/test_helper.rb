@@ -25,6 +25,11 @@ def stub_get(path, filename)
   FakeWeb.register_uri(:get, path, response)
 end
 
+def stub_post(path, filename)
+  response = { :body => fixture_file(filename), :content_type => 'text/json' }
+  FakeWeb.register_uri(:post, path, response)
+end
+
 def api_key
   'test_key'
 end

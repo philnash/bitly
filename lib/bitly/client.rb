@@ -108,13 +108,36 @@ module Bitly
     def clicks_by_day(input)
       get_method(:clicks_by_day, input)
     end
-
+    
+    # Look up a bit.ly API key for a user given a bit.ly username and password.
+    #
+    # Access to this endpoint is restricted and must be requested by emailing api@bit.ly.
+    # When requesting access include your application login and apiKey, and a description
+    # of your use case and an estimated volume of requests. 
+    def authenticate(username, password)
+      result = post('/authenticate', :query => {:x_login => username, :x_password => password})
+      if result['data']['authenticate']['successful']
+        Struct.new('UserDetails', :username, :api_key).
+               new(result['data']['authenticate']['username'], result['data']['authenticate']['api_key'])
+      else
+        false
+      end
+    end
+    
     private
     
     def get(method, opts={})
+      http_method(:get, method, opts)
+    end
+    
+    def post(method, opts={})
+      http_method(:post, method, opts)
+    end
+    
+    def http_method(http, method, opts={})
       opts[:query] ||= {}
       opts[:query].merge!(@default_query_opts)
-      response = self.class.get(method, opts)
+      response = self.class.send(http, method, opts)
       if response['status_code'] == 200
         return response
       else
