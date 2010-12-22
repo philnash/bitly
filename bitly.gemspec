@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bitly}
-  s.version = "0.5.4"
+  s.version = "0.5.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Phil Nash"]
-  s.date = %q{2010-12-01}
+  s.date = %q{2010-12-22}
   s.description = %q{Use the bit.ly API to shorten or expand URLs}
   s.email = %q{philnash@gmail.com}
   s.extra_rdoc_files = ["README.txt", "lib/bitly.rb", "lib/bitly/client.rb", "lib/bitly/url.rb", "lib/bitly/utils.rb", "lib/bitly/v3.rb", "lib/bitly/v3/bitly.rb", "lib/bitly/v3/client.rb", "lib/bitly/v3/country.rb", "lib/bitly/v3/day.rb", "lib/bitly/v3/missing_url.rb", "lib/bitly/v3/referrer.rb", "lib/bitly/v3/url.rb", "lib/bitly/version.rb"]

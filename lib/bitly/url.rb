@@ -4,7 +4,6 @@ module Bitly
     include Bitly::Utils
     
     attr_accessor :long_url, :short_url, :hash, :user_hash
-    attr_reader :info, :stats
     VARIABLES = ['long_url', 'short_url', 'hash', 'user_hash']
     
     def initialize(login,api_key,obj=nil)

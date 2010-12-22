@@ -5,12 +5,3 @@ module Bitly
     end
   end
 end
-
-class BitlyError < StandardError
-  attr_reader :code
-  alias :msg :message
-  def initialize(msg, code)
-    @code = code
-    super("#{msg} - '#{code}'")
-  end
-end
