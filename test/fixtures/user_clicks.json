@@ -1,0 +1,32 @@
+{
+    "status_code": 200, 
+    "data": {
+        "days": 7, 
+        "total_clicks": 29, 
+        "clicks": [
+            {
+                "clicks": 4, 
+                "day_start": 1291093200
+            }, {
+                "clicks": 6, 
+                "day_start": 1291006800
+            }, {
+                "clicks": 1, 
+                "day_start": 1290920400
+            }, {
+                "clicks": 2, 
+                "day_start": 1290834000
+            }, {
+                "clicks": 8,
+                "day_start": 1290747600
+            }, {
+                "clicks": 5,
+                "day_start": 1290661200
+            }, {
+                "clicks": 3,
+                "day_start": 1290574800
+            }
+        ]
+    }, 
+    "status_txt": "OK"
+}

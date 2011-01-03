@@ -44,7 +44,7 @@ module Bitly
     # IF there are no click statistics or <tt>:force => true</tt> is passed,
     # updates the stats and returns the user clicks
     def user_clicks(opts={})
-      update_clicks_data if @global_clicks.nil? || opts[:force]
+      update_clicks_data if @user_clicks.nil? || opts[:force]
       @user_clicks
     end
     

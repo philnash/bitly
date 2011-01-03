@@ -1,0 +1,60 @@
+{
+    "status_code": 200, 
+    "data": {
+        "days": 7,
+        "countries": [
+            [
+                {
+                    "country": "US",
+                    "clicks": 4
+                }
+            ], [
+                {
+                    "country": "US",
+                    "clicks": 5
+                }, {
+                    "country": "unknown",
+                    "clicks": 1
+                }
+            ], [
+                {
+                    "country": "unknown",
+                    "clicks": 1
+                }
+            ], [
+                {
+                    "country": "US",
+                    "clicks": 2
+                }
+            ], [
+                {
+                    "country": "US",
+                    "clicks": 5
+                }, {
+                    "country": "IN",
+                    "clicks": 1
+                }, {
+                    "country": "FR",
+                    "clicks": 1
+                }, {
+                    "country": "CA",
+                    "clicks": 1
+                }
+            ], [
+                {
+                    "country": "US",
+                    "clicks": 5
+                }
+            ], [
+                {
+                    "country": "CA",
+                    "clicks": 2
+                }, {
+                    "country": "US",
+                    "clicks": 1
+                }
+            ]
+        ]
+    },
+    "status_txt": "OK"
+}
