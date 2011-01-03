@@ -13,8 +13,11 @@ lib/bitly/v3/client.rb
 lib/bitly/v3/country.rb
 lib/bitly/v3/day.rb
 lib/bitly/v3/missing_url.rb
+lib/bitly/v3/oauth.rb
+lib/bitly/v3/realtime_link.rb
 lib/bitly/v3/referrer.rb
 lib/bitly/v3/url.rb
+lib/bitly/v3/user.rb
 lib/bitly/version.rb
 test/bitly/test_client.rb
 test/bitly/test_url.rb

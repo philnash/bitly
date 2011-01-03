@@ -26,6 +26,8 @@ gem install bitly
 
 == USAGE:
 
+=== Version 2 API
+
 Create a Bitly client using your username and api key as follows:
 
 bitly = Bitly.new(username, api_key)
@@ -54,6 +56,10 @@ u.info #=> a ruby hash of the JSON returned from the API
 u.stats #=> a ruby hash of the JSON returned from the API
 
 bitly.shorten('http://www.google.com', 'keyword')
+
+=== Version 3 API
+
+Please see the Bit.ly API documentation http://api.bit.ly for details on the V3 API
 
 == LICENSE:
 
