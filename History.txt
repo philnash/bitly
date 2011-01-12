@@ -1,3 +1,9 @@
+=== 0.6.1 / 2011-01-12
+
+* 1 minor enhancement
+
+  * Updated OAuth2 gem and used extra information to save login and api_key to user objects
+
 === 0.6.0 / 2011-01-03
 
 * 1 major enhancement

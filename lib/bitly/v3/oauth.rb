@@ -25,8 +25,9 @@ module Bitly
       end
     
       # If you already have a user token, this method gets the access token
-      def get_access_token_from_token(token)
-        @access_token ||= ::OAuth2::AccessToken.new(client, token)
+      def get_access_token_from_token(token, params={})
+        params = params.inject({}) { |options, (key, value)| options[key.to_s] = value; options }
+        @access_token ||= ::OAuth2::AccessToken.new(client, token, nil, nil, params)
       end
     end
   end
