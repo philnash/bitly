@@ -16,8 +16,12 @@ module Bitly
   #
   #    u=Bitly::User.new(o.access_token)
   class User
+    attr_accessor :login, :api_key
+    
     def initialize(access_token)
       @access_token = access_token
+      @login = access_token['login'] || access_token['username']
+      @api_key = access_token['apiKey'] || access_token['api_key']
     end
     
     # OAuth 2 endpoint that provides a list of top referrers (up to 500 per
@@ -70,6 +74,11 @@ module Bitly
     def total_clicks(opts={})
       get_clicks(opts)
       @total_clicks
+    end
+    
+    # Returns a Bitly Client using the credentials of the user.
+    def client
+      @client ||= Bitly::Client.new(login, api_key)
     end
     
     private

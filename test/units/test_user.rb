@@ -4,8 +4,20 @@ class TestUser < Test::Unit::TestCase
   context "with an access_token" do
     setup do
       consumer = Bitly::OAuth.new('consumer_token', 'consumer_secret')
-      @access_token = consumer.get_access_token_from_token('token')
+      @access_token = consumer.get_access_token_from_token('token', 'login' => 'hello', 'apiKey' => 'API_KEY')
       @user = Bitly::User.new(@access_token)
+    end
+    
+    context 'the user' do
+      should 'save the username from the access token' do
+        assert_equal 'hello', @user.login
+      end
+      should 'save the api key from the access token' do
+        assert_equal 'API_KEY', @user.api_key
+      end
+      should 'get a client' do
+        assert_kind_of Bitly::Client, @user.client
+      end
     end
     
     context 'referrers' do
