@@ -111,10 +111,10 @@ module Bitly
       private
 
       def arrayize(arg)
-        if input.is_a?(String)
-          [input] 
+        if arg.is_a?(String)
+          [arg] 
         else
-          input.dup
+          arg.dup
         end
       end
     
