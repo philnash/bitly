@@ -9,7 +9,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "philnash@gmail.com"
   gem.homepage = "http://github.com/philnash/bitly"
   gem.authors = ["philnash"]
-  gem.add_dependency 'httparty', ">= 0.5.2"
+  gem.add_dependency 'httparty', ">= 0.7.6"
   gem.add_dependency 'crack', ">= 0.1.4"
   gem.add_dependency 'oauth2', '>= 0.1.1'
   gem.add_development_dependency "shoulda", ">= 0"
