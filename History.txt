@@ -1,3 +1,15 @@
+=== 0.6.2 / 2011-11-10
+
+* 2 minor enhancements
+  
+  * Adds days parameter to clicks_by_minute v3 API call
+  * Converts Readme to markdown
+
+* 2 minor bug fixes
+
+  * Increases HTTParty version to avoid issues with Rubygems
+  * Stops mutating arguments on array methods
+
 === 0.6.1 / 2011-01-12
 
 * 1 minor enhancement
