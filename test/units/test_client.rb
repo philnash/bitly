@@ -646,11 +646,13 @@ class TestClient < Test::Unit::TestCase
     end
 
     context "clicks by day for urls" do
+      setup do
+        @hash1 = "9DguyN"
+        @hash2 = "dvxi6W"
+        @hashes = [@hash1, @hash2]
+      end
       context "for multiple hashes" do
         setup do
-          @hash1 = "9DguyN"
-          @hash2 = "dvxi6W"
-          @hashes = [@hash1, @hash2]
           stub_get("http://api.bit.ly/v3/clicks_by_day?hash=9DguyN&hash=dvxi6W&login=test_account&apiKey=test_key", 'clicks_by_day.json')
           @urls = @bitly.clicks_by_day(@hashes)          
         end
@@ -669,6 +671,17 @@ class TestClient < Test::Unit::TestCase
         end
         should 'return the number of clicks for that day' do
           assert_equal 1, @urls[0].clicks_by_day[0].clicks
+        end
+      end
+      context "with optional days parameter" do
+        should 'add days to url' do
+          stub_get("http://api.bit.ly/v3/clicks_by_day?hash=9DguyN&hash=dvxi6W&login=test_account&apiKey=test_key&days=30", 'clicks_by_day.json')
+          @urls = @bitly.clicks_by_day(@hashes, :days => 30)
+        end
+
+        should 'not add other parameters' do
+          stub_get("http://api.bit.ly/v3/clicks_by_day?hash=9DguyN&hash=dvxi6W&login=test_account&apiKey=test_key&days=30", 'clicks_by_day.json')
+          @urls = @bitly.clicks_by_day(@hashes, :days => 30, :something_else => 'bacon')
         end
       end
     end

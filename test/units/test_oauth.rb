@@ -18,7 +18,7 @@ class TestOAuth < Test::Unit::TestCase
     end
     
     should 'get the oauth authorize url' do
-      assert_equal "https://bit.ly/oauth/authorize?client_id=#{@consumer_token}&type=web_server&redirect_uri=http%3A%2F%2Ftest.local", @consumer.authorize_url('http://test.local')
+      assert_match /https:\/\/bit\.ly\/oauth\/authorize\?.*client_id=#{@consumer_token}.*/, @consumer.authorize_url('http://test.local')
     end
     
     should 'get access token with code' do

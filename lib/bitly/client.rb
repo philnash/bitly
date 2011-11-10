@@ -105,8 +105,9 @@ module Bitly
     end
     
     # Takes a short url, hash or array of either and gets the clicks by day
-    def clicks_by_day(input)
-      get_method(:clicks_by_day, input)
+    def clicks_by_day(input, opts={})
+      opts.reject! { |k, v| k.to_s != 'days' }
+      get_method(:clicks_by_day, input, opts)
     end
     
     # Look up a bit.ly API key for a user given a bit.ly username and password.
@@ -161,7 +162,7 @@ module Bitly
       return Bitly::Url.new(self,response['data'])
     end
     
-    def get_method(method, input)
+    def get_method(method, input, opts={})
       input = [input] if input.is_a? String
       query = input.inject([]) do |query,i|
         if is_a_short_url?(i)
@@ -169,6 +170,9 @@ module Bitly
         else
           query << "hash=#{CGI.escape(i)}"
         end
+      end
+      query = opts.inject(query) do |query, (k,v)|
+        query << "#{k}=#{v}"
       end
       query = "/#{method}?" + query.join('&')
       response = get(query)
