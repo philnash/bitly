@@ -1,6 +1,6 @@
 History.txt
 Manifest
-README.txt
+README.md
 Rakefile
 bitly.gemspec
 lib/bitly.rb
