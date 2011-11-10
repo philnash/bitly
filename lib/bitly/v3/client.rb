@@ -63,7 +63,7 @@ module Bitly
       #
       # Returns the results in the order they were entered
       def lookup(input)
-        input = [input] if input.is_a?(String)
+        input = arrayize(input)
         query = input.inject([]) { |query, i| query << "url=#{CGI.escape(i)}" }
         query = "/lookup?" + query.join('&')
         response = get(query)
@@ -110,6 +110,14 @@ module Bitly
       end
         
       private
+
+      def arrayize(arg)
+        if arg.is_a?(String)
+          [arg] 
+        else
+          arg.dup
+        end
+      end
     
       def get(method, opts={})
         opts[:query] ||= {}
@@ -139,7 +147,7 @@ module Bitly
       end
     
       def get_method(method, input, opts={})
-        input = [input] if input.is_a? String
+        input = arrayize(input)
         query = input.inject([]) do |query,i|
           if is_a_short_url?(i)
             query << "shortUrl=#{CGI.escape(i)}"
