@@ -61,6 +61,19 @@ All four functions return a ``Bitly::Url`` object (or an array of ``Bitly::Url``
 
 Please see the Bit.ly API documentation [http://api.bit.ly](http://api.bit.ly) for details on the V3 API.
 
+### Configure bitly through initializer
+
+If you want to configure bitly through an initializer (e.g. `config/initializers/bitly.rb`), do the following:
+
+    Bitly.configure do |config|
+      config.api_version = 3
+      config.username = "Bitly_Username"
+      config.api_key = "API_KEY"
+    end
+
+Instead of using `Bitly.new(username, api_key)` to get the client, use `Bitly.client`:
+    client = Bitly.client
+
 ## LICENSE:
 
 > (The MIT License)
