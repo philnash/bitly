@@ -72,6 +72,7 @@ If you want to configure bitly through an initializer (e.g. `config/initializers
     end
 
 Instead of using `Bitly.new(username, api_key)` to get the client, use `Bitly.client`:
+
     client = Bitly.client
 
 ## LICENSE:
