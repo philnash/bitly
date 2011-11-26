@@ -3,6 +3,7 @@ require 'net/http'
 require 'uri'
 
 module Bitly
+  extend Config
   API_URL     = 'http://api.bit.ly/'
   API_VERSION = '2.0.1'
 
@@ -22,9 +23,20 @@ module Bitly
     @version = 2
   end
 
+  # get and initialize a client if configured using Config
+  def self.client
+    # api_verison, username, and api_key are set in Config
+    if api_version == 3
+      Bitly::V3::Client.new(username, api_key)
+    else
+      Bitly::Client.new(username, api_key)
+    end
+  end
+
   class Client
     
     include Bitly::Utils
+    attr_accessor *Config::OPTION_KEYS
     
     def initialize(login,api_key)
       warn "[DEPRECATION] The bit.ly version 2 API has been superceded by version 3 and will be removed. See the README for details"

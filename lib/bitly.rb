@@ -2,6 +2,7 @@ $:.unshift File.dirname(__FILE__)
 
 require 'crack'
 
+require 'bitly/config'
 require 'bitly/utils'
 require 'bitly/client'
 require 'bitly/url'
