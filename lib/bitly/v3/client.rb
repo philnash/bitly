@@ -11,21 +11,21 @@ module Bitly
       def initialize(login, api_key)
         @default_query_opts = { :login => login, :apiKey => api_key }
       end
-    
+
       # Validates a login and api key
       def validate(x_login, x_api_key)
         response = get('/validate', :query => { :x_login => x_login, :x_apiKey => x_api_key })
         return response['data']['valid'] == 1
       end
       alias :valid? :validate
-    
+
       # Checks whether a domain is a bitly.Pro domain
       def bitly_pro_domain(domain)
         response = get('/bitly_pro_domain', :query => { :domain => domain })
         return response['data']['bitly_pro_domain']
       end
       alias :pro? :bitly_pro_domain
-    
+
       # Shortens a long url
       #
       # Options can be:
@@ -39,26 +39,26 @@ module Bitly
         response = get('/shorten', :query => query)
         return Bitly::V3::Url.new(self, response['data'])
       end
-    
+
       # Expands either a hash, short url or array of either.
       #
       # Returns the results in the order they were entered
       def expand(input)
         get_method(:expand, input)
       end
-    
+
       # Expands either a hash, short url or array of either and gets click data too.
       #
       # Returns the results in the order they were entered
       def clicks(input)
         get_method(:clicks, input)
       end
-      
+
       # Like expand, but gets the title of the page and who created it
       def info(input)
-        get_method(:info, input)      
+        get_method(:info, input)
       end
-      
+
       # Looks up the short url and global hash of a url or array of urls
       #
       # Returns the results in the order they were entered
@@ -83,7 +83,7 @@ module Bitly
         end
         return results.length > 1 ? results : results[0]
       end
-      
+
       # Expands either a short link or hash and gets the referrer data for that link
       #
       # This method does not take an array as an input
@@ -108,17 +108,17 @@ module Bitly
         opts.reject! { |k, v| k.to_s != 'days' }
         get_method(:clicks_by_day, input, opts)
       end
-        
+
       private
 
       def arrayize(arg)
         if arg.is_a?(String)
-          [arg] 
+          [arg]
         else
           arg.dup
         end
       end
-    
+
       def get(method, opts={})
         opts[:query] ||= {}
         opts[:query].merge!(@default_query_opts)
@@ -129,11 +129,11 @@ module Bitly
           raise BitlyError.new(response['status_txt'], response['status_code'])
         end
       end
-    
+
       def is_a_short_url?(input)
         input.match(/^http:\/\//)
       end
-      
+
       def get_single_method(method, input)
         raise ArgumentError.new("This method only takes a hash or url input") unless input.is_a? String
         if is_a_short_url?(input)
@@ -145,7 +145,7 @@ module Bitly
         response = get(query)
         return Bitly::V3::Url.new(self,response['data'])
       end
-    
+
       def get_method(method, input, opts={})
         input = arrayize(input)
         query = input.inject([]) do |query,i|

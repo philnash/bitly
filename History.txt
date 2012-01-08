@@ -1,7 +1,17 @@
+=== 0.7.0 / 2011-1-8
+
+* 1 major bug fix
+
+  * Updates OAuth2 gem and fixes OAuth class
+
+* 1 minor enhancement
+
+  Adds link_history to user model
+
 === 0.6.2 / 2011-11-10
 
 * 2 minor enhancements
-  
+
   * Adds days parameter to clicks_by_minute v3 API call
   * Converts Readme to markdown
 
@@ -51,7 +61,7 @@
 * 1 bug fix
 
   * When expanding a short url with the v3 module, user hash and short url weren't being set properly
-  
+
 === 0.5.0 / 2010-05-12
 
 * Loads of major enhancements
@@ -86,7 +96,7 @@
 * 1 minor enhancement
 
   * calling bitly.shorten(:history => 1) will add the url to the api user's history.
-  
+
 * 1 bug fix
 
   * you can no longer call shorten with a keyword, this was unsupported in the API and consequently removed
@@ -96,7 +106,7 @@
 * 1 enhancement
 
   * Depends on Crack instead of JSON, so can run on Jruby
-  
+
 * 1 bug fix
 
   * Does not choke when bit.ly chokes. Returns a BitlyError instead
