@@ -2,7 +2,7 @@
 
 ## DESCRIPTION:
 
-A Ruby API for [http://bit.ly](http://bit.ly) (and now (http://j.mp)[http://j.mp])
+A Ruby API for [http://bit.ly](http://bit.ly)
 
 [http://code.google.com/p/bitly-api/wiki/ApiDocumentation](http://code.google.com/p/bitly-api/wiki/ApiDocumentation)
 
@@ -45,7 +45,7 @@ Each can be used in all the methods described in the API docs, the shorten funct
 All four functions return a ``Bitly::Url`` object (or an array of ``Bitly::Url`` objects if you supplied an array as the input). You can then get all the information required from that object.
 
     u = bitly.shorten('http://www.google.com') #=> Bitly::Url
-    
+
     u.long_url #=> "http://www.google.com&quot;
     u.short_url #=> "http://bit.ly/Ywd1&quot;
     u.bitly_url #=> "http://bit.ly/Ywd1&quot;
@@ -54,7 +54,7 @@ All four functions return a ``Bitly::Url`` object (or an array of ``Bitly::Url``
     u.hash #=> "2V6CFi"
     u.info #=> a ruby hash of the JSON returned from the API
     u.stats #=> a ruby hash of the JSON returned from the API
-    
+
     bitly.shorten('http://www.google.com', 'keyword')
 
 ### Version 3 API
@@ -74,10 +74,10 @@ Please see the Bit.ly API documentation [http://api.bit.ly](http://api.bit.ly) f
 > distribute, sublicense, and/or sell copies of the Software, and to
 > permit persons to whom the Software is furnished to do so, subject to
 > the following conditions:
-> 
+>
 > The above copyright notice and this permission notice shall be
 > included in all copies or substantial portions of the Software.
-> 
+>
 > THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
 > EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 > MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
