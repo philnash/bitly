@@ -16,16 +16,18 @@ module Bitly
     #
     #    u=Bitly::V3::User.new(o.access_token)
     class User
+      include HTTParty
+      base_uri 'https://api-ssl.bit.ly/v3/'
       attr_accessor :login, :api_key
-      
+
       def initialize(access_token)
         @access_token = access_token
         @login = access_token['login'] || access_token['username']
         @api_key = access_token['apiKey'] || access_token['api_key']
       end
-    
+
       # OAuth 2 endpoint that provides a list of top referrers (up to 500 per
-      # day) for a given user’s bit.ly links, and the number of clicks per referrer. 
+      # day) for a given user’s bit.ly links, and the number of clicks per referrer.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/referrers
       def referrers(opts={})
@@ -34,9 +36,9 @@ module Bitly
         end
         @referrers
       end
-    
+
       # OAuth 2 endpoint that provides a list of countries from which clicks
-      # on a given user’s bit.ly links are originating, and the number of clicks per country. 
+      # on a given user’s bit.ly links are originating, and the number of clicks per country.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/countries
       def countries(opts={})
@@ -45,23 +47,24 @@ module Bitly
         end
         @countries
       end
-    
+
       # OAuth 2 endpoint that provides a given user’s 100 most popular links
-      # based on click traffic in the past hour, and the number of clicks per link. 
+      # based on click traffic in the past hour, and the number of clicks per link.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/realtime_links
       def realtime_links(opts={})
         if @realtime_links.nil? || opts.delete(:force)
-          result = Crack::JSON.parse(@access_token.get("/v3/user/realtime_links", opts))
+          opts.merge!(:access_token => @access_token.token)
+          result = self.class.get("/user/realtime_links", :query => opts)
           if result['status_code'] == 200
             @realtime_links = result['data']['realtime_links'].map { |rs| Bitly::V3::RealtimeLink.new(rs) }
           else
-            raise BitlyError.new(results['status_txt'], results['status_code'])
+            raise BitlyError.new(result['status_txt'], result['status_code'])
           end
         end
         @realtime_links
       end
-    
+
       # OAuth 2 endpoint that provides the total clicks per day on a user’s bit.ly links.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/clicks
@@ -69,22 +72,41 @@ module Bitly
         get_clicks(opts)
         @clicks
       end
-    
+
       # Displays the total clicks returned from the clicks method.
       def total_clicks(opts={})
         get_clicks(opts)
         @total_clicks
       end
-      
+
       # Returns a Bitly Client using the credentials of the user.
       def client
         @client ||= Bitly::V3::Client.new(login, api_key)
       end
-    
+
+      # OAuth 2 endpoint that OAuth 2 endpoint that provides a given user’s link
+      # shortening history, in reverse chronological order (most recent to least
+      # recent).
+      def link_history(opts={})
+        opts.merge!(:access_token => @access_token.token)
+        result = self.class.get("/user/link_history", :query => opts)
+        if result['status_code'] == 200
+          results = result['data']['link_history'].inject([]) do |rs, obj|
+            obj['short_url'] = obj['link']
+            obj['hash'] = obj['link'].split('/').last
+            rs << Url.new(client, obj)
+          end
+          return results
+        else
+          raise BitlyError.new(result['status_txt'], result['status_code'])
+        end
+      end
+
       private
-    
+
       def get_method(method, klass, opts)
-        result = Crack::JSON.parse(@access_token.get("/v3/user/#{method.to_s}", opts))
+        opts.merge!(:access_token => @access_token.token)
+        result = self.class.get("/user/#{method.to_s}", :query => opts)
         if result['status_code'] == 200
           results = result['data'][method.to_s].map do |rs|
             rs.inject([]) do |results, obj|
@@ -93,18 +115,19 @@ module Bitly
           end
           return results
         else
-          raise BitlyError.new(results['status_txt'], results['status_code'])
+          raise BitlyError.new(result['status_txt'], result['status_code'])
         end
       end
-    
+
       def get_clicks(opts={})
         if @clicks.nil? || opts.delete(:force)
-          result = Crack::JSON.parse(@access_token.get("/v3/user/clicks", opts))
+          opts.merge!(:access_token => @access_token.token)
+          result = self.class.get("/user/clicks", :query => opts)
           if result['status_code'] == 200
             @clicks = result['data']['clicks'].map { |rs| Bitly::V3::Day.new(rs) }
             @total_clicks = result['data']['total_clicks']
           else
-            raise BitlyError.new(results['status_txt'], results['status_code'])
+            raise BitlyError.new(result['status_txt'], result['status_code'])
           end
         end
       end
