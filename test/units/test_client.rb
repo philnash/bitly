@@ -8,12 +8,12 @@ class TestClient < Test::Unit::TestCase
       end
     end
   end
-  
+
   context "with a valid client" do
     setup do
       @bitly = Bitly::Client.new(login, api_key)
     end
-    
+
     context "validating another account credentials" do
       context "with valid credentials" do
         setup do
@@ -38,7 +38,7 @@ class TestClient < Test::Unit::TestCase
         end
       end
     end
-    
+
     context "looking up the API key for a user" do
       context "with correct details" do
         setup do
@@ -654,7 +654,7 @@ class TestClient < Test::Unit::TestCase
       context "for multiple hashes" do
         setup do
           stub_get("http://api.bit.ly/v3/clicks_by_day?hash=9DguyN&hash=dvxi6W&login=test_account&apiKey=test_key", 'clicks_by_day.json')
-          @urls = @bitly.clicks_by_day(@hashes)          
+          @urls = @bitly.clicks_by_day(@hashes)
         end
         should "return an array of urls" do
           assert_instance_of Array, @urls
@@ -667,7 +667,7 @@ class TestClient < Test::Unit::TestCase
         end
         should "return a Time for the day" do
           assert_instance_of Time, @urls[0].clicks_by_day[0].day_start
-          assert_equal Time.parse('11/23/2010 05:00'), @urls[0].clicks_by_day[0].day_start
+          assert_equal Time.parse('2010/11/23'), @urls[0].clicks_by_day[0].day_start
         end
         should 'return the number of clicks for that day' do
           assert_equal 1, @urls[0].clicks_by_day[0].clicks
