@@ -22,7 +22,7 @@ class TestOAuth < Test::Unit::TestCase
     end
 
     should 'get access token with code' do
-      FakeWeb.register_uri(:post, %r|https://api-ssl.bit.ly/oauth/access_token|, { :body => "access_token=token&login=hello&apiKey=API_KEY", :content_type => 'text/plain' })
+      FakeWeb.register_uri(:post, %r|https://api-ssl.bit.ly/oauth/token|, { :body => "access_token=token&login=hello&apiKey=API_KEY", :content_type => 'application/x-www-form-urlencoded' })
       access_token = @consumer.get_access_token_from_code('code', 'http://test.local')
       assert_kind_of OAuth2::AccessToken, access_token
       assert_equal @consumer.client, access_token.client

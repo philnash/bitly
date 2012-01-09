@@ -3,6 +3,7 @@ $:.unshift File.dirname(__FILE__)
 require 'httparty'
 require 'oauth2'
 require 'cgi'
+require 'crack'
 
 require 'bitly/bitly'
 require 'bitly/client'
