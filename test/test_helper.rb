@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'test/unit'
 require 'shoulda'
-require 'flexmock/test_unit'
+require 'mocha'
 require 'fakeweb'
+require 'ruby-debug'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
@@ -30,11 +31,20 @@ def stub_post(path, filename)
   FakeWeb.register_uri(:post, path, response)
 end
 
-def api_key
+def api_key_fixture
   'test_key'
 end
-def login
+def login_fixture
   'test_account'
+end
+def client_id_fixture
+  'client_id'
+end
+def client_secret_fixture
+  'client_secret'
+end
+def fixture_token
+  'token'
 end
 
 class Test::Unit::TestCase

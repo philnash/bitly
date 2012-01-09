@@ -15,7 +15,7 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "shoulda", ">= 0"
   gem.add_development_dependency "jeweler", ">= 1.4.0"
   gem.add_development_dependency "rcov", ">= 0"
-  gem.add_development_dependency "flexmock", ">= 0.8.6"
+  gem.add_development_dependency "mocha", ">= 0.10.0"
   gem.add_development_dependency "fakeweb", ">= 1.2.8"
   # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
 end

@@ -3,9 +3,8 @@ require 'test_helper'
 class TestRealtimeLink < Test::Unit::TestCase
   context "a realtime link" do
     setup do
-      @realtime_link = Bitly::RealtimeLink.new({})
+      @realtime_link = Bitly::RealtimeLink.new
     end
-    
     [:clicks, :user_hash].each do |method|
       should "respond to #{method}" do
         assert_respond_to @realtime_link, method
@@ -21,7 +20,7 @@ class TestRealtimeLink < Test::Unit::TestCase
     end
     should 'create a url when supplied with a client' do
       realtime_link = Bitly::RealtimeLink.new('user_hash' => 'sdfidn', 'clicks' => 12)
-      client = Bitly::Client.new(login, api_key)
+      client = Bitly::Client.new(Bitly::Strategy::ApiKey.new(login_fixture, api_key_fixture))
       url = realtime_link.create_url(client)
       assert_kind_of Bitly::Url, url
       assert_equal 12, url.user_clicks

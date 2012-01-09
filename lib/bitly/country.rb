@@ -1,11 +1,10 @@
 module Bitly
   class Country
     attr_reader :clicks, :country
-    
-    def initialize(opts)
-      ['clicks', 'country'].each do |attribute|
-        instance_variable_set("@#{attribute}".to_sym, opts[attribute])
-      end
+
+    def initialize(options = {})
+      @clicks  = options['clicks']
+      @country = options['country']
     end
   end
 end

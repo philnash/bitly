@@ -3,7 +3,7 @@ require 'test_helper'
 class TestUrl < Test::Unit::TestCase
   context "with a client" do
     setup do
-      @bitly = Bitly.new(login, api_key)
+      @bitly = Bitly.new(:login => login_fixture, :api_key => api_key_fixture)
     end
     context "and a url" do
       setup do
@@ -27,7 +27,7 @@ class TestUrl < Test::Unit::TestCase
         end
       end
     end
-  
+
     context "and an expanded url" do
       context "getting click data" do
         setup do
@@ -72,6 +72,16 @@ class TestUrl < Test::Unit::TestCase
           assert_equal 'philnash', @url.created_by
           # updating just to prove it works, creator is unlikely to change
           assert_equal 'philnash2', @url.created_by(:force => true)
+        end
+        context "steps to prevent an infinite loop" do
+          should "doesn't get info if the title is an empty string" do
+            @url = Bitly::Url.new(@bitly, 'hash' => '9uX1TE', 'title' => '')
+            assert_equal "", @url.title
+          end
+          should "doesn't get info if the title is explicitly set to nil" do
+            @url = Bitly::Url.new(@bitly, 'hash' => '9uX1TE', 'title' => nil)
+            assert_equal "", @url.title
+          end
         end
       end
       context "getting referrers" do
