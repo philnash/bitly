@@ -52,7 +52,7 @@ module Bitly
     # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/realtime_links
     def realtime_links(opts={})
       if @realtime_links.nil? || opts.delete(:force)
-        result = Crack::JSON.parse(@access_token.get("/v3/user/realtime_links", opts))
+        result = Crack::JSON.parse(@access_token.get("/v3/user/realtime_links", opts).body)
         if result['status_code'] == 200
           @realtime_links = result['data']['realtime_links'].map { |rs| Bitly::RealtimeLink.new(rs) }
         else
@@ -84,7 +84,7 @@ module Bitly
     private
 
     def get_method(method, klass, opts)
-      result = Crack::JSON.parse(@access_token.get("/v3/user/#{method.to_s}", opts))
+      result = Crack::JSON.parse(@access_token.get("/v3/user/#{method.to_s}", opts).body)
       if result['status_code'] == 200
         results = result['data'][method.to_s].map do |rs|
           rs.inject([]) do |results, obj|
@@ -99,7 +99,7 @@ module Bitly
 
     def get_clicks(opts={})
       if @clicks.nil? || opts.delete(:force)
-        result = Crack::JSON.parse(@access_token.get("/v3/user/clicks", opts))
+        result = Crack::JSON.parse(@access_token.get("/v3/user/clicks", opts).body)
         if result['status_code'] == 200
           @clicks = result['data']['clicks'].map { |rs| Bitly::Day.new(rs) }
           @total_clicks = result['data']['total_clicks']

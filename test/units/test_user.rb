@@ -23,6 +23,7 @@ class TestUser < Test::Unit::TestCase
     context 'referrers' do
       setup do
         stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/referrers\?(access|oauth)_token=token/, 'user_referrers.json')
+        stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/referrers/, 'user_referrers.json')
         @referrers = @user.referrers
       end
 
@@ -42,6 +43,7 @@ class TestUser < Test::Unit::TestCase
     context 'countries' do
       setup do
         stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/countries\?(access|oauth)_token=token/, 'user_countries.json')
+        stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/countries/, 'user_countries.json')
         @countries = @user.countries
       end
 
@@ -61,6 +63,7 @@ class TestUser < Test::Unit::TestCase
     context 'clicks' do
       setup do
         stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/clicks\?(access|oauth)_token=token/, 'user_clicks.json')
+        stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/clicks/, 'user_clicks.json')
         @clicks = @user.clicks
       end
 
@@ -82,6 +85,7 @@ class TestUser < Test::Unit::TestCase
     context 'total clicks' do
       setup do
         stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/clicks\?(access|oauth)_token=token/, 'user_clicks.json')
+        stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/clicks/, 'user_clicks.json')
       end
 
       should 'get total clicks' do
@@ -92,6 +96,7 @@ class TestUser < Test::Unit::TestCase
     context 'realtime links' do
       setup do
         stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/realtime_links\?(access|oauth)_token=token/, 'user_realtime_links.json')
+        stub_get(/https:\/\/api-ssl\.bit\.ly\/v3\/user\/realtime_links/, 'user_realtime_links.json')
         @realtime_links = @user.realtime_links
       end
 
