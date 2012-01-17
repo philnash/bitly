@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = "bitly"
-  s.version = "1.0.0.pre"
+  s.name = "bitlyr"
+  s.version = "0.1.0"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
-  s.authors = ["philnash"]
-  s.date = "2012-01-15"
-  s.description = "A ruby wrapper for the bit.ly API"
-  s.email = "philnash@gmail.com"
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.authors = ["jonstorer"]
+  s.date = "2012-01-17"
+  s.description = "A ruby wrapper for version 3 of the bit.ly API\nSupports Login/ApiKey & OAuth authentication\n"
+  s.email = "jonathon.scott.storer@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.rdoc"
@@ -113,7 +113,7 @@ Gem::Specification.new do |s|
     "test/unit/test_url.rb",
     "test/unit/test_user.rb"
   ]
-  s.homepage = "http://github.com/philnash/bitly"
+  s.homepage = "http://github.com/jonstorer/bitlyr"
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
   s.summary = "A ruby wrapper for the bit.ly API"
