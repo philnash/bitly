@@ -2,7 +2,7 @@ module Bitly
 
   # A user requires an oauth access token. The flow is as follows:
   #
-  #     o = Bitly::OAuth.new(consumer_token, consumer_secret)
+  #     o = Bitly::Strategy::OAuth.new(consumer_token, consumer_secret)
   #     o.authorize_url(redirect_url)
   #     #=> "https://bit.ly/oauth/authorize?client_id=#{consumer_token}&type=web_server&redirect_uri=http%3A%2F%2Ftest.local%2Fbitly%2Fauth"
   # Redirect your users to this url, when they authorize your application
@@ -10,7 +10,7 @@ module Bitly
   # Use that parameter, and the exact same redirect url as follows:
   #
   #     o.get_access_token_from_code(params[:code], redirect_url)
-  #     #=> #<OAuth2::AccessToken ...>
+  #     #=> #<Bitly::AccessToken ...>
   #
   # Then use that access token to create your user object.
   #
