@@ -709,7 +709,7 @@ class TestClient < Test::Unit::TestCase
     context "with the OAuth Strategy" do
       setup do
         strategy = Bitly::Strategy::OAuth.new("id", "secret")
-        strategy.get_access_token_from_token('token')
+        strategy.set_access_token_from_token!('token')
         @bitly = Bitly::Client.new(strategy)
       end
 
@@ -1401,7 +1401,7 @@ class TestClient < Test::Unit::TestCase
     context "without valid credentials" do
       setup do
         strategy = Bitly::Strategy::OAuth.new('rubbish', 'wrong')
-        strategy.get_access_token_from_token('lies')
+        strategy.set_access_token_from_token!('lies')
         @bitly = Bitly::Client.new(strategy)
         stub_get(%r|https://api-ssl\.bit\.ly/v3/shorten?.*|, 'invalid_credentials.json')
       end

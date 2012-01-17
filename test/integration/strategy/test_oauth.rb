@@ -16,8 +16,7 @@ class TestOAuthStrategy < Test::Unit::TestCase
       assert_equal 'API_KEY', access_token['apiKey']
     end
     should 'get access token from token' do
-      @strategy.get_access_token_from_token('token')
-      access_token = @strategy.send :access_token
+      access_token = @strategy.get_access_token_from_token('token')
       assert_kind_of Bitly::Strategy::AccessToken, access_token
       assert_equal @strategy.send(:client), access_token.client
     end
@@ -27,7 +26,7 @@ class TestOAuthStrategy < Test::Unit::TestCase
       setup do
         stub_get("https://api-ssl.bit.ly/v3/validate?x_login=test_account&x_apiKey=test_key&access_token=token", 'valid_user.json')
         @strategy = Bitly::Strategy::OAuth.new('id', 'secret')
-        @strategy.get_access_token_from_token('token')
+        @strategy.set_access_token_from_token!('token')
       end
       should "return true when calling validate" do
         assert @strategy.validate(login_fixture, api_key_fixture)
@@ -40,7 +39,7 @@ class TestOAuthStrategy < Test::Unit::TestCase
       setup do
         stub_get("https://api-ssl.bit.ly/v3/validate?x_login=bogus&x_apiKey=info&access_token=token", 'invalid_user.json')
         @strategy = Bitly::Strategy::OAuth.new('id', 'secret')
-        @strategy.get_access_token_from_token('token')
+        @strategy.set_access_token_from_token!('token')
       end
       should "return false when calling validate" do
         assert !@strategy.validate("bogus", "info")
