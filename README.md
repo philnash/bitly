@@ -46,10 +46,10 @@ All four functions return a ``Bitly::Url`` object (or an array of ``Bitly::Url``
 
     u = bitly.shorten('http://www.google.com') #=> Bitly::Url
 
-    u.long_url #=> "http://www.google.com&quot;
-    u.short_url #=> "http://bit.ly/Ywd1&quot;
-    u.bitly_url #=> "http://bit.ly/Ywd1&quot;
-    u.jmp_url #=> "http://j.mp/Ywd1&quot;
+    u.long_url #=> "http://www.google.com"
+    u.short_url #=> "http://bit.ly/Ywd1"
+    u.bitly_url #=> "http://bit.ly/Ywd1"
+    u.jmp_url #=> "http://j.mp/Ywd1"
     u.user_hash #=> "Ywd1"
     u.hash #=> "2V6CFi"
     u.info #=> a ruby hash of the JSON returned from the API
