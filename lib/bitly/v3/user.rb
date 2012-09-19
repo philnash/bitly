@@ -123,7 +123,6 @@ module Bitly
         if @clicks.nil? || opts.delete(:force)
           opts.merge!(:access_token => @access_token.token)
           result = self.class.get("/user/clicks", :query => opts)
-          p result
           if result['status_code'] == 200
             @clicks = result['data']['clicks'].map { |rs| Bitly::V3::Day.new(rs) }
             @total_clicks = result['data']['total_clicks']
