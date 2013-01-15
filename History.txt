@@ -1,3 +1,15 @@
+=== 0.8.1 / 2013-15-01
+
+* 1 major update
+
+  * bumps httparty and crack dependencies due to security vulnerability
+
+=== 0.8.0
+
+* 1 major update
+
+  * Updates OAuth2 dependency again
+
 === 0.7.0 / 2011-1-8
 
 * 1 major bug fix
