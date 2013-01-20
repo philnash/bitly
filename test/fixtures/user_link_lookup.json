@@ -1,0 +1,12 @@
+{
+  "data": {
+    "link_lookup": [
+      {
+        "aggregate_link": "http://bit.ly/2V6CFi",
+        "url": "http://www.google.com/"
+      }
+    ]
+  },
+  "status_code": 200,
+  "status_txt": "OK"
+}

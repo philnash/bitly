@@ -1,0 +1,33 @@
+{
+  "data": {
+    "link_history": [      
+      {
+        "aggregate_link": "http://nyti.ms/16tOHV",
+        "archived": false,
+        "client_id": "a5a2e024b030d6a594be866c7be57b5e2dff9972",
+        "created_at": 1331669349,
+        "link": "http://nyti.ms/xr5jgq",
+        "long_url": "http://nytimes.com/",
+        "modified_at": 1331669350,
+        "private": false,
+        "title": "The New York Times - Breaking News, World News & Multimedia",
+        "user_ts": 1331669349
+      },
+      {
+        "aggregate_link": "http://bit.ly/2V6CFi",
+        "archived": false,
+        "client_id": "a5a2e024b030d6a594be866c7be57b5e2dff9972",
+        "created_at": 1331663117,
+        "link": "http://bit.ly/zhheQ9",
+        "long_url": "http://www.google.com/",
+        "modified_at": 1331663117,
+        "private": false,
+        "title": "Google",
+        "user_ts": 1331663117
+      }
+    ],
+    "result_count": 2
+  },
+  "status_code": 200,
+  "status_txt": "OK"
+}

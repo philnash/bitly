@@ -1,0 +1,95 @@
+{
+  "data": {
+    "days": 7,
+    "referrers": [
+      [
+        {
+          "clicks": 5,
+          "referrer": "direct"
+        },
+        {
+          "clicks": 3,
+          "referrer": "https://twitter.com/"
+        }
+      ],
+      [
+        {
+          "clicks": 24,
+          "referrer": "direct"
+        },
+        {
+          "clicks": 7,
+          "referrer": "https://twitter.com/"
+        },
+        {
+          "clicks": 1,
+          "referrer": "http://www.linkedin.com/home"
+        },
+        {
+          "clicks": 1,
+          "referrer": "http://mobile.twitter.com/"
+        }
+      ],
+      [
+        {
+          "clicks": 11,
+          "referrer": "direct"
+        },
+        {
+          "clicks": 1,
+          "referrer": "https://twitter.com/"
+        },
+        {
+          "clicks": 1,
+          "referrer": "http://www.linkedin.com/home"
+        }
+      ],
+      [
+        {
+          "clicks": 27,
+          "referrer": "direct"
+        },
+        {
+          "clicks": 13,
+          "referrer": "https://twitter.com/"
+        },
+        {
+          "clicks": 2,
+          "referrer": "http://hootsuite.com/dashboard"
+        }
+      ],
+      [
+        {
+          "clicks": 1,
+          "referrer": "http://blog.bitlyenterprise.com/"
+        }
+      ],
+      [
+        {
+          "clicks": 2,
+          "referrer": "https://twitter.com/"
+        },
+        {
+          "clicks": 1,
+          "referrer": "direct"
+        }
+      ],
+      [
+        {
+          "clicks": 6,
+          "referrer": "direct"
+        },
+        {
+          "clicks": 2,
+          "referrer": "https://twitter.com/"
+        },
+        {
+          "clicks": 1,
+          "referrer": "http://www.facebook.com/home.php"
+        }
+      ]
+    ]
+  },
+  "status_code": 200,
+  "status_txt": "OK"
+}

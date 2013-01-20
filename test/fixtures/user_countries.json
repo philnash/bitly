@@ -1,0 +1,155 @@
+{
+  "data": {
+    "countries": [
+      [
+        {
+          "clicks": 3,
+          "country": "US"
+        }
+      ],
+      [
+        {
+          "clicks": 96,
+          "country": "US"
+        },
+        {
+          "clicks": 19,
+          "country": "None"
+        },
+        {
+          "clicks": 4,
+          "country": "CA"
+        },
+        {
+          "clicks": 3,
+          "country": "GB"
+        },
+        {
+          "clicks": 2,
+          "country": "NZ"
+        },
+        {
+          "clicks": 2,
+          "country": "IE"
+        },
+        {
+          "clicks": 1,
+          "country": "DE"
+        },
+        {
+          "clicks": 1,
+          "country": "HK"
+        },
+        {
+          "clicks": 1,
+          "country": "AU"
+        }
+      ],
+      [
+        {
+          "clicks": 41,
+          "country": "US"
+        },
+        {
+          "clicks": 8,
+          "country": "None"
+        },
+        {
+          "clicks": 3,
+          "country": "PL"
+        },
+        {
+          "clicks": 1,
+          "country": "GB"
+        }
+      ],
+      [
+        {
+          "clicks": 113,
+          "country": "US"
+        },
+        {
+          "clicks": 21,
+          "country": "None"
+        },
+        {
+          "clicks": 4,
+          "country": "CA"
+        },
+        {
+          "clicks": 4,
+          "country": "GB"
+        },
+        {
+          "clicks": 3,
+          "country": "NO"
+        },
+        {
+          "clicks": 1,
+          "country": "CL"
+        },
+        {
+          "clicks": 1,
+          "country": "AR"
+        },
+        {
+          "clicks": 1,
+          "country": "SE"
+        },
+        {
+          "clicks": 1,
+          "country": "IN"
+        },
+        {
+          "clicks": 1,
+          "country": "IE"
+        },
+        {
+          "clicks": 1,
+          "country": "PL"
+        }
+      ],
+      [
+        {
+          "clicks": 1,
+          "country": "US"
+        },
+        {
+          "clicks": 1,
+          "country": "TH"
+        }
+      ],
+      [
+        {
+          "clicks": 4,
+          "country": "US"
+        },
+        {
+          "clicks": 1,
+          "country": "None"
+        }
+      ],
+      [
+        {
+          "clicks": 40,
+          "country": "US"
+        },
+        {
+          "clicks": 2,
+          "country": "None"
+        },
+        {
+          "clicks": 2,
+          "country": "CA"
+        },
+        {
+          "clicks": 1,
+          "country": "PL"
+        }
+      ]
+    ],
+    "days": 7
+  },
+  "status_code": 200,
+  "status_txt": "OK"
+}

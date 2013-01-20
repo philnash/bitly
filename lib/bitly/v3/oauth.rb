@@ -1,3 +1,5 @@
+require 'base64'
+
 module Bitly
   module V3
     # OAuth consumer for authentication
@@ -16,7 +18,20 @@ module Bitly
           :token_url => '/oauth/access_token'
         )
       end
-
+      
+      def get_basic_token
+        @client ||= ::OAuth2::Client.new(
+          @consumer_token,
+          @consumer_secret,
+          :site => 'https://api-ssl.bitly.com',
+          :token_url => '/oauth/access_token'
+        )
+        
+        @access_token ||= client.get_token(:headers => {
+          'Authorization' => "Basic " + Base64.encode64(@consumer_token + ":" + @consumer_secret)
+        })
+      end
+      
       # Get the url to redirect a user to, pass the url you want the user
       # to be redirected back to.
       def authorize_url(redirect_url)

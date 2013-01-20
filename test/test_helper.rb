@@ -21,6 +21,13 @@ def stub_get(url, filename, status=nil)
   FakeWeb.register_uri(:get, url, options)
 end
 
+def stub_get_json(url, filename, status=nil)
+  options = {:body => fixture_file(filename), :content_type => "application/json"}
+  options.merge!({:status => status}) unless status.nil?
+  
+  FakeWeb.register_uri(:get, url, options)
+end
+
 def api_key
   'test_key'
 end

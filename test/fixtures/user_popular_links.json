@@ -1,0 +1,27 @@
+{
+  "data": {
+    "popular_links": [
+      {
+        "clicks": 6150,
+        "link": "http://bit.ly/123456"
+      },
+      {
+        "clicks": 3647,
+        "link": "http://bit.ly/234567"
+      },
+      {
+        "clicks": 1814,
+        "link": "http://bit.ly/abc123"
+      },
+      {
+        "clicks": 1813,
+        "link": "http://bit.ly/bcd234"
+      }
+    ],
+    "tz_offset": -4,
+    "unit": "day",
+    "units": -1
+  },
+  "status_code": 200,
+  "status_txt": "OK"
+}

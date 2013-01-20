@@ -1,0 +1,17 @@
+{
+  "data": {
+    "apiKey": "R_f6397a37e765574f2e198dba5bb59522",
+    "custom_short_domain": "ooga",
+    "display_name": "booga",
+    "full_name": "Bitly API Oauth Demo Account",
+    "is_enterprise": false,
+    "login": "bitlyapioauthdemo",
+    "member_since": 1331567982,
+    "profile_image": "http://bitly.com/u/bitlyapioauthdemo.png",
+    "profile_url": "http://bitly.com/u/bitlyapioauthdemo",
+    "share_accounts": [],
+    "tracking_domains": []
+  },
+  "status_code": 200,
+  "status_txt": "OK"
+}
