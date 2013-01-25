@@ -13,5 +13,11 @@ Echoe.new('bitly', Bitly::VERSION) do |p|
     ['httparty', '>= 0.7.6'],
     ['oauth2', '>= 0.5.0', '< 0.9']
   ]
-  p.development_dependencies = []
+  p.development_dependencies = [
+    ['echoe'],
+    ['rake'],
+    ['shoulda'],
+    ['flexmock'],
+    ['fakeweb']
+  ]
 end

@@ -26,14 +26,29 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<crack>, [">= 0.1.4"])
       s.add_runtime_dependency(%q<httparty>, [">= 0.7.6"])
       s.add_runtime_dependency(%q<oauth2>, ["< 0.9", ">= 0.5.0"])
+      s.add_development_dependency(%q<echoe>, [">= 0"])
+      s.add_development_dependency(%q<rake>, [">= 0"])
+      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<flexmock>, [">= 0"])
+      s.add_development_dependency(%q<fakeweb>, [">= 0"])
     else
       s.add_dependency(%q<crack>, [">= 0.1.4"])
       s.add_dependency(%q<httparty>, [">= 0.7.6"])
       s.add_dependency(%q<oauth2>, ["< 0.9", ">= 0.5.0"])
+      s.add_dependency(%q<echoe>, [">= 0"])
+      s.add_dependency(%q<rake>, [">= 0"])
+      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<flexmock>, [">= 0"])
+      s.add_dependency(%q<fakeweb>, [">= 0"])
     end
   else
     s.add_dependency(%q<crack>, [">= 0.1.4"])
     s.add_dependency(%q<httparty>, [">= 0.7.6"])
     s.add_dependency(%q<oauth2>, ["< 0.9", ">= 0.5.0"])
+    s.add_dependency(%q<echoe>, [">= 0"])
+    s.add_dependency(%q<rake>, [">= 0"])
+    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<flexmock>, [">= 0"])
+    s.add_dependency(%q<fakeweb>, [">= 0"])
   end
 end
