@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'crack'
 
 require 'bitly/utils'
