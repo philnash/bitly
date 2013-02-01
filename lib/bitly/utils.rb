@@ -45,8 +45,8 @@ module Bitly
       begin
         json = Net::HTTP.get(request)
         # puts json.inspect
-        result = Crack::JSON.parse(json)
-      rescue
+        result = MultiJson.load(json)
+      rescue MultiJson::DecodeError
         result = {'errorMessage' => 'JSON Parse Error(Bit.ly messed up)', 'errorCode' => 69, 'statusCode' => 'ERROR'}
       end
       if result['statusCode'] == "OK"
