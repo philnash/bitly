@@ -7,7 +7,8 @@ module Bitly
       include HTTParty
       base_uri 'http://api.bit.ly/v3/'
 
-      # Requires a login and api key. Get yours from your account page at http://bit.ly/a/account
+      # Requires a login and api key. Get yours from your account page at https://bitly.com/a/your_api_key 
+      # Visit your account at http://bit.ly/a/account
       def initialize(login, api_key)
         @default_query_opts = { :login => login, :apiKey => api_key }
       end
