@@ -3,7 +3,7 @@ module Bitly
 
     # bitly client options
     OPTION_KEYS = [
-      :username,
+      :login,
       :api_key,
       :api_version
     ]

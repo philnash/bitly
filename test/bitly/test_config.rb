@@ -6,7 +6,7 @@ class TestConfig < Test::Unit::TestCase
       # configure
       Bitly.configure do |config|
         config.api_version = 3
-        config.username = login
+        config.login = login
         config.api_key = api_key
       end
       b = Bitly.client
@@ -17,7 +17,7 @@ class TestConfig < Test::Unit::TestCase
       # configure
       Bitly.configure do |config|
         config.api_version = 2
-        config.username = login
+        config.login = login
         config.api_key = api_key
       end
       b = Bitly.client

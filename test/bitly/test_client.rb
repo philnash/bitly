@@ -6,12 +6,23 @@ class TestClient < Test::Unit::TestCase
       b = Bitly.new(login, api_key)
       assert_equal Bitly::Client, b.class
     end
+
+    should "create a new bitly client and configure with a block" do
+      Bitly.configure do |config|
+        config.api_key = api_key
+        config.login = login
+      end
+      b = Bitly.client
+      assert_kind_of Bitly::Client, b
+      assert_equal api_key, b.api_key
+      assert_equal login, login
+    end
   end
   context "using the bitly client" do
     setup do
       @bitly = Bitly.new(login, api_key)
     end
-    
+
     context "shortening" do
       context "a single link" do
         setup do
