@@ -67,7 +67,7 @@ If you want to configure bitly through an initializer (e.g. `config/initializers
 
     Bitly.configure do |config|
       config.api_version = 3
-      config.username = "Bitly_Username"
+      config.login = "Bitly_Username"
       config.api_key = "API_KEY"
     end
 
