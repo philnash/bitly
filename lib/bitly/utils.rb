@@ -1,4 +1,5 @@
 require 'cgi'
+require 'ostruct'
 
 module Bitly
   module Utils
@@ -40,10 +41,13 @@ module Bitly
       url.query << "&" + long_urls.map { |long_url| "longUrl=#{CGI.escape(long_url)}" }.join("&") unless long_urls.nil?
       url
     end
-    
+
     def get_result(request)
       begin
-        json = Net::HTTP.get(request)
+        # check for http_proxy and apply if found
+        proxy = ENV['http_proxy'] ? Addressable::URI.parse(ENV['http_proxy']) : OpenStruct.new
+        json = Net::HTTP::Proxy( proxy.host, proxy.port ).get(request)
+
         # puts json.inspect
         result = Crack::JSON.parse(json)
       rescue

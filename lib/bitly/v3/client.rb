@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Bitly
   module V3
     # The client is the main part of this gem. You need to initialize the client with your
@@ -6,6 +8,10 @@ module Bitly
     class Client
       include HTTParty
       base_uri 'http://api.bit.ly/v3/'
+      
+      # check for http_proxy and apply if found 
+      proxy = ENV['http_proxy'] ? Addressable::URI.parse(ENV['http_proxy']) : OpenStruct.new 
+      http_proxy( proxy.host, proxy.port )
 
       # Requires a login and api key. Get yours from your account page at https://bitly.com/a/your_api_key 
       # Visit your account at http://bit.ly/a/account
