@@ -116,8 +116,9 @@ module Bitly
 
       # QR code is automatically created and can be incorporated
       # into mobile applications.
-      def qrcode_url
-        short_url + ".qrcode" unless short_url.blank?
+      def qrcode_url(opts={})
+        qrcode = opts.has_key?(:s) ? ".qrcode?s=#{opts[:s]}" : ".qrcode"
+        @short_url + qrcode
       end
 
       private
