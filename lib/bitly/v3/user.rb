@@ -27,7 +27,7 @@ module Bitly
       end
 
       # OAuth 2 endpoint that provides a list of top referrers (up to 500 per
-      # day) for a given user’s bit.ly links, and the number of clicks per referrer.
+      # day) for a given user's bit.ly links, and the number of clicks per referrer.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/referrers
       def referrers(opts={})
@@ -38,7 +38,7 @@ module Bitly
       end
 
       # OAuth 2 endpoint that provides a list of countries from which clicks
-      # on a given user’s bit.ly links are originating, and the number of clicks per country.
+      # on a given user's bit.ly links are originating, and the number of clicks per country.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/countries
       def countries(opts={})
@@ -48,7 +48,7 @@ module Bitly
         @countries
       end
 
-      # OAuth 2 endpoint that provides a given user’s 100 most popular links
+      # OAuth 2 endpoint that provides a given user's 100 most popular links
       # based on click traffic in the past hour, and the number of clicks per link.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/realtime_links
@@ -65,7 +65,7 @@ module Bitly
         @realtime_links
       end
 
-      # OAuth 2 endpoint that provides the total clicks per day on a user’s bit.ly links.
+      # OAuth 2 endpoint that provides the total clicks per day on a user's bit.ly links.
       #
       # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/clicks
       def clicks(opts={})
@@ -84,7 +84,7 @@ module Bitly
         @client ||= Bitly::V3::Client.new(login, api_key)
       end
 
-      # OAuth 2 endpoint that OAuth 2 endpoint that provides a given user’s link
+      # OAuth 2 endpoint that OAuth 2 endpoint that provides a given user's link
       # shortening history, in reverse chronological order (most recent to least
       # recent).
       def link_history(opts={})
