@@ -8,6 +8,7 @@ class TestConfig < Test::Unit::TestCase
         config.api_version = 3
         config.login = login
         config.api_key = api_key
+        config.timeout = 10
       end
       b = Bitly.client
       assert_equal Bitly::V3::Client, b.class

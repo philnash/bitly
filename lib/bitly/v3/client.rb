@@ -11,7 +11,7 @@ module Bitly
       # Visit your account at http://bit.ly/a/account
       def initialize(login, api_key, timeout=nil)
         @default_query_opts = { :login => login, :apiKey => api_key }
-        timeout(timeout) if timeout
+        self.timeout = timeout
       end
 
       # Validates a login and api key
@@ -111,8 +111,8 @@ module Bitly
         get_method(:clicks_by_day, input, opts)
       end
 
-      def timeout(timeout)
-        Client.default_timeout(timeout)
+      def timeout=(timeout=nil)
+        self.class.default_timeout(timeout) if timeout
       end
 
       private
@@ -132,7 +132,7 @@ module Bitly
         begin
           response = self.class.get(method, opts)
         rescue Timeout::Error
-          raise BitlyTimeout
+          raise BitlyTimeout.new("Bitly didn't respond in time", "504")
         end
 
         if response['status_code'] == 200
@@ -191,4 +191,4 @@ module Bitly
   end
 end
 
-class BitlyTimeout < StandardError; end
+class BitlyTimeout < BitlyError; end

@@ -27,7 +27,7 @@ module Bitly
   def self.client
     # api_verison, login, and api_key are set in Config
     if api_version == 3
-      Bitly::V3::Client.new(login, api_key)
+      Bitly::V3::Client.new(login, api_key, timeout)
     else
       Bitly::Client.new(login, api_key)
     end

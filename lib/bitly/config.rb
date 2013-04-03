@@ -5,7 +5,8 @@ module Bitly
     OPTION_KEYS = [
       :login,
       :api_key,
-      :api_version
+      :api_version,
+      :timeout
     ]
 
     attr_accessor *OPTION_KEYS
