@@ -1,3 +1,18 @@
+=== 0.9.0 / 2013-4-4
+
+* 2 major updates
+
+  * Replaces Crack with MultiJson (issue #34)
+  * Adds timeout to v3 client calls (issue #27)
+
+* 5 minor updates
+
+  * Adds qrcode_url method to Bitly::V3::Url class (issue #21)
+  * Ability to configure Bitly with a configure block (issue #16)
+  * Stops gem messing with the load path (issue #32)
+  * Adds development dependencies to Rakefile/gemspec (issue #33)
+  * Change Bitly::V3::User file to use ASCII quotes (issue #39)
+
 === 0.8.1 / 2013-15-01
 
 * 1 major update
