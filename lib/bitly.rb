@@ -1,10 +1,8 @@
-$:.unshift File.dirname(__FILE__)
-
 require 'multi_json'
 
-require 'bitly/config'
-require 'bitly/utils'
-require 'bitly/client'
-require 'bitly/url'
-require 'bitly/version'
-require 'bitly/v3'
+require File.expand_path('../bitly/config', __FILE__)
+require File.expand_path('../bitly/utils', __FILE__)
+require File.expand_path('../bitly/client', __FILE__)
+require File.expand_path('../bitly/url', __FILE__)
+require File.expand_path('../bitly/version', __FILE__)
+require File.expand_path('../bitly/v3', __FILE__)
