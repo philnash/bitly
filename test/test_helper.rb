@@ -17,7 +17,7 @@ end
 def stub_get(url, filename, status=nil)
   options = {:body => fixture_file(filename)}
   options.merge!({:status => status}) unless status.nil?
-  
+
   FakeWeb.register_uri(:get, url, options)
 end
 

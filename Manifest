@@ -1,10 +1,11 @@
+Gemfile
 History.txt
 Manifest
 README.md
 Rakefile
-bitly.gemspec
 lib/bitly.rb
 lib/bitly/client.rb
+lib/bitly/config.rb
 lib/bitly/url.rb
 lib/bitly/utils.rb
 lib/bitly/v3.rb
@@ -20,6 +21,7 @@ lib/bitly/v3/url.rb
 lib/bitly/v3/user.rb
 lib/bitly/version.rb
 test/bitly/test_client.rb
+test/bitly/test_config.rb
 test/bitly/test_url.rb
 test/bitly/test_utils.rb
 test/fixtures/cnn.json

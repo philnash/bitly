@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'rake'
 require 'echoe'
-require './lib/bitly.rb'
+require './lib/bitly/version'
 
 Echoe.new('bitly', Bitly::VERSION) do |p|
   p.description = "Use the bit.ly API to shorten or expand URLs"
