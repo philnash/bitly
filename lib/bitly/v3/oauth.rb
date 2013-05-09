@@ -12,7 +12,7 @@ module Bitly
         @client ||= ::OAuth2::Client.new(
           @consumer_token,
           @consumer_secret,
-          :site => 'https://api-ssl.bit.ly',
+          :site => 'https://api-ssl.bitly.com',
           :token_url => '/oauth/access_token'
         )
       end

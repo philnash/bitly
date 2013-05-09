@@ -5,7 +5,7 @@ module Bitly
     # all the rest of the actions available through the API.
     class Client
       include HTTParty
-      base_uri 'http://api.bit.ly/v3/'
+      base_uri 'http://api.bitly.com/v3/'
 
       # Requires a login and api key. Get yours from your account page at https://bitly.com/a/your_api_key
       # Visit your account at http://bit.ly/a/account

@@ -2,9 +2,9 @@
 
 ## DESCRIPTION:
 
-A Ruby API for [http://bit.ly](http://bit.ly)
+A Ruby API for [http://bitly.com](http://bitly.com)
 
-[http://code.google.com/p/bitly-api/wiki/ApiDocumentation](http://code.google.com/p/bitly-api/wiki/ApiDocumentation)
+[http://dev.bitly.com](http://dev.bitly.com)
 
 ## NOTE:
 
@@ -14,7 +14,7 @@ To move to using the version 3 API, call:
 
     Bitly.use_api_version_3
 
-Then, when you call ``Bitly.new(username, api_key)`` you will get a ``Bitly::V3::Client`` instead, which provides the version 3 api calls (``shorten``, ``expand``, ``clicks``, ``validate`` and ``bitly_pro_domain``). See [http://api.bit.ly](http://api.bit.ly) for details.
+Then, when you call ``Bitly.new(username, api_key)`` you will get a ``Bitly::V3::Client`` instead, which provides the version 3 api calls (``shorten``, ``expand``, ``clicks``, ``validate`` and ``bitly_pro_domain``). See [http://dev.bitly.com](http://dev.bitly.com) for details.
 
 Eventually, this will become the default version used and finally, the V3 module will disappear, with the version 3 classes replacing the version 2 classes.
 
