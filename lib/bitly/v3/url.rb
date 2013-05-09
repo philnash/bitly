@@ -114,6 +114,10 @@ module Bitly
         @clicks_by_day
       end
 
+      def jmp_url
+        @short_url.nil? ? nil : @short_url.gsub(/bit\.ly/,'j.mp')
+      end
+
       # QR code is automatically created and can be incorporated
       # into mobile applications.
       def qrcode_url(opts={})
