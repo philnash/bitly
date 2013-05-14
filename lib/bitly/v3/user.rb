@@ -10,7 +10,7 @@ module Bitly
     # Use that parameter, and the exact same redirect url as follows:
     #
     #     o.get_access_token_from_code(params[:code], redirect_url)
-    #     #=> #<OAuth2::AccessToken ...>
+    #     #=> #<OAuth2::accessToken ...>
     #
     # Then use that access token to create your user object.
     #
@@ -82,6 +82,33 @@ module Bitly
       # Returns a Bitly Client using the credentials of the user.
       def client
         @client ||= Bitly::V3::Client.new(login, api_key)
+      end
+
+      # OAuth 2 endpoint that OAuth 2 endpoint that provides a given user's 
+      # bundle history, in reverse chronological order (most recent to least
+      # recent).
+      def bundle_history(opts={})
+        opts.merge!(:access_token => @access_token.token)
+        result = self.class.get("/user/bundle_history", :query => opts)
+        if result['status_code'] == 200
+          results = result['data']['bundles'].inject([]) do |rs, obj|
+            rs << Bundle.new(self, obj) # Bundles need SSL access to the API
+          end
+          return results
+        else
+          raise BitlyError.new(result['status_txt'], result['status_code'])
+        end
+      end
+
+      def bundle_contents(bundle_link, opts={})
+        opts.merge!(:access_token => @access_token.token)
+        opts.merge!(:bundle_link => bundle_link)
+        result = self.class.get("/bundle/contents", :query => opts)
+        if result['status_code'] == 200
+          return Bundle.new(client, result['data']['bundle'])
+        else
+          raise BitlyError.new(result['status_txt'], result['status_code'])
+        end        
       end
 
       # OAuth 2 endpoint that OAuth 2 endpoint that provides a given user's link
