@@ -7,7 +7,7 @@ module Bitly
   API_URL     = 'http://api.bit.ly/'
   API_VERSION = '2.0.1'
 
-  def self.new(login, api_key, timeout=nil)
+  def self.new(login, api_key = nil, timeout=nil)
     if @version == 3
       Bitly::V3::Client.new(login, api_key, timeout)
     else
