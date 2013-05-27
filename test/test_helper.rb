@@ -27,6 +27,9 @@ end
 def login
   'test_account'
 end
+def access_token
+  'test_access_token'
+end
 
 class Test::Unit::TestCase
   def teardown
