@@ -11,7 +11,7 @@ Echoe.new('bitly', Bitly::VERSION) do |p|
   p.extra_deps = [
     ['multi_json', '~> 1.3'],
     ['httparty', '>= 0.7.6'],
-    ['oauth2', '>= 0.5.0', '< 0.9']
+    ['oauth2', '>= 0.5.0']
   ]
   p.development_dependencies = [
     ['echoe'],
