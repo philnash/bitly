@@ -4,14 +4,29 @@ module Bitly
     # username and API key and then you will be able to use the client to perform
     # all the rest of the actions available through the API.
     class Client
+      API_URL_SSL = 'https://api-ssl.bitly.com/v3/'
       include HTTParty
       base_uri 'http://api.bitly.com/v3/'
 
-      # Requires a login and api key. Get yours from your account page at https://bitly.com/a/your_api_key
+      # Requires a generic OAuth2 access token or -deprecated- login and api key.
+      # http://dev.bitly.com/authentication.html#apikey
+      # Generic OAuth2 access token: https://bitly.com/a/oauth_apps
+      # ApiKey: Get yours from your account page at https://bitly.com/a/your_api_key
       # Visit your account at http://bit.ly/a/account
-      def initialize(login, api_key, timeout=nil)
-        @default_query_opts = { :login => login, :apiKey => api_key }
-        self.timeout = timeout
+      def initialize(*args)
+        args.compact!
+        self.timeout = args.last.is_a?(Fixnum) ? args.pop : nil
+        if args.count == 1
+          # Set generic OAuth2 access token and change base URI (use SSL)
+          @default_query_opts = { :access_token => args.first }
+          self.class.base_uri API_URL_SSL
+        else
+          # Deprecated ApiKey authentication
+          @default_query_opts = {
+            :login => args[0],
+            :apiKey => args[1]
+          }
+        end
       end
 
       # Validates a login and api key

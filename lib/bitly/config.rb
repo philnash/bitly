@@ -11,6 +11,9 @@ module Bitly
 
     attr_accessor *OPTION_KEYS
 
+    alias_method :access_token, :login
+    alias_method :access_token=, :login=
+
     def configure
       yield self
       self

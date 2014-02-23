@@ -7,6 +7,11 @@ class TestClient < Test::Unit::TestCase
       assert_equal Bitly::Client, b.class
     end
 
+    should "create a new bitly client with generic OAuth2 access token" do
+      b = Bitly.new(access_token)
+      assert_equal Bitly::Client, b.class
+    end
+
     should "create a new bitly client and configure with a block" do
       Bitly.configure do |config|
         config.api_key = api_key
