@@ -1,3 +1,9 @@
+=== 0.10.1 / 2014-03-10
+
+* 1 minor update
+
+  * Stops messing with the load path. Fixes issue #45. Thanks to halloffame.
+
 === 0.10.0 / 2014-2-23
 
 * 2 major updates
