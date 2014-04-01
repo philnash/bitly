@@ -47,6 +47,11 @@ class TestClient < Test::Unit::TestCase
         should "save the long url" do
           assert_equal "http://cnn.com", @url.long_url
         end
+        should "not fail when passing empty query parameters" do
+          stub_get(/^http:\/\/api.bit.ly\/shorten\?.*longUrl=.*test.com.*$/,"failing_test.json")
+          @url = @bitly.shorten('http://test.com?q= ')
+          assert_equal 'http://test.com?q= ', @url.long_url
+        end
       end
       context "multiple links" do
         setup do

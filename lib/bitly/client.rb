@@ -48,7 +48,7 @@ module Bitly
       if input.is_a? String
         request = create_url("shorten", :longUrl => input, :history => (opts[:history] ? 1 : nil))
         result = get_result(request)
-        result = {:long_url => input}.merge result[input]
+        result = {:long_url => input}.merge result.values.first
         Bitly::Url.new(@login,@api_key,result)
       elsif input.is_a? Array
         request = create_url("shorten", :history => (opts[:history] ? 1 : nil))
