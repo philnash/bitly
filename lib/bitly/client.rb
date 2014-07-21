@@ -39,7 +39,7 @@ module Bitly
     attr_accessor *Config::OPTION_KEYS
 
     def initialize(login,api_key)
-      warn "[DEPRECATION] The bit.ly version 2 API has been superceded by version 3 and will be removed. See the README for details"
+      warn "[DEPRECATION] The bit.ly version 2 API has been superseded by version 3 and will be removed. See the README for details"
       @login = login
       @api_key = api_key
     end
