@@ -20,7 +20,7 @@ class TestClient < Test::Unit::TestCase
       b = Bitly.client
       assert_kind_of Bitly::Client, b
       assert_equal api_key, b.api_key
-      assert_equal login, login
+      assert_equal login, b.login
     end
   end
   context "using the bitly client" do
