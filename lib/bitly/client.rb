@@ -137,9 +137,10 @@ end
 
 class BitlyError < StandardError
   attr_reader :code
-  alias :msg :message
+  attr_reader :msg
   def initialize(msg, code)
     @code = code
+    @msg = msg
     super("#{msg} - '#{code}'")
   end
 end
