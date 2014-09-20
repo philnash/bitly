@@ -1,3 +1,9 @@
+=== 0.10.2 / 2014-09-20
+
+* 1 minor update
+
+  * Relaxed OAuth2 gem version to allow for version 1. Fixes issue #57.
+
 === 0.10.1 / 2014-03-10
 
 * 1 minor update
