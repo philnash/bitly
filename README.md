@@ -12,7 +12,9 @@ Bitly recently released their version 3 API. From this 0.5.0 release, the gem wi
 
 To move to using the version 3 API, call:
 
-    Bitly.use_api_version_3
+```ruby
+Bitly.use_api_version_3
+```
 
 Then, when you call ``Bitly.new(username, api_key)`` you will get a ``Bitly::V3::Client`` instead, which provides the version 3 api calls (``shorten``, ``expand``, ``clicks``, ``validate`` and ``bitly_pro_domain``). See [http://dev.bitly.com](http://dev.bitly.com) for details.
 
@@ -30,32 +32,38 @@ Eventually, this will become the default version used and finally, the V3 module
 
 Create a Bitly client using your username and api key as follows:
 
-    bitly = Bitly.new(username, api_key)
+```ruby
+bitly = Bitly.new(username, api_key)
+```
 
 You can then use that client to shorten or expand urls or return more information or statistics as so:
 
-    bitly.shorten('http://www.google.com')
-    bitly.shorten('http://www.google.com', :history => 1) # adds the url to the api user's history
-    bitly.expand('wQaT')
-    bitly.info('http://bit.ly/wQaT')
-    bitly.stats('http://bit.ly/wQaT')
+```ruby
+bitly.shorten('http://www.google.com')
+bitly.shorten('http://www.google.com', :history => 1) # adds the url to the api user's history
+bitly.expand('wQaT')
+bitly.info('http://bit.ly/wQaT')
+bitly.stats('http://bit.ly/wQaT')
+```
 
 Each can be used in all the methods described in the API docs, the shorten function, for example, takes a url or an array of urls.
 
 All four functions return a ``Bitly::Url`` object (or an array of ``Bitly::Url`` objects if you supplied an array as the input). You can then get all the information required from that object.
 
-    u = bitly.shorten('http://www.google.com') #=> Bitly::Url
+```ruby
+u = bitly.shorten('http://www.google.com') #=> Bitly::Url
 
-    u.long_url #=> "http://www.google.com"
-    u.short_url #=> "http://bit.ly/Ywd1"
-    u.bitly_url #=> "http://bit.ly/Ywd1"
-    u.jmp_url #=> "http://j.mp/Ywd1"
-    u.user_hash #=> "Ywd1"
-    u.hash #=> "2V6CFi"
-    u.info #=> a ruby hash of the JSON returned from the API
-    u.stats #=> a ruby hash of the JSON returned from the API
+u.long_url #=> "http://www.google.com"
+u.short_url #=> "http://bit.ly/Ywd1"
+u.bitly_url #=> "http://bit.ly/Ywd1"
+u.jmp_url #=> "http://j.mp/Ywd1"
+u.user_hash #=> "Ywd1"
+u.hash #=> "2V6CFi"
+u.info #=> a ruby hash of the JSON returned from the API
+u.stats #=> a ruby hash of the JSON returned from the API
 
-    bitly.shorten('http://www.google.com', 'keyword')
+bitly.shorten('http://www.google.com', 'keyword')
+```
 
 ### Version 3 API
 
@@ -65,15 +73,20 @@ Please see the Bit.ly API documentation [http://api.bit.ly](http://api.bit.ly) f
 
 If you want to configure bitly through an initializer (e.g. `config/initializers/bitly.rb`), do the following:
 
-    Bitly.configure do |config|
-      config.api_version = 3
-      config.login = "Bitly_Username"
-      config.api_key = "API_KEY"
-    end
+```ruby
+Bitly.use_api_version_3
+    
+Bitly.configure do |config|
+  config.api_version = 3
+  config.access_token = "API_KEY"
+end
+```
 
 Instead of using `Bitly.new(username, api_key)` to get the client, use `Bitly.client`:
 
-    client = Bitly.client
+```ruby
+Bitly.client.shorten('http://www.google.com')
+```
 
 ## LICENSE:
 
