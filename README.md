@@ -69,6 +69,8 @@ bitly.shorten('http://www.google.com', 'keyword')
 
 Please see the Bit.ly API documentation [http://api.bit.ly](http://api.bit.ly) for details on the V3 API.
 
+Get your access token here: [https://bitly.com/a/oauth_apps](https://bitly.com/a/oauth_apps).
+
 ### Configure bitly through initializer
 
 If you want to configure bitly through an initializer (e.g. `config/initializers/bitly.rb`), do the following:
