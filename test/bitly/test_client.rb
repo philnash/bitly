@@ -22,6 +22,18 @@ class TestClient < Test::Unit::TestCase
       assert_equal api_key, b.api_key
       assert_equal login, b.login
     end
+
+    should "create a proper OAuth2 authorization url" do
+      client = Bitly::V3::OAuth.new('CLIENT_ID', 'CLIENT_SECRET')
+      url = client.authorize_url('http://www.example.com/oauth_callback')
+      assert_equal "https://bitly.com/oauth/authorize?client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Fwww.example.com%2Foauth_callback&response_type=code", url
+    end
+
+    should "create a proper OAuth2 authorization url with a state parameter" do
+      client = Bitly::V3::OAuth.new('CLIENT_ID', 'CLIENT_SECRET')
+      url = client.authorize_url('http://www.example.com/oauth_callback', 'some_state')
+      assert_equal "https://bitly.com/oauth/authorize?client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Fwww.example.com%2Foauth_callback&response_type=code&state=some_state", url
+    end
   end
   context "using the bitly client" do
     setup do

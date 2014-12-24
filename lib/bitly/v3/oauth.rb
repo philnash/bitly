@@ -19,8 +19,10 @@ module Bitly
 
       # Get the url to redirect a user to, pass the url you want the user
       # to be redirected back to.
-      def authorize_url(redirect_url)
-        client.auth_code.authorize_url(:redirect_uri => redirect_url).gsub(/api-ssl\./,'')
+      def authorize_url(redirect_url, state=nil)
+        params = {:redirect_uri => redirect_url}
+        params[:state] = state if state
+        client.auth_code.authorize_url(params).gsub(/api-ssl\./,'')
       end
 
       # Get the access token. You must pass the exact same redirect_url passed
