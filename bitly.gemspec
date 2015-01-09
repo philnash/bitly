@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<oauth2>, ["< 2.0", ">= 0.5.0"])
       s.add_development_dependency(%q<echoe>, [">= 0"])
       s.add_development_dependency(%q<rake>, [">= 0"])
+      s.add_development_dependency(%q<activesupport>, ["~> 3.2"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<flexmock>, [">= 0"])
       s.add_development_dependency(%q<fakeweb>, [">= 0"])
