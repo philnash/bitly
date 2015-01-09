@@ -3,6 +3,7 @@ History.txt
 Manifest
 README.md
 Rakefile
+bitly.gemspec
 lib/bitly.rb
 lib/bitly/client.rb
 lib/bitly/config.rb

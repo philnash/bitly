@@ -1,3 +1,9 @@
+=== 0.10.4 / 2015-01-08
+
+* 1 minor update
+
+  * You can now pass a state parameter to the OAuth authorize url.
+
 === 0.10.3 / 2014-09-22
 
 * 1 minor update
