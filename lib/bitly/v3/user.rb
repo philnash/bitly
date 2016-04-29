@@ -84,9 +84,8 @@ module Bitly
         @client ||= Bitly::V3::Client.new(login, api_key)
       end
 
-      # OAuth 2 endpoint that OAuth 2 endpoint that provides a given user's link
-      # shortening history, in reverse chronological order (most recent to least
-      # recent).
+      # OAuth 2 endpoint that provides a given user's link shortening history,
+      # in reverse chronological order (most recent to least recent).
       def link_history(opts={})
         opts.merge!(:access_token => @access_token.token)
         result = self.class.get("/user/link_history", :query => opts)
