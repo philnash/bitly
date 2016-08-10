@@ -80,6 +80,7 @@ Bitly.use_api_version_3
 
 Bitly.configure do |config|
   config.api_version = 3
+  config.login = "USERNAME"
   config.access_token = "API_KEY"
 end
 ```
