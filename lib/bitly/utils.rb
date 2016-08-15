@@ -9,11 +9,11 @@ module Bitly
       tr("-", "_").
       downcase
     end
-    
+
     def create_hash_from_url(url)
       url.gsub(/^.*(bit\.ly|j\.mp)\//,'')
     end
-    
+
     def attr_define(k,v)
       instance_variable_set("@#{k}", v)
       meta = class << self; self; end
@@ -31,7 +31,7 @@ module Bitly
         end
       end
     end
-    
+
     def create_url(resource="",args={})
       args = args.merge({:login => @login, :apiKey => @api_key, :version => API_VERSION})
       url = URI.join(API_URL,resource)
@@ -40,7 +40,7 @@ module Bitly
       url.query << "&" + long_urls.map { |long_url| "longUrl=#{CGI.escape(long_url)}" }.join("&") unless long_urls.nil?
       url
     end
-    
+
     def get_result(request)
       begin
         json = Net::HTTP.get(request)
@@ -55,6 +55,6 @@ module Bitly
         raise BitlyError.new(result['errorMessage'],result['errorCode'])
       end
     end
-    
+
   end
 end

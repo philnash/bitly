@@ -4,7 +4,7 @@ require 'uri'
 
 module Bitly
   extend Config
-  API_URL     = 'http://api.bit.ly/'
+  API_URL     = 'https://api-ssl.bitly.com/'
   API_VERSION = '2.0.1'
 
   def self.new(login, api_key = nil, timeout=nil)
