@@ -64,7 +64,7 @@ class TestClient < Minitest::Test
       context "with just the url" do
         setup do
           @long_url = "http://betaworks.com/"
-          stub_get(%r|http://api\.bitly\.com/v3/shorten\?.*longUrl=http%3A%2F%2Fbetaworks.com.*|, ['betaworks.json', 'betaworks2.json'])
+          stub_get(%r|http://api\.bitly\.com/v3/shorten\?.*longUrl=http://betaworks.com.*|, ['betaworks.json', 'betaworks2.json'])
           @url = @bitly.shorten(@long_url)
         end
         should "return a url object" do
@@ -118,7 +118,7 @@ class TestClient < Minitest::Test
           context "with correct details" do
             setup do
               @long_url = "http://betaworks.com/"
-              stub_get(%r|http://api\.bitly\.com/v3/shorten?.*longUrl=http%3A%2F%2Fbetaworks.com.*|, 'betaworks.json')
+              stub_get(%r|http://api\.bitly\.com/v3/shorten?.*longUrl=http://betaworks.com.*|, 'betaworks.json')
               stub_get( 'http://api.bitly.com/v3/shorten?longUrl=http%3A%2F%2Fbetaworks.com%2F&apiKey=test_key&login=test_account&x_login=other_account&x_apiKey=other_apiKey', 'betaworks_other_user.json'
               )
               @normal_url = @bitly.shorten(@long_url)
@@ -173,7 +173,7 @@ class TestClient < Minitest::Test
         context "with the short url" do
           setup do
             @short_url = 'http://bit.ly/9uX1TE'
-            stub_get(%r|http://api\.bitly\.com/v3/expand\?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TE.*|, 'bitly9uX1TE.json')
+            stub_get(%r|http://api\.bitly\.com/v3/expand\?.*shortUrl=http://bit\.ly/9uX1TE.*|, 'bitly9uX1TE.json')
             @url = @bitly.expand(@short_url)
           end
           should 'return a url object' do
@@ -195,7 +195,7 @@ class TestClient < Minitest::Test
         context "that doesn't exist" do
           setup do
             @shortUrl = 'http://bit.ly/9uX1TEsd'
-            stub_get(%r|http://api\.bitly\.com/v3/expand\?.*shortUrl=http%3A%2F%2Fbit\.ly%2F9uX1TEsd.*|, 'missing_hash.json')
+            stub_get(%r|http://api\.bitly\.com/v3/expand\?.*shortUrl=http://bit\.ly/9uX1TEsd.*|, 'missing_hash.json')
             @url = @bitly.expand(@shortUrl)
           end
           should 'return a missing url' do

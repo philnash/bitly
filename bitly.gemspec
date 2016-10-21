@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rake>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<flexmock>, [">= 0"])
-      s.add_development_dependency(%q<fakeweb>, [">= 0"])
+      s.add_development_dependency(%q<webmock>, ["~> 2.0"])
       s.add_development_dependency(%q<activesupport>, ["~> 3.2"])
       s.add_development_dependency(%q<minitest>, ["~>5.8.3"])
     else
@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<echoe>, [">= 0"])
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
-      s.add_dependency(%q<fakeweb>, [">= 0"])
+      s.add_dependency(%q<webmock>, ["~> 2.0"])
       s.add_dependency(%q<activesupport>, ["~> 3.2"])
     end
   else
@@ -50,7 +50,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<echoe>, [">= 0"])
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 0"])
-    s.add_dependency(%q<fakeweb>, [">= 0"])
+    s.add_dependency(%q<webmock>, ["~> 2.0"])
     s.add_dependency(%q<activesupport>, ["~> 3.2"])
   end
 end

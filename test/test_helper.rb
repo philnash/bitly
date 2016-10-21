@@ -1,12 +1,12 @@
 require 'minitest/autorun'
 require 'shoulda'
-require 'fakeweb'
+require 'webmock/minitest'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'bitly'
 
-FakeWeb.allow_net_connect = false
+WebMock.disable_net_connect!
 
 def fixture_file(filename)
   return '' if filename == ''
@@ -14,18 +14,18 @@ def fixture_file(filename)
   File.read(file_path)
 end
 
-def stub_get(path, filename)
+def stub_get(uri, filename)
   if filename.is_a?(Array)
-    response = filename.map { |f| { :body => fixture_file(f), :content_type => 'text/json' } }
+    response = filename.map { |f| { :body => fixture_file(f), :headers => { "Content-Type" => 'text/json' } } }
   else
-    response = { :body => fixture_file(filename), :content_type => 'text/json' }
+    response = { :body => fixture_file(filename), :headers => { "Content-Type" => 'text/json' } }
   end
-  FakeWeb.register_uri(:get, path, response)
+  stub_request(:get, uri).to_return(response)
 end
 
-def stub_post(path, filename)
-  response = { :body => fixture_file(filename), :content_type => 'text/json' }
-  FakeWeb.register_uri(:post, path, response)
+def stub_post(uri, filename)
+  response = { :body => fixture_file(filename), :headers => { "Content-Type" => 'text/json' } }
+  stub_request(:post, uri).to_return(response)
 end
 
 def api_key
@@ -37,6 +37,6 @@ end
 
 class Minitest::Test
   def teardown
-    FakeWeb.clean_registry
+    WebMock.reset!
   end
 end
