@@ -1,145 +1,208 @@
-require 'rubygems'
-require 'net/http'
-require 'uri'
+require 'cgi'
 
 module Bitly
-  extend Config
-  API_URL     = 'https://api-ssl.bitly.com/'
-  API_VERSION = '2.0.1'
-
-  def self.new(login, api_key = nil, timeout=nil)
-    if @version == 3
-      Bitly::V3::Client.new(login, api_key, timeout)
-    else
-      Bitly::Client.new(login,api_key)
-    end
-  end
-
-  def self.use_api_version_3
-    @version = 3
-  end
-
-  def self.use_api_version_2
-    @version = 2
-  end
-
-  # get and initialize a client if configured using Config
-  def self.client
-    # api_verison, login, and api_key are set in Config
-    if api_version == 3
-      Bitly::V3::Client.new(login, api_key, timeout)
-    else
-      Bitly::Client.new(login, api_key)
-    end
-  end
-
+  # The client is the main part of this gem. You need to initialize the client with your
+  # username and API key and then you will be able to use the client to perform
+  # all the rest of the actions available through the API.
   class Client
+    API_URL_SSL = 'https://api-ssl.bitly.com/v3/'
+    include HTTParty
+    base_uri 'http://api.bitly.com/v3/'
 
-    include Bitly::Utils
-    attr_accessor *Config::OPTION_KEYS
-
-    def initialize(login,api_key)
-      warn "[DEPRECATION] The bit.ly version 2 API has been superseded by version 3 and will be removed. See the README for details"
-      @login = login
-      @api_key = api_key
-    end
-
-    def shorten(input, opts={})
-      if input.is_a? String
-        request = create_url("shorten", :longUrl => input, :history => (opts[:history] ? 1 : nil))
-        result = get_result(request)
-        result = {:long_url => input}.merge result[input]
-        Bitly::Url.new(@login,@api_key,result)
-      elsif input.is_a? Array
-        request = create_url("shorten", :history => (opts[:history] ? 1 : nil))
-        request.query << "&" + input.map { |long_url| "longUrl=#{CGI.escape(long_url)}" }.join("&") unless input.nil?
-        result = get_result(request)
-        input.map do |long_url|
-          new_url = {:long_url => long_url}.merge result[long_url]
-          long_url = Bitly::Url.new(@login,@api_key,new_url)
-        end
+    # Requires a generic OAuth2 access token or -deprecated- login and api key.
+    # http://dev.bitly.com/authentication.html#apikey
+    # Generic OAuth2 access token: https://bitly.com/a/oauth_apps
+    # ApiKey: Get yours from your account page at https://bitly.com/a/your_api_key
+    # Visit your account at http://bit.ly/a/account
+    def initialize(*args)
+      args.compact!
+      self.timeout = args.last.is_a?(Fixnum) ? args.pop : nil
+      if args.count == 1
+        # Set generic OAuth2 access token and change base URI (use SSL)
+        @default_query_opts = { :access_token => args.first }
+        self.class.base_uri API_URL_SSL
       else
-        raise ArgumentError.new("Shorten requires either a url or an array of urls")
+        # Deprecated ApiKey authentication
+        @default_query_opts = {
+          :login => args[0],
+          :apiKey => args[1]
+        }
       end
     end
 
+    # Validates a login and api key
+    def validate(x_login, x_api_key)
+      response = get('/validate', :query => { :x_login => x_login, :x_apiKey => x_api_key })
+      return response['data']['valid'] == 1
+    end
+    alias :valid? :validate
+
+    # Checks whether a domain is a bitly.Pro domain
+    def bitly_pro_domain(domain)
+      response = get('/bitly_pro_domain', :query => { :domain => domain })
+      return response['data']['bitly_pro_domain']
+    end
+    alias :pro? :bitly_pro_domain
+
+    # Shortens a long url
+    #
+    # Options can be:
+    #
+    # [domain]                choose bit.ly or j.mp (bit.ly is default)
+    #
+    # [x_login and x_apiKey]  add this link to another user's history (both required)
+    #
+    def shorten(long_url, opts={})
+      query = { :longUrl => long_url }.merge(opts)
+      response = get('/shorten', :query => query)
+      return Bitly::Url.new(self, response['data'])
+    end
+
+    # Expands either a hash, short url or array of either.
+    #
+    # Returns the results in the order they were entered
     def expand(input)
-      if input.is_a? String
-        if input.include?('bit.ly/') || input.include?('j.mp/')
-          hash = create_hash_from_url(input)
-          request = create_url "expand", :hash => hash
-          result = get_result(request)
-          result = { :short_url => input, :hash => hash }.merge result[hash]
-        else
-          request = create_url "expand", :hash => input
-          result = get_result(request)
-          result = { :hash => input, :short_url => "http://bit.ly/#{input}" }.merge result[input]
-        end
-        Bitly::Url.new(@login,@api_key,result)
-      elsif input.is_a? Array
-        request = create_url "expand", :hash => input.join(',')
-        result = get_result(request)
-        input.map do |hsh|
-          new_url = {:hash => hsh, :short_url => "http://bit.ly/#{hsh}"}.merge result[hsh]
-          hsh = Bitly::Url.new(@login,@api_key,new_url)
-        end
-      else
-        raise ArgumentError('Expand requires either a short url, a hash or an array of hashes')
-      end
+      get_method(:expand, input)
     end
 
+    # Expands either a hash, short url or array of either and gets click data too.
+    #
+    # Returns the results in the order they were entered
+    def clicks(input)
+      get_method(:clicks, input)
+    end
+
+    # Like expand, but gets the title of the page and who created it
     def info(input)
-      if input.is_a? String
-        if input.include? "bit.ly/"
-          hash = create_hash_from_url(input)
-          request = create_url 'info', :hash => hash
-          result = get_result(request)
-          result = { :short_url => "http://bit.ly/#{hash}", :hash => hash }.merge result[hash]
+      get_method(:info, input)
+    end
+
+    # Looks up the short url and global hash of a url or array of urls
+    #
+    # Returns the results in the order they were entered
+    def lookup(input)
+      input = arrayize(input)
+      query = input.inject([]) { |query, i| query << "url=#{CGI.escape(i)}" }
+      query = "/lookup?" + query.join('&')
+      response = get(query)
+      results = response['data']['lookup'].inject([]) do |results, url|
+        url['long_url'] = url['url']
+        url['url'] = nil
+        if url['error'].nil?
+          # builds the results array in the same order as the input
+          results[input.index(url['long_url'])] = Bitly::Url.new(self, url)
+          # remove the key from the original array, in case the same hash/url was entered twice
+          input[input.index(url['long_url'])] = nil
         else
-          request = create_url 'info', :hash => input
-          result = get_result(request)
-          result = { :short_url => "http://bit.ly/#{input}", :hash => input }.merge result[input]
+          results[input.index(url['long_url'])] = Bitly::MissingUrl.new(url)
+          input[input.index(url['long_url'])] = nil
         end
-        Bitly::Url.new(@login,@api_key,result)
-      elsif input.is_a? Array
-        request = create_url "info", :hash => input.join(',')
-        result = get_result(request)
-        input.map do |hsh|
-          new_url = {:hash => hsh, :short_url => "http://bit.ly/#{hsh}"}.merge result[hsh]
-          hsh = Bitly::Url.new(@login,@api_key,:info => new_url)
-        end
+        results
+      end
+      return results.length > 1 ? results : results[0]
+    end
+
+    # Expands either a short link or hash and gets the referrer data for that link
+    #
+    # This method does not take an array as an input
+    def referrers(input)
+      get_single_method('referrers', input)
+    end
+
+    # Expands either a short link or hash and gets the country data for that link
+    #
+    # This method does not take an array as an input
+    def countries(input)
+      get_single_method('countries', input)
+    end
+
+    # Takes a short url, hash or array of either and gets the clicks by minute of each of the last hour
+    def clicks_by_minute(input)
+      get_method(:clicks_by_minute, input)
+    end
+
+    # Takes a short url, hash or array of either and gets the clicks by day
+    def clicks_by_day(input, opts={})
+      opts.reject! { |k, v| k.to_s != 'days' }
+      get_method(:clicks_by_day, input, opts)
+    end
+
+    def timeout=(timeout=nil)
+      self.class.default_timeout(timeout) if timeout
+    end
+
+    private
+
+    def arrayize(arg)
+      if arg.is_a?(String)
+        [arg]
       else
-        raise ArgumentError.new('Info requires either a short url, a hash or an array of hashes')
+        arg.dup
       end
     end
 
-    def stats(input)
-      if input.is_a? String
-        if input.include? "bit.ly/"
-          hash = create_hash_from_url(input)
-          request = create_url 'stats', :hash => hash
-          result = get_result(request)
-          result = { :short_url => "http://bit.ly/#{hash}", :hash => hash }.merge result
-        else
-          request = create_url 'stats', :hash => input
-          result = get_result(request)
-          result = { :short_url => "http://bit.ly/#{input}", :hash => input }.merge result
-        end
-        Bitly::Url.new(@login,@api_key,:stats => result)
+    def get(method, opts={})
+      opts[:query] ||= {}
+      opts[:query].merge!(@default_query_opts)
+
+      begin
+        response = self.class.get(method, opts)
+      rescue ::Timeout::Error
+        raise Bitly::Timeout.new("Bitly didn't respond in time", "504")
+      end
+
+      if response['status_code'] == 200
+        return response
       else
-        raise ArgumentError.new("Stats requires either a short url or a hash")
+        raise Bitly::Error.new(response['status_txt'], response['status_code'])
       end
     end
 
-  end
+    def is_a_short_url?(input)
+      input.match(/^http:\/\//)
+    end
 
-end
+    def get_single_method(method, input)
+      raise ArgumentError.new("This method only takes a hash or url input") unless input.is_a? String
+      if is_a_short_url?(input)
+        query = "shortUrl=#{CGI.escape(input)}"
+      else
+        query = "hash=#{CGI.escape(input)}"
+      end
+      query = "/#{method}?" + query
+      response = get(query)
+      return Bitly::Url.new(self,response['data'])
+    end
 
-class BitlyError < StandardError
-  attr_reader :code
-  alias :msg :message
-  def initialize(msg, code)
-    @code = code
-    super("#{msg} - '#{code}'")
+    def get_method(method, input, opts={})
+      input = arrayize(input)
+      query = input.inject([]) do |query,i|
+        if is_a_short_url?(i)
+          query << "shortUrl=#{CGI.escape(i)}"
+        else
+          query << "hash=#{CGI.escape(i)}"
+        end
+      end
+      query = opts.inject(query) do |query, (k,v)|
+        query << "#{k}=#{v}"
+      end
+      query = "/#{method}?" + query.join('&')
+      response = get(query)
+      results = response['data'][method.to_s].inject([]) do |results, url|
+        result_index = input.index(url['short_url'] || url['hash']) || input.index(url['global_hash'])
+        if url['error'].nil?
+          # builds the results array in the same order as the input
+          results[result_index] = Bitly::Url.new(self, url)
+          # remove the key from the original array, in case the same hash/url was entered twice
+          input[result_index] = nil
+        else
+          results[result_index] = Bitly::MissingUrl.new(url)
+          input[result_index] = nil
+        end
+        results
+      end
+      return results.length > 1 ? results : results[0]
+    end
   end
+  class Timeout < Error; end
 end

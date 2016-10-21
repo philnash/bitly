@@ -1,0 +1,15 @@
+{
+    "status_code": 200,
+    "data": {
+        "realtime_links": [
+            {
+                "clicks": 15,
+                "user_hash": "i7JWw0"
+            }, {
+                "clicks": 1,
+                "user_hash": "eiRiMo"
+            }
+        ]
+    },
+    "status_txt": "OK"
+}
