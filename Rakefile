@@ -19,6 +19,7 @@ Echoe.new('bitly', Bitly::VERSION) do |p|
     ['shoulda'],
     ['flexmock'],
     ['fakeweb'],
-    ['activesupport', '~> 3.2']
+    ['activesupport', '~> 3.2'],
+    ['minitest', '~> 5.8.3']
   ]
 end

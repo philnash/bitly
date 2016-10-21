@@ -1,9 +1,9 @@
 require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 
-class TestUtils < Test::Unit::TestCase
+class TestUtils < Minitest::Test
   include Bitly::Utils
   API_VERSION = '2.0.1'
-  
+
   context "text utils" do
     should "underscore a word" do
       assert_equal "hello_world", underscore("HelloWorld")
@@ -15,24 +15,24 @@ class TestUtils < Test::Unit::TestCase
       assert_equal "hello", create_hash_from_url("http://j.mp/hello")
     end
   end
-  
+
   context "class utils" do
     should "turn a key value pair into an instance variable" do
       attr_define('hello','goodbye')
       assert_equal @hello, "goodbye"
     end
-    
+
     should "turn a hash into instance variables" do
       instance_variablise({'hello' => 'goodbye'}, ['hello'])
       assert_equal @hello, "goodbye"
     end
-    
+
     should "not turn nonspecified variables into instance variables" do
       instance_variablise({'hello' => 'goodbye'}, [])
       assert_nil @hello
     end
   end
-  
+
   context "creating a url" do
     setup do
       @api_key = api_key
@@ -40,7 +40,7 @@ class TestUtils < Test::Unit::TestCase
     end
     should "contain all the basic information" do
       url = create_url.to_s
-      assert url.include?('http://api.bit.ly/')
+      assert url.include?('https://api-ssl.bitly.com/')
       assert url.include?("version=#{API_VERSION}")
       assert url.include?("apiKey=#{api_key}")
       assert url.include?("login=#{login}")
@@ -54,7 +54,7 @@ class TestUtils < Test::Unit::TestCase
       assert url.include?("longUrl=#{CGI.escape('http://google.com')}")
     end
   end
-  
+
   context "fetching a url" do
     context "successfully" do
       setup do
@@ -70,8 +70,8 @@ class TestUtils < Test::Unit::TestCase
         stub_get("http://example.com", 'shorten_error.json')
       end
       should "raise BitlyError" do
-        assert_raise BitlyError do
-          result = get_result(URI.join("http://example.com"))
+        assert_raises BitlyError do
+          get_result(URI.join("http://example.com"))
         end
       end
     end

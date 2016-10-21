@@ -1,7 +1,7 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'rubygems'
 require 'shoulda'
-require 'flexmock/test_unit'
+require 'flexmock/minitest'
 require 'fakeweb'
 
 require File.join(File.dirname(__FILE__), '..', 'lib', 'bitly')
@@ -31,7 +31,7 @@ def access_token
   'test_access_token'
 end
 
-class Test::Unit::TestCase
+class Minitest::Test
   def teardown
     FakeWeb.clean_registry
   end

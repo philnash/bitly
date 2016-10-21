@@ -1,22 +1,16 @@
 require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 
-class TestUrl < Test::Unit::TestCase
+class TestUrl < Minitest::Test
   context "a new Bitly::Url" do
     should "require a login and api_key" do
-      assert_raise ArgumentError do Bitly::Url.new end
-      assert_raise ArgumentError do Bitly::Url.new(login) end
-      assert_raise ArgumentError do Bitly::Url.new(nil, api_key) end
-      assert_nothing_raised do
-        Bitly::Url.new(login, api_key)
-        Bitly::Url.new(login, api_key, :hash => '3j4ir4')
-        Bitly::Url.new(login, api_key, :short_url => 'http://bit.ly/3j4ir4')
-        Bitly::Url.new(login, api_key, :long_url => 'http://google.com/')
-      end
+      assert_raises ArgumentError do Bitly::Url.new end
+      assert_raises ArgumentError do Bitly::Url.new(login) end
+      assert_raises ArgumentError do Bitly::Url.new(nil, api_key) end
     end
     context "shortening" do
       context "with a long url" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/shorten\?.*longUrl=.*cnn.com.*$/,"cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/shorten\?.*longUrl=.*cnn.com.*$/,"cnn.json")
           @url = Bitly::Url.new(login, api_key, :long_url => 'http://cnn.com/')
         end
         should "return a short url" do
@@ -33,7 +27,7 @@ class TestUrl < Test::Unit::TestCase
           @url = Bitly::Url.new(login, api_key)
         end
         should "raise an error" do
-          assert_raise ArgumentError do
+          assert_raises ArgumentError do
             @url.shorten
           end
         end
@@ -51,7 +45,7 @@ class TestUrl < Test::Unit::TestCase
     context "expanding" do
       context "with a hash" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
           @url = Bitly::Url.new(login, api_key, :hash => '31IqMl')
         end
         should "return an expanded url" do
@@ -60,7 +54,7 @@ class TestUrl < Test::Unit::TestCase
       end
       context "with a short url" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
           @url = Bitly::Url.new(login, api_key, :short_url => 'http://bit.ly/31IqMl')
         end
         should "return an expanded url" do
@@ -72,7 +66,7 @@ class TestUrl < Test::Unit::TestCase
           @url = Bitly::Url.new(login, api_key)
         end
         should "raise an error" do
-          assert_raise ArgumentError do
+          assert_raises ArgumentError do
             @url.expand
           end
         end
@@ -90,7 +84,7 @@ class TestUrl < Test::Unit::TestCase
     context "info" do
       context "with a hash" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/info\?.*hash=3j4ir4.*$/,"google_info.json")
           @url = Bitly::Url.new(login, api_key, :hash => '3j4ir4')
         end
         should "return info" do
@@ -99,7 +93,7 @@ class TestUrl < Test::Unit::TestCase
       end
       context "with a short url" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/info\?.*hash=3j4ir4.*$/,"google_info.json")
           @url = Bitly::Url.new(login, api_key, :short_url => 'http://bit.ly/3j4ir4')
         end
         should "return an expanded url" do
@@ -111,14 +105,14 @@ class TestUrl < Test::Unit::TestCase
           @url = Bitly::Url.new(login, api_key, :long_url => 'http://google.com')
         end
         should "raise an error" do
-          assert_raise ArgumentError do
+          assert_raises ArgumentError do
             @url.info
           end
         end
       end
       context "with info already" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/info\?.*hash=3j4ir4.*$/,"google_info.json")
           @url = Bitly::Url.new(login, api_key, :short_url => 'http://bit.ly/3j4ir4')
           @url.info
         end
@@ -131,7 +125,7 @@ class TestUrl < Test::Unit::TestCase
     context "stats" do
       context "with a hash" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
           @url = Bitly::Url.new(login, api_key, :hash => '3j4ir4')
         end
         should "return info" do
@@ -140,7 +134,7 @@ class TestUrl < Test::Unit::TestCase
       end
       context "with a short url" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
           @url = Bitly::Url.new(login, api_key, :short_url => 'http://bit.ly/3j4ir4')
         end
         should "return an expanded url" do
@@ -152,14 +146,14 @@ class TestUrl < Test::Unit::TestCase
           @url = Bitly::Url.new(login, api_key, :long_url => 'http://google.com')
         end
         should "raise an error" do
-          assert_raise ArgumentError do
+          assert_raises ArgumentError do
             @url.stats
           end
         end
       end
       context "with info already" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
           @url = Bitly::Url.new(login, api_key, :short_url => 'http://bit.ly/3j4ir4')
           @url.stats
         end

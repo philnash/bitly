@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 
-class TestConfig < Test::Unit::TestCase
+class TestConfig < Minitest::Test
   context "bitly module" do
     should "create a new bitly v3 client through initializer" do
       # configure

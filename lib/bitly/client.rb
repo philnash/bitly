@@ -8,7 +8,7 @@ module Bitly
   API_VERSION = '2.0.1'
 
   def self.new(login, api_key = nil, timeout=nil)
-    if @version == 3
+    if api_version == 3
       Bitly::V3::Client.new(login, api_key, timeout)
     else
       Bitly::Client.new(login,api_key)
@@ -16,11 +16,11 @@ module Bitly
   end
 
   def self.use_api_version_3
-    @version = 3
+    api_version = 3
   end
 
   def self.use_api_version_2
-    @version = 2
+    api_version = 2
   end
 
   # get and initialize a client if configured using Config

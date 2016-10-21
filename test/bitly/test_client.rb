@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 
-class TestClient < Test::Unit::TestCase
+class TestClient < Minitest::Test
   context "bitly module" do
     should "create a new bitly client" do
       b = Bitly.new(login, api_key)
@@ -43,7 +43,7 @@ class TestClient < Test::Unit::TestCase
     context "shortening" do
       context "a single link" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/shorten\?.*longUrl=.*cnn.com.*$/,"cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/shorten\?.*longUrl=.*cnn.com.*$/,"cnn.json")
           @url = @bitly.shorten('http://cnn.com')
         end
         should "return a Bitly::Url" do
@@ -62,7 +62,7 @@ class TestClient < Test::Unit::TestCase
       end
       context "multiple links" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/shorten\?.*longUrl=.*longUrl=.*$/,"cnn_and_google.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/shorten\?.*longUrl=.*longUrl=.*$/,"cnn_and_google.json")
           @urls = @bitly.shorten(['http://cnn.com', 'http://google.com'])
         end
         should "return an array of Bitly::Urls" do
@@ -80,7 +80,7 @@ class TestClient < Test::Unit::TestCase
       end
       context "no links" do
         should "raise an ArgumentError" do
-          assert_raise ArgumentError do
+          assert_raises ArgumentError do
             @bitly.shorten
           end
         end
@@ -89,7 +89,7 @@ class TestClient < Test::Unit::TestCase
     context "expanding" do
       context "a hash" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
           @url = @bitly.expand("31IqMl")
         end
         should "return a Bitly::Url" do
@@ -107,7 +107,7 @@ class TestClient < Test::Unit::TestCase
       end
       context "a short bitly url" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
           @url = @bitly.expand("http://bit.ly/31IqMl")
         end
         should "return a Bitly::Url" do
@@ -128,7 +128,7 @@ class TestClient < Test::Unit::TestCase
       end
       context "a short jmp url" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/expand\?.*hash=31IqMl.*$/,"expand_cnn.json")
           @url = @bitly.expand("http://j.mp/31IqMl")
         end
         should "return a Bitly::Url" do
@@ -149,7 +149,7 @@ class TestClient < Test::Unit::TestCase
       end
       context "multiple hashes" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/expand\?.*hash=15DlK.*3j4ir4.*$/,"expand_cnn_and_google.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/expand\?.*hash=15DlK.*3j4ir4.*$/,"expand_cnn_and_google.json")
           @urls = @bitly.expand(["15DlK","3j4ir4"])
         end
         should "return an array of Bitly::Urls" do
@@ -170,70 +170,70 @@ class TestClient < Test::Unit::TestCase
     context "to get info on" do
       context "a single link" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/info\?.*hash=3j4ir4.*$/,"google_info.json")
           @url = @bitly.info('http://bit.ly/3j4ir4')
         end
         should "return a Bitly::Url" do
           assert_kind_of Bitly::Url, @url
         end
         should "return an info object with the url" do
-          assert_not_nil @url.info
+          assert !@url.info.nil?
         end
       end
       context "a single hash" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*$/,"google_info.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/info\?.*hash=3j4ir4.*$/,"google_info.json")
           @url = @bitly.info('3j4ir4')
         end
         should "return a Bitly::Url" do
           assert_kind_of Bitly::Url, @url
         end
         should "return an info object with the url" do
-          assert_not_nil @url.info
+          assert !@url.info.nil?
         end
       end
       context "a list of hashes" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/info\?.*hash=3j4ir4.*31IqMl.*$/,"google_and_cnn_info.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/info\?.*hash=3j4ir4.*31IqMl.*$/,"google_and_cnn_info.json")
           @urls = @bitly.info(['3j4ir4','31IqMl'])
         end
         should "return a Bitly::Url" do
           assert_kind_of Array, @urls
         end
         should "return an info object with the url" do
-          assert_not_nil @urls[0].info
-          assert_not_nil @urls[1].info
+          assert !@urls[0].info.nil?
+          assert !@urls[1].info.nil?
         end
       end
     end
     context "to get stats on" do
       context "a single link" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
           @url = @bitly.stats('http://bit.ly/3j4ir4')
         end
         should "return a Bitly::Url" do
           assert_kind_of Bitly::Url, @url
         end
         should "return an stats object" do
-          assert_not_nil @url.stats
+          assert !@url.stats.nil?
         end
       end
       context "a single hash" do
         setup do
-          stub_get(/^http:\/\/api.bit.ly\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
+          stub_get(/^https:\/\/api-ssl\.bitly\.com\/stats\?.*hash=3j4ir4.*$/,"google_stats.json")
           @url = @bitly.stats('3j4ir4')
         end
         should "return a Bitly::Url" do
           assert_kind_of Bitly::Url, @url
         end
         should "return an stats object" do
-          assert_not_nil @url.stats
+          assert !@url.stats.nil?
         end
       end
       context "a list of hashes" do
         should "return an argument error" do
-          assert_raise ArgumentError do
+          assert_raises ArgumentError do
             @bitly.stats(['3j4ir4','31IqMl'])
           end
         end
