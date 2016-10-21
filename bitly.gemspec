@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<multi_json>.freeze, ["~> 1.3"])
       s.add_runtime_dependency(%q<httparty>.freeze, [">= 0.7.6"])
       s.add_runtime_dependency(%q<oauth2>.freeze, ["< 2.0", ">= 0.5.0"])
+      s.add_runtime_dependency(%q<rack>.freeze, ["<2"]) if RUBY_VERSION.to_f < 2.2
       s.add_development_dependency(%q<echoe>.freeze, [">= 0"])
       s.add_development_dependency(%q<rake>.freeze, [">= 0"])
       s.add_development_dependency(%q<shoulda>.freeze, [">= 0"])
@@ -38,6 +39,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<multi_json>.freeze, ["~> 1.3"])
       s.add_dependency(%q<httparty>.freeze, [">= 0.7.6"])
       s.add_dependency(%q<oauth2>.freeze, ["< 2.0", ">= 0.5.0"])
+      s.add_dependency(%q<rack>.freeze, ["<2"]) if RUBY_VERSION.to_f < 2.2
       s.add_dependency(%q<echoe>.freeze, [">= 0"])
       s.add_dependency(%q<rake>.freeze, [">= 0"])
       s.add_dependency(%q<shoulda>.freeze, [">= 0"])
@@ -50,6 +52,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<multi_json>.freeze, ["~> 1.3"])
     s.add_dependency(%q<httparty>.freeze, [">= 0.7.6"])
     s.add_dependency(%q<oauth2>.freeze, ["< 2.0", ">= 0.5.0"])
+    s.add_dependency(%q<rack>.freeze, ["<2"]) if RUBY_VERSION.to_f < 2.2
     s.add_dependency(%q<echoe>.freeze, [">= 0"])
     s.add_dependency(%q<rake>.freeze, [">= 0"])
     s.add_dependency(%q<shoulda>.freeze, [">= 0"])

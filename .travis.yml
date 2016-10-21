@@ -1,7 +1,18 @@
 language: ruby
+sudo: required
+dist: trusty
 rvm:
   - 2.3
   - 2.2
   - 2.1
-  - jruby
-  - rbx-2
+  - ruby-head
+  - jruby-19mode
+  - jruby-head
+  - rbx-3
+matrix:
+  allow_failures:
+    rvm:
+      - ruby-head
+      - jruby-19mode
+      - jruby-head
+      - rbx-3
