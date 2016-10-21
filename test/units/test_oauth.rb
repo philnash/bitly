@@ -18,7 +18,7 @@ class TestOAuth < Minitest::Test
     end
 
     should 'get the oauth authorize url' do
-      assert_match /https:\/\/bitly\.com\/oauth\/authorize\?.*client_id=#{@consumer_token}.*/, @consumer.authorize_url('http://test.local')
+      assert_match(/https:\/\/bitly\.com\/oauth\/authorize\?.*client_id=#{@consumer_token}.*/, @consumer.authorize_url('http://test.local'))
     end
 
     should 'get access token with code' do

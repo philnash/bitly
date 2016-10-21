@@ -107,8 +107,8 @@ module Bitly
       result = self.class.get("/user/#{method.to_s}", :query => opts)
       if result['status_code'] == 200
         results = result['data'][method.to_s].map do |rs|
-          rs.inject([]) do |results, obj|
-            results << klass.new(obj)
+          rs.inject([]) do |acc, obj|
+            acc << klass.new(obj)
           end
         end
         return results

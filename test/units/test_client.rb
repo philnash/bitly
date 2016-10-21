@@ -110,7 +110,7 @@ class TestClient < Minitest::Test
           end
           should "raise an error" do
             assert_raises Bitly::Error do
-              url = @bitly.shorten('http://betaworks.com/', :domain => "nyti.ms")
+              @bitly.shorten('http://betaworks.com/', :domain => "nyti.ms")
             end
           end
         end
