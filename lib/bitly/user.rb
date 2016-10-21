@@ -30,7 +30,7 @@ module Bitly
     #
     # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/referrers
     def referrers(opts={})
-      if @referrers.nil? || opts.delete(:force)
+      if !defined?(@referrers) || opts.delete(:force)
         @referrers = get_method(:referrers, Bitly::Referrer, opts)
       end
       @referrers
@@ -41,7 +41,7 @@ module Bitly
     #
     # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/countries
     def countries(opts={})
-      if @countries.nil? || opts.delete(:force)
+      if !defined?(@countries) || opts.delete(:force)
         @countries = get_method(:countries, Bitly::Country, opts)
       end
       @countries
@@ -52,7 +52,7 @@ module Bitly
     #
     # http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/user/realtime_links
     def realtime_links(opts={})
-      if @realtime_links.nil? || opts.delete(:force)
+      if !defined?(@realtime_links) || opts.delete(:force)
         opts.merge!(:access_token => @access_token.token)
         result = self.class.get("/user/realtime_links", :query => opts)
         if result['status_code'] == 200
@@ -118,7 +118,7 @@ module Bitly
     end
 
     def get_clicks(opts={})
-      if @clicks.nil? || opts.delete(:force)
+      if !defined?(@clicks) || opts.delete(:force)
         opts.merge!(:access_token => @access_token.token)
         result = self.class.get("/user/clicks", :query => opts)
         if result['status_code'] == 200

@@ -77,7 +77,7 @@ module Bitly
     # IF there is no referrer or <tt>:force => true</tt> is passed,
     # updates the referrers and returns them
     def referrers(opts={})
-      update_referrers if @referrers.nil? || opts[:force]
+      update_referrers if !defined?(@referrers) || opts[:force]
       @referrers
     end
 
@@ -85,7 +85,7 @@ module Bitly
     # IF there is no country or <tt>:force => true</tt> is passed,
     # updates the countries and returns them
     def countries(opts={})
-      update_countries if @countries.nil? || opts[:force]
+      update_countries if !defined?(@countries) || opts[:force]
       @countries
     end
 
@@ -93,7 +93,7 @@ module Bitly
     # If there is no created at data or <tt>:force => true</tt> is passed,
     # updates the info and returns it
     def created_at(opts={})
-      update_info if @created_at.nil? || opts[:force]
+      update_info if !defined?(@created_at) || opts[:force]
       @created_at
     end
 
@@ -106,7 +106,7 @@ module Bitly
     end
 
     def clicks_by_day(opts={})
-      if @clicks_by_day.nil? || opts[:force]
+      if !defined?(@clicks_by_day) || opts[:force]
         full_url = @client.clicks_by_day(@user_hash || @short_url)
         @clicks_by_day = full_url.clicks_by_day
       end
