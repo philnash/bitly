@@ -1,14 +1,14 @@
 # -*- encoding: utf-8 -*-
-# stub: bitly 1.0.0 ruby lib
+# stub: bitly 1.0.2 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "bitly".freeze
-  s.version = "1.0.0"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Phil Nash".freeze]
-  s.date = "2016-10-21"
+  s.date = "2016-11-03"
   s.description = "Use the bit.ly API to shorten or expand URLs".freeze
   s.email = "philnash@gmail.com".freeze
   s.extra_rdoc_files = ["LICENSE.md".freeze, "README.md".freeze, "lib/bitly.rb".freeze, "lib/bitly/client.rb".freeze, "lib/bitly/config.rb".freeze, "lib/bitly/url.rb".freeze, "lib/bitly/utils.rb".freeze, "lib/bitly/v3.rb".freeze, "lib/bitly/v3/bitly.rb".freeze, "lib/bitly/v3/client.rb".freeze, "lib/bitly/v3/country.rb".freeze, "lib/bitly/v3/day.rb".freeze, "lib/bitly/v3/missing_url.rb".freeze, "lib/bitly/v3/oauth.rb".freeze, "lib/bitly/v3/realtime_link.rb".freeze, "lib/bitly/v3/referrer.rb".freeze, "lib/bitly/v3/url.rb".freeze, "lib/bitly/v3/user.rb".freeze, "lib/bitly/version.rb".freeze]
