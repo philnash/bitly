@@ -34,6 +34,24 @@ class TestClient < Minitest::Test
       url = client.authorize_url('http://www.example.com/oauth_callback', 'some_state')
       assert_equal "https://bitly.com/oauth/authorize?client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Fwww.example.com%2Foauth_callback&response_type=code&state=some_state", url
     end
+
+    context "setting api versions" do
+      teardown do
+        Bitly.api_version = nil
+      end
+
+      should "set the api version to 2" do
+        Bitly.use_api_version_2
+        assert_equal Bitly.api_version, 2
+        assert_kind_of Bitly::Client, Bitly.client
+      end
+
+      should "set the api version to 3" do
+        Bitly.use_api_version_3
+        assert_equal Bitly.api_version, 3
+        assert_kind_of Bitly::V3::Client, Bitly.client
+      end
+    end
   end
   context "using the bitly client" do
     setup do

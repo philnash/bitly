@@ -16,11 +16,11 @@ module Bitly
   end
 
   def self.use_api_version_3
-    api_version = 3
+    self.api_version = 3
   end
 
   def self.use_api_version_2
-    api_version = 2
+    self.api_version = 2
   end
 
   # get and initialize a client if configured using Config
