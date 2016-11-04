@@ -2,6 +2,10 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 
 class TestClient < Minitest::Test
   context "bitly module" do
+    setup do
+      Bitly.api_version = nil
+    end
+
     should "create a new bitly client" do
       b = Bitly.new(login, api_key)
       assert_equal Bitly::Client, b.class
