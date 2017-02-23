@@ -15,7 +15,7 @@ module Bitly
       # Visit your account at http://bit.ly/a/account
       def initialize(*args)
         args.compact!
-        self.timeout = args.last.is_a?(Fixnum) ? args.pop : nil
+        self.timeout = args.last.is_a?(0.class) ? args.pop : nil
         if args.count == 1
           # Set generic OAuth2 access token and change base URI (use SSL)
           @default_query_opts = { :access_token => args.first }
