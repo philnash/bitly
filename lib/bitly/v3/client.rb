@@ -4,9 +4,8 @@ module Bitly
     # username and API key and then you will be able to use the client to perform
     # all the rest of the actions available through the API.
     class Client
-      API_URL_SSL = 'https://api-ssl.bitly.com/v3/'
       include HTTParty
-      base_uri 'http://api.bitly.com/v3/'
+      base_uri 'https://api-ssl.bitly.com/v3/'
 
       # Requires a generic OAuth2 access token or -deprecated- login and api key.
       # http://dev.bitly.com/authentication.html#apikey
@@ -17,9 +16,8 @@ module Bitly
         args.compact!
         self.timeout = args.last.is_a?(0.class) ? args.pop : nil
         if args.count == 1
-          # Set generic OAuth2 access token and change base URI (use SSL)
+          # Set generic OAuth2 access token
           @default_query_opts = { :access_token => args.first }
-          self.class.base_uri API_URL_SSL
         else
           # Deprecated ApiKey authentication
           @default_query_opts = {
