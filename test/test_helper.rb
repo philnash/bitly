@@ -2,11 +2,12 @@ require 'minitest/autorun'
 require 'rubygems'
 require 'shoulda'
 require 'flexmock/minitest'
-require 'fakeweb'
+require 'webmock/minitest'
 
 require File.join(File.dirname(__FILE__), '..', 'lib', 'bitly')
 
-FakeWeb.allow_net_connect = false
+WebMock.disable_net_connect!
+WebMock::Config.instance.query_values_notation = :flat_array
 
 def fixture_file(filename)
   return '' if filename == ''
@@ -18,7 +19,7 @@ def stub_get(url, filename, status=nil)
   options = {:body => fixture_file(filename)}
   options.merge!({:status => status}) unless status.nil?
 
-  FakeWeb.register_uri(:get, url, options)
+  stub_request(:get, url).to_return(options)
 end
 
 def api_key
@@ -33,6 +34,6 @@ end
 
 class Minitest::Test
   def teardown
-    FakeWeb.clean_registry
+    WebMock.reset!
   end
 end

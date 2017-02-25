@@ -54,6 +54,7 @@ class TestClient < Minitest::Test
         Bitly.use_api_version_3
         assert_equal Bitly.api_version, 3
         assert_kind_of Bitly::V3::Client, Bitly.client
+        Bitly.use_api_version_2
       end
     end
   end
