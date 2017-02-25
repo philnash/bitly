@@ -1,3 +1,33 @@
+=== 1.1.0 / 2016-2-25
+
+* 5 minor updates
+
+  * Fixnum & Integer unification for Ruby 2.4+ compatibility (thanks @codebender)
+  * Replaces Fakeweb with Webmock in tests
+  * Fixes instance variable warnings
+  * Fixes redefine method warnigns
+  * Always use HTTPS when using v3 API
+
+=== 1.0.2 / 2016-11-3
+
+* 1 minor update
+
+  * Stops gem breaking on Ruby < 2.2 by only installing an older version of rack.
+
+=== 1.0.1 / 2016-11-3
+
+* 1 minor update
+
+  * Properly sets the API version that is in use.
+
+=== 1.0.0 / 2016-10-21
+
+* 1 minor update
+
+  * Ensures v2 API uses https
+
+It had been too long with this gem in a pre 1.0 state. This rectifies that, even though there were no major or breaking changes.
+
 === 0.10.4 / 2015-01-08
 
 * 1 minor update
