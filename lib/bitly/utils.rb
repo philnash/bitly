@@ -16,8 +16,6 @@ module Bitly
 
     def attr_define(k,v)
       instance_variable_set("@#{k}", v)
-      meta = class << self; self; end
-      meta.class_eval { attr_reader k.to_sym }
     end
 
     def instance_variablise(obj,variables)
