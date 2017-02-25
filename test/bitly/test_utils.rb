@@ -29,7 +29,7 @@ class TestUtils < Minitest::Test
 
     should "not turn nonspecified variables into instance variables" do
       instance_variablise({'hello' => 'goodbye'}, [])
-      assert_nil @hello
+      assert !(defined? @hello)
     end
   end
 
