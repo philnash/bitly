@@ -94,6 +94,7 @@ module Bitly
             results[input.index(url['long_url'])] = Bitly::V3::MissingUrl.new(url)
             input[input.index(url['long_url'])] = nil
           end
+          results
         end
       end
 
