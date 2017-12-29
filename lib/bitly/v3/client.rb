@@ -82,7 +82,7 @@ module Bitly
         query = input.inject([]) { |query, i| query << "url=#{CGI.escape(i)}" }
         query = "/lookup?" + query.join('&')
         response = get(query)
-        results = response['data']['lookup'].inject([]) do |results, url|
+        response['data']['lookup'].inject([]) do |results, url|
           url['long_url'] = url['url']
           url['url'] = nil
           if url['error'].nil?
@@ -94,9 +94,7 @@ module Bitly
             results[input.index(url['long_url'])] = Bitly::V3::MissingUrl.new(url)
             input[input.index(url['long_url'])] = nil
           end
-          results
         end
-        return results.length > 1 ? results : results[0]
       end
 
       # Expands either a short link or hash and gets the referrer data for that link
@@ -185,7 +183,7 @@ module Bitly
         end
         query = "/#{method}?" + query.join('&')
         response = get(query)
-        results = response['data'][method.to_s].inject([]) do |results, url|
+        response['data'][method.to_s].inject([]) do |results, url|
           result_index = input.index(url['short_url'] || url['hash']) || input.index(url['global_hash'])
           if url['error'].nil?
             # builds the results array in the same order as the input
@@ -198,7 +196,6 @@ module Bitly
           end
           results
         end
-        return results.length > 1 ? results : results[0]
       end
     end
   end
