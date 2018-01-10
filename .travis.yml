@@ -10,6 +10,8 @@ rvm:
   - jruby-19mode
   - jruby-head
   - rbx-3
+before_install:
+  - gem update --system
 matrix:
   allow_failures:
     - rvm: ruby-head
