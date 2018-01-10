@@ -16,8 +16,8 @@ def fixture_file(filename)
 end
 
 def stub_get(url, filename, status=nil)
-  options = {:body => fixture_file(filename)}
-  options.merge!({:status => status}) unless status.nil?
+  options = {body: fixture_file(filename)}
+  options.merge!({status: status}) unless status.nil?
 
   stub_request(:get, url).to_return(options)
 end
@@ -25,9 +25,11 @@ end
 def api_key
   'test_key'
 end
+
 def login
   'test_account'
 end
+
 def access_token
   'test_access_token'
 end

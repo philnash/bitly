@@ -1,8 +1,8 @@
 require File.join(File.dirname(__FILE__), '..', 'test_helper.rb')
 
 class TestConfig < Minitest::Test
-  context "bitly module" do
-    should "create a new bitly v3 client through initializer" do
+  context 'bitly module' do
+    should 'create a new bitly v3 client through initializer' do
       # configure
       Bitly.configure do |config|
         config.api_version = 3
@@ -14,7 +14,7 @@ class TestConfig < Minitest::Test
       assert_equal Bitly::V3::Client, b.class
     end
 
-    should "create a new bitly v2 client through initializer" do
+    should 'create a new bitly v2 client through initializer' do
       # configure
       Bitly.configure do |config|
         config.api_version = 2
