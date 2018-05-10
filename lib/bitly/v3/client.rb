@@ -156,7 +156,7 @@ module Bitly
       end
 
       def is_a_short_url?(input)
-        input.match(/^http:\/\//)
+        input.match(/^https?:\/\//)
       end
 
       def get_single_method(method, input)
