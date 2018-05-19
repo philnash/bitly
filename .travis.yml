@@ -2,10 +2,10 @@ language: ruby
 sudo: required
 dist: trusty
 rvm:
+  - 2.5
   - 2.4
   - 2.3
   - 2.2
-  - 2.1
   - ruby-head
   - jruby-19mode
   - jruby-head
