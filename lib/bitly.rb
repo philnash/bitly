@@ -1,8 +1,5 @@
-require 'multi_json'
+require "bitly/version"
 
-require 'bitly/config'
-require 'bitly/utils'
-require 'bitly/client'
-require 'bitly/url'
-require 'bitly/version'
-require 'bitly/v3'
+module Bitly
+  # Your code goes here...
+end

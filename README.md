@@ -1,93 +1,43 @@
-# bitly
+# Bitly
 
-## DESCRIPTION:
+Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bitly`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-A Ruby API for [http://bitly.com](http://bitly.com)
+TODO: Delete this and the text above, and describe your gem
 
-[http://dev.bitly.com](http://dev.bitly.com)
+## Installation
 
-[![Build Status](https://travis-ci.org/philnash/bitly.svg?branch=master)](https://travis-ci.org/philnash/bitly)
-
-## NOTE:
-
-Bitly recently released their version 3 API. From this 0.5.0 release, the gem will continue to work the same but also provide a V3 module, using the version 3 API. The standard module will become deprecated, as Bitly do not plan to keep the version 2 API around forever.
-
-To move to using the version 3 API, call:
+Add this line to your application's Gemfile:
 
 ```ruby
-Bitly.use_api_version_3
+gem 'bitly'
 ```
 
-Then, when you call ``Bitly.new(username, api_key)`` you will get a ``Bitly::V3::Client`` instead, which provides the version 3 api calls (``shorten``, ``expand``, ``clicks``, ``validate`` and ``bitly_pro_domain``). See [http://dev.bitly.com](http://dev.bitly.com) for details.
+And then execute:
 
-Eventually, this will become the default version used and finally, the V3 module will disappear, with the version 3 classes replacing the version 2 classes.
+    $ bundle
 
-(Please excuse the lack of tests for the v3 classes, they are fully tested and ready to replace this whole codebase in the v3 branch of the GitHub repo, until I realized it would break everything.)
+Or install it yourself as:
 
-## INSTALLATION:
+    $ gem install bitly
 
-    gem install bitly
+## Usage
 
-## USAGE:
+TODO: Write usage instructions here
 
-### Version 2 API
+## Development
 
-Create a Bitly client using your username and api key as follows:
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-```ruby
-bitly = Bitly.new(username, api_key)
-```
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
-You can then use that client to shorten or expand urls or return more information or statistics as so:
+## Contributing
 
-```ruby
-bitly.shorten('http://www.google.com')
-bitly.shorten('http://www.google.com', :history => 1) # adds the url to the api user's history
-bitly.expand('wQaT')
-bitly.info('http://bit.ly/wQaT')
-bitly.stats('http://bit.ly/wQaT')
-```
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bitly. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-Each can be used in all the methods described in the API docs, the shorten function, for example, takes a url or an array of urls.
+## License
 
-All four functions return a ``Bitly::Url`` object (or an array of ``Bitly::Url`` objects if you supplied an array as the input). You can then get all the information required from that object.
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
-```ruby
-u = bitly.shorten('http://www.google.com') #=> Bitly::Url
+## Code of Conduct
 
-u.long_url #=> "http://www.google.com"
-u.short_url #=> "http://bit.ly/Ywd1"
-u.bitly_url #=> "http://bit.ly/Ywd1"
-u.jmp_url #=> "http://j.mp/Ywd1"
-u.user_hash #=> "Ywd1"
-u.hash #=> "2V6CFi"
-u.info #=> a ruby hash of the JSON returned from the API
-u.stats #=> a ruby hash of the JSON returned from the API
-
-bitly.shorten('http://www.google.com', 'keyword')
-```
-
-### Version 3 API
-
-Please see the Bit.ly API documentation [http://api.bit.ly](http://api.bit.ly) for details on the V3 API.
-
-Get your access token here: [https://bitly.com/a/oauth_apps](https://bitly.com/a/oauth_apps).
-
-### Configure bitly through initializer
-
-If you want to configure bitly through an initializer (e.g. `config/initializers/bitly.rb`), do the following:
-
-```ruby
-Bitly.use_api_version_3
-
-Bitly.configure do |config|
-  config.api_version = 3
-  config.access_token = "API_KEY"
-end
-```
-
-Instead of using `Bitly.new(username, api_key)` to get the client, use `Bitly.client`:
-
-```ruby
-Bitly.client.shorten('http://www.google.com')
-```
+Everyone interacting in the Bitly project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/bitly/blob/master/CODE_OF_CONDUCT.md).
