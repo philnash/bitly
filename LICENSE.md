@@ -1,4 +1,4 @@
-Copyright (c) 2016 Phil Nash
+Copyright (c) 2018 Phil Nash
 
 ### MIT License
 
