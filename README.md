@@ -33,16 +33,27 @@ There are 3 methods you can use to get an OAuth access token:
 Redirect the user to the Bitly authorization page using your `client_id` and a `redirect_uri` that Bitly should redirect your user to after authorization. You can get the URL like so:
 
 ```ruby
-oauth = Bitly::OAuth.new(client_id, client_secret)
-oauth.authorize_uri(redirect_uri)
-#=> https://bitly.com/oauth/authorize?client_id=client_id&redirect_uri=http://myexamplewebapp.com/oauth_page
+oauth = Bitly::OAuth.new(client_id: client_id, client_secret: client_secret)
+oauth.authorize_uri("http://myexamplewebapp.com/oauth_page")
+#=> "https://bitly.com/oauth/authorize?client_id=client_id&redirect_uri=http%3A%2F%2Fmyexamplewebapp.com%2Foauth_page"
 ```
 
 You can pass an optional `state` parameter that will be included, unchanged, in the redirect.
 
 ```ruby
-oauth.authorize_uri(redirect_uri, state: "state")
+oauth.authorize_uri("http://myexamplewebapp.com/oauth_page", state: "state")
+#=> "https://bitly.com/oauth/authorize?client_id=client_id&redirect_uri=http%3A%2F%2Fmyexamplewebapp.com%2Foauth_page&state=state"
 ```
+
+Once the user has authorized you to use their Bitly account, you will get a
+`code` parameter in the redirect. You can exchange that code, along with the
+redirect_uri, for the access token.
+
+```ruby
+oauth.access_token(redirect_uri: "http://myexamplewebapp.com/oauth_page", code: "code")
+#=> "<ACCESS_TOKEN>"
+```
+
 
 
 ### Available API Endpoints
