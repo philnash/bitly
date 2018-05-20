@@ -26,7 +26,7 @@ Or install it yourself as:
 
 Bitly requires OAuth access tokens to use the API. You will need to [register your application with the Bitly API](bitly.com/a/oauth_apps), you will get a `client_id` and `client_secret`.
 
-There are 3 methods you can use to get an OAuth access token:
+There are 2 methods you can use to get an OAuth access token:
 
 #### OAuth Web Flow
 
@@ -54,6 +54,17 @@ oauth.access_token(redirect_uri: "http://myexamplewebapp.com/oauth_page", code: 
 #=> "<ACCESS_TOKEN>"
 ```
 
+#### Resource Owner Credential Grant Flow
+
+If you cannot perform a web flow, the resource owner credential grant flow allows you to take a user's username and password and exchange it for an OAuth access token. If you use this method you _should_ store only the user's access token and never the password.
+
+To use the resource owner credential grant flow, create an OAuth client object then request the access token with the username and password:
+
+```ruby
+oauth = Bitly::OAuth.new(client_id: client_id, client_secret: client_secret)
+oauth.access_token(username: username, password: password)
+#=> "<ACCESS_TOKEN>"
+```
 
 
 ### Available API Endpoints
