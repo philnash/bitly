@@ -13,7 +13,7 @@ VCR.configure do |config|
   config.filter_sensitive_data("<CLIENT_SECRET>") { ENV["CLIENT_SECRET"] }
   config.filter_sensitive_data("<OAUTH_CODE>") { ENV["OAUTH_CODE"] }
   config.filter_sensitive_data("<USERNAME>") { ENV["USERNAME"] }
-  config.filter_sensitive_data("<PASSWORD>") { CGI.escape(ENV["PASSWORD"]) }
+  config.filter_sensitive_data("<PASSWORD>") { CGI.escape(ENV["PASSWORD"] || "") }
   config.filter_sensitive_data("<ACCESS_TOKEN>") do |interaction|
     match = interaction.response.body.match(/access_token=(\w*)&login/)
     match[1] if match && match[1]
