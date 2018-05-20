@@ -7,18 +7,31 @@ require "bitly"
 Envyable.load("./config/env.yml", "test")
 
 VCR.configure do |config|
-  config.cassette_library_dir = 'spec/cassettes'
+  config.cassette_library_dir = "spec/cassettes"
   config.hook_into :webmock
-  config.filter_sensitive_data('<CLIENT_ID>') { ENV["CLIENT_ID"] }
-  config.filter_sensitive_data('<CLIENT_SECRET>') { ENV["CLIENT_SECRET"] }
-  config.filter_sensitive_data('<OAUTH_CODE>') { ENV["OAUTH_CODE"] }
-  config.filter_sensitive_data('<ACCESS_TOKEN>') do |interaction|
+  config.filter_sensitive_data("<CLIENT_ID>") { ENV["CLIENT_ID"] }
+  config.filter_sensitive_data("<CLIENT_SECRET>") { ENV["CLIENT_SECRET"] }
+  config.filter_sensitive_data("<OAUTH_CODE>") { ENV["OAUTH_CODE"] }
+  config.filter_sensitive_data("<USERNAME>") { ENV["USERNAME"] }
+  config.filter_sensitive_data("<PASSWORD>") { CGI.escape(ENV["PASSWORD"]) }
+  config.filter_sensitive_data("<ACCESS_TOKEN>") do |interaction|
     match = interaction.response.body.match(/access_token=(\w*)&login/)
     match[1] if match && match[1]
   end
-  config.filter_sensitive_data('<API_KEY>') do |interaction|
+  config.filter_sensitive_data("<ACCESS_TOKEN>") do |interaction|
+    match = interaction.response.body.match(/"access_token": "(\w*)"/)
+    match[1] if match && match[1]
+  end
+  config.filter_sensitive_data("<API_KEY>") do |interaction|
     match = interaction.response.body.match(/apiKey=(\w*)\z/)
     match[1] if match && match[1]
+  end
+  config.filter_sensitive_data("<AUTH_HEADER>") do |interaction|
+    auth_header = interaction.request.headers['Authorization']
+    if auth_header
+      match = auth_header.first.match(/Basic ([a-zA-Z0-9\+\/]+={0,3})/)
+      match[1] if match && match[1]
+    end
   end
 end
 

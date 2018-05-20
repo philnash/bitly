@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require "oauth2"
+require "base64"
 
 module Bitly
   ##
@@ -70,15 +71,39 @@ module Bitly
     # @example
     #     oauth.access_token(redirect_uri: "https://example.com/oauth/redirect", "code")
     #     # => "9646c4f76e32c18f0afad3b3ed9524f3c917775b"
-    def access_token(redirect_uri:, code:)
+    def access_token(redirect_uri: nil, code: nil, username: nil, password: nil)
       begin
-        @access_token ||= @client.get_token(
-          redirect_uri: redirect_uri,
-          code: code
-        ).token
+        if redirect_uri && code
+          access_token_from_code(redirect_uri: redirect_uri, code: code)
+        elsif username && password
+          access_token_from_credentials(username: username, password: password)
+        else
+          raise ArgumentError, "not enough arguments, please include a redirect_uri and code or a username and password."
+        end
       rescue OAuth2::Error => e
         raise Bitly::Error, e.response.parsed
       end
+    end
+
+    private
+
+    def access_token_from_code(redirect_uri:, code:)
+      @client.get_token(
+        redirect_uri: redirect_uri,
+        code: code
+      ).token
+    end
+
+    def access_token_from_credentials(username:, password:)
+      @client.password.get_token(username, password, {
+        headers: {
+          "Authorization" => "Basic #{authorization_header}"
+        }
+      }).token
+    end
+
+    def authorization_header
+      Base64.strict_encode64("#{client_id}:#{client_secret}")
     end
   end
 end

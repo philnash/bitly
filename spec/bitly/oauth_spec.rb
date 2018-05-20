@@ -43,18 +43,38 @@ RSpec.describe Bitly::OAuth do
   describe "access_token" do
     let(:code) { ENV["OAUTH_CODE"] || "abcde" }
 
-    it "gets an access token" do
-      VCR.use_cassette("access_token") do
-        access_token = oauth.access_token(redirect_uri: redirect_uri, code: code)
-        expect(access_token).to eq("<ACCESS_TOKEN>")
+    describe "without enough arguments" do
+      it "raises an ArgumentError" do
+        expect { oauth.access_token }.to raise_error(ArgumentError)
       end
     end
 
-    it "raises an error when the code and redirect_uri don't match" do
-      VCR.use_cassette("access_token_error") do
-        expect {
-          oauth.access_token(redirect_uri: redirect_uri, code: "blah")
-        }.to raise_error(Bitly::Error)
+    describe "via the Authorization Code flow" do
+      it "gets an access token" do
+        VCR.use_cassette("access_token") do
+          access_token = oauth.access_token(redirect_uri: redirect_uri, code: code)
+          expect(access_token).to eq("<ACCESS_TOKEN>")
+        end
+      end
+
+      it "raises an error when the code and redirect_uri don't match" do
+        VCR.use_cassette("access_token_error") do
+          expect {
+            oauth.access_token(redirect_uri: redirect_uri, code: "blah")
+          }.to raise_error(Bitly::Error)
+        end
+      end
+    end
+
+    describe "via the Resource Owner Credentials flow" do
+      let(:username) { ENV["USERNAME"] || "test" }
+      let(:password) { ENV["PASSWORD"] || "password" }
+
+      it "gets an access token with a username and password" do
+        VCR.use_cassette("access_token_username_password") do
+          access_token = oauth.access_token(username: username, password: password)
+          expect(access_token).to eq("<ACCESS_TOKEN>")
+        end
       end
     end
   end
