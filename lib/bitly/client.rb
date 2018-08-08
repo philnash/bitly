@@ -36,7 +36,7 @@ module Bitly
   class Client
 
     include Bitly::Utils
-    attr_accessor *Config::OPTION_KEYS
+    attr_accessor(*Config::OPTION_KEYS)
 
     def initialize(login,api_key)
       warn "[DEPRECATION] The bit.ly version 2 API has been superseded by version 3 and will be removed. See the README for details"
