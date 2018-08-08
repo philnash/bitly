@@ -79,7 +79,7 @@ module Bitly
       # Returns the results in the order they were entered
       def lookup(input)
         input = arrayize(input)
-        query = input.inject([]) { |query, i| query << "url=#{CGI.escape(i)}" }
+        query = input.inject([]) { |q, i| q << "url=#{CGI.escape(i)}" }
         query = "/lookup?" + query.join('&')
         response = get(query)
         results = response['data']['lookup'].inject([]) do |results, url|
@@ -173,15 +173,15 @@ module Bitly
 
       def get_method(method, input, opts={})
         input = arrayize(input)
-        query = input.inject([]) do |query,i|
+        query = input.inject([]) do |q, i|
           if is_a_short_url?(i)
-            query << "shortUrl=#{CGI.escape(i)}"
+            q << "shortUrl=#{CGI.escape(i)}"
           else
-            query << "hash=#{CGI.escape(i)}"
+            q << "hash=#{CGI.escape(i)}"
           end
         end
-        query = opts.inject(query) do |query, (k,v)|
-          query << "#{k}=#{v}"
+        query = opts.inject(query) do |q, (k,v)|
+          q<< "#{k}=#{v}"
         end
         query = "/#{method}?" + query.join('&')
         response = get(query)
