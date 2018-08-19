@@ -79,22 +79,22 @@ module Bitly
       # Returns the results in the order they were entered
       def lookup(input)
         input = arrayize(input)
-        query = input.inject([]) { |query, i| query << "url=#{CGI.escape(i)}" }
+        query = input.inject([]) { |q, i| q << "url=#{CGI.escape(i)}" }
         query = "/lookup?" + query.join('&')
         response = get(query)
-        results = response['data']['lookup'].inject([]) do |results, url|
+        results = response['data']['lookup'].inject([]) do |rs, url|
           url['long_url'] = url['url']
           url['url'] = nil
           if url['error'].nil?
             # builds the results array in the same order as the input
-            results[input.index(url['long_url'])] = Bitly::V3::Url.new(self, url)
+            rs[input.index(url['long_url'])] = Bitly::V3::Url.new(self, url)
             # remove the key from the original array, in case the same hash/url was entered twice
             input[input.index(url['long_url'])] = nil
           else
-            results[input.index(url['long_url'])] = Bitly::V3::MissingUrl.new(url)
+            rs[input.index(url['long_url'])] = Bitly::V3::MissingUrl.new(url)
             input[input.index(url['long_url'])] = nil
           end
-          results
+          rs
         end
         return results.length > 1 ? results : results[0]
       end
@@ -173,30 +173,30 @@ module Bitly
 
       def get_method(method, input, opts={})
         input = arrayize(input)
-        query = input.inject([]) do |query,i|
+        query = input.inject([]) do |q, i|
           if is_a_short_url?(i)
-            query << "shortUrl=#{CGI.escape(i)}"
+            q << "shortUrl=#{CGI.escape(i)}"
           else
-            query << "hash=#{CGI.escape(i)}"
+            q << "hash=#{CGI.escape(i)}"
           end
         end
-        query = opts.inject(query) do |query, (k,v)|
-          query << "#{k}=#{v}"
+        query = opts.inject(query) do |q, (k,v)|
+          q<< "#{k}=#{v}"
         end
         query = "/#{method}?" + query.join('&')
         response = get(query)
-        results = response['data'][method.to_s].inject([]) do |results, url|
+        results = response['data'][method.to_s].inject([]) do |rs, url|
           result_index = input.index(url['short_url'] || url['hash']) || input.index(url['global_hash'])
           if url['error'].nil?
             # builds the results array in the same order as the input
-            results[result_index] = Bitly::V3::Url.new(self, url)
+            rs[result_index] = Bitly::V3::Url.new(self, url)
             # remove the key from the original array, in case the same hash/url was entered twice
             input[result_index] = nil
           else
-            results[result_index] = Bitly::V3::MissingUrl.new(url)
+            rs[result_index] = Bitly::V3::MissingUrl.new(url)
             input[result_index] = nil
           end
-          results
+          rs
         end
         return results.length > 1 ? results : results[0]
       end

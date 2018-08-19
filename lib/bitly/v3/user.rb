@@ -107,12 +107,11 @@ module Bitly
         opts.merge!(:access_token => @access_token.token)
         result = self.class.get("/user/#{method.to_s}", :query => opts)
         if result['status_code'] == 200
-          results = result['data'][method.to_s].map do |rs|
+          result['data'][method.to_s].map do |rs|
             rs.inject([]) do |results, obj|
               results << klass.new(obj)
             end
           end
-          return results
         else
           raise BitlyError.new(result['status_txt'], result['status_code'])
         end

@@ -9,7 +9,7 @@ module Bitly
       :timeout
     ]
 
-    attr_accessor *OPTION_KEYS
+    attr_accessor(*OPTION_KEYS)
 
     alias_method :access_token, :login
     alias_method :access_token=, :login=
