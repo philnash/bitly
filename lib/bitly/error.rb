@@ -5,7 +5,7 @@ module Bitly
   # status_txt: https://dev.bitly.com/formats.html
   class Error < StandardError
     ##
-    # @return [Integer] The status code of the failed request
+    # @return [String] The status code of the failed request
     attr_reader :status_code
 
     ##
@@ -15,14 +15,13 @@ module Bitly
     ##
     # Creates a new Bitly::Error object
     #
-    # @param [Hash] response The parsed response to the HTTP request
-    # @option response [Integer] :status_code The numerical status of the
-    #   request.
-    # @option response [String] :status_txt A description of the failed request.
+    # @param [Bitly::HTTP::Response] response The parsed response to the HTTP request
     def initialize(response)
-      @message = "[#{response["status_code"]}] #{response["status_txt"]}"
-      @status_code = response["status_code"]
-      @status_txt = response["status_txt"]
+      @response = response
+      @message = "[#{response.body["status_code"]}] #{response.body["status_txt"]}"
+      @status_code = response.body["status_code"]
+      @status_txt = response.body["status_txt"]
+      super(@message)
     end
   end
 end

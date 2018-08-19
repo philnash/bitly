@@ -81,7 +81,7 @@ module Bitly
           raise ArgumentError, "not enough arguments, please include a redirect_uri and code or a username and password."
         end
       rescue OAuth2::Error => e
-        raise Bitly::Error, e.response.parsed
+        raise Bitly::Error, Bitly::HTTP::Response.new(status: e.response.status.to_s, body: e.response.body, headers: e.response.headers)
       end
     end
 
