@@ -18,7 +18,7 @@ module Bitly
       #   an argument. It is up to the application to catch this error.
       def request(request)
         status, body, headers, success = @adapter.request(request)
-        response = Bitly::HTTP::Response.new(status, body, headers)
+        response = Bitly::HTTP::Response.new(status: status, body: body, headers: headers)
         if success
           return response
         else
