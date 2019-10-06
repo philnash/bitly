@@ -60,4 +60,16 @@ RSpec.describe Bitly::HTTP::Request do
     end
   end
 
+  describe "when the method is POST" do
+    it "doesn't add the params to the URL query string" do
+      request = Bitly::HTTP::Request.new(uri: uri, method: "POST", params: { "foo" => "bar" })
+      expect(request.uri.to_s).to eq("http://example.com")
+    end
+
+    it "keeps an existing query string, but doesn't add parameters" do
+      uri.query = "foo=baz"
+      request = Bitly::HTTP::Request.new(uri: uri, method: "POST", params: { "foo" => "bar" })
+      expect(request.uri.to_s).to eq("http://example.com?foo=baz")
+    end
+  end
 end
