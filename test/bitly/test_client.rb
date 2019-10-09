@@ -55,6 +55,12 @@ class TestClient < Minitest::Test
         assert_equal Bitly.api_version, 3
         assert_kind_of Bitly::V3::Client, Bitly.client
       end
+
+      should "set the api version to 4" do
+        Bitly.use_api_version_4
+        assert_equal Bitly.api_version, 4
+        assert_kind_of Bitly::V4::Client, Bitly.client
+      end
     end
   end
   context "using the bitly client" do
