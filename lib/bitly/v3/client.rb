@@ -13,6 +13,8 @@ module Bitly
       # ApiKey: Get yours from your account page at https://bitly.com/a/your_api_key
       # Visit your account at http://bit.ly/a/account
       def initialize(*args)
+        warn "[DEPRECATION] The bit.ly version 3 API has been superseded by version 4 and will be removed. See the README for details"
+
         args.compact!
         self.timeout = args.last.is_a?(0.class) ? args.pop : nil
         if args.count == 1
