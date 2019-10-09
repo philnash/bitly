@@ -5,6 +5,11 @@ module Bitly
     # all the rest of the actions available through the API.
     class Client < Bitly::V3::Client
       base_uri 'https://api-ssl.bitly.com/v4/'
+
+      def initialize(access_token, timeout)
+        self.timeout = timeout
+        @access_token = access_token
+      end
     end
   end
 end

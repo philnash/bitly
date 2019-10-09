@@ -11,7 +11,7 @@ module Bitly
     if api_version == 3
       Bitly::V3::Client.new(login, api_key, timeout)
     elsif api_version == 4
-      Bitly::V4::Client.new(login, api_key, timeout)
+      Bitly::V4::Client.new(login, timeout)
     else
       Bitly::Client.new(login,api_key)
     end
@@ -35,7 +35,7 @@ module Bitly
     if api_version == 3
       Bitly::V3::Client.new(login, api_key, timeout)
     elsif api_version == 4
-      Bitly::V4::Client.new(login, api_key, timeout)
+      Bitly::V4::Client.new(login, timeout)
     else
       Bitly::Client.new(login, api_key)
     end
