@@ -9,6 +9,13 @@ A Ruby API for [http://bitly.com](http://bitly.com)
 [![Build Status](https://travis-ci.org/philnash/bitly.svg?branch=master)](https://travis-ci.org/philnash/bitly)
 
 ## NOTE:
+Bitly recently released their version 4 API. All other versions of the API will be sunset on March 1, 2020. Currently this gem only supports creating new bitlinks using an existing oauth access token, using the V4 API.
+
+To move to using the version 4 API, call:
+
+```ruby
+Bitly.use_api_version_4
+```
 
 Bitly recently released their version 3 API. From this 0.5.0 release, the gem will continue to work the same but also provide a V3 module, using the version 3 API. The standard module will become deprecated, as Bitly do not plan to keep the version 2 API around forever.
 
