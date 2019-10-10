@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "oauth2", "< 2.0", ">= 0.5.0"
   spec.add_runtime_dependency "rack", "<2" if RUBY_VERSION.to_f < 2.2
 
-  spec.add_development_dependency "bundler", "~> 1.15"
+  spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "shoulda", "~> 3.5.0"
   spec.add_development_dependency "flexmock"
