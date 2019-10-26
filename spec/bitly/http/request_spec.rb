@@ -48,28 +48,36 @@ RSpec.describe Bitly::HTTP::Request do
   end
 
   describe "when the method is GET" do
+    let(:request) { Bitly::HTTP::Request.new(uri: uri, method: "GET", params: { "foo" => "bar" }) }
+
     it "adds the params to the URL query string" do
-      request = Bitly::HTTP::Request.new(uri: uri, method: "GET", params: { "foo" => "bar" })
       expect(request.uri.to_s).to eq("http://example.com?foo=bar")
     end
 
     it "adds the params to the existing URL query string" do
       uri.query = "foo=baz"
-      request = Bitly::HTTP::Request.new(uri: uri, method: "GET", params: { "foo" => "bar" })
       expect(request.uri.to_s).to eq("http://example.com?foo=baz&foo=bar")
+    end
+
+    it "doesn't have a request body" do
+      expect(request.body).to be_nil
     end
   end
 
   describe "when the method is POST" do
+    let(:request) { Bitly::HTTP::Request.new(uri: uri, method: "POST", params: { "foo" => "bar" }) }
+
     it "doesn't add the params to the URL query string" do
-      request = Bitly::HTTP::Request.new(uri: uri, method: "POST", params: { "foo" => "bar" })
       expect(request.uri.to_s).to eq("http://example.com")
     end
 
     it "keeps an existing query string, but doesn't add parameters" do
       uri.query = "foo=baz"
-      request = Bitly::HTTP::Request.new(uri: uri, method: "POST", params: { "foo" => "bar" })
       expect(request.uri.to_s).to eq("http://example.com?foo=baz")
+    end
+
+    it "turns parameters into a JSON stringified body" do
+      expect(request.body).to eq("{\"foo\":\"bar\"}")
     end
   end
 end
