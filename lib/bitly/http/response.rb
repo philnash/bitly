@@ -41,7 +41,7 @@ module Bitly
         end
         @headers = headers
         errors << "Headers must be a hash. Received #{headers}" unless headers.is_a?(Hash)
-        raise ArgumentError, errors.join("\n") if errors.any?
+        raise ArgumentError, errors.join("\n"), caller if errors.any?
       end
 
       private

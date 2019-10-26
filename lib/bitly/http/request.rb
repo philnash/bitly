@@ -58,12 +58,28 @@ module Bitly
         if @uri.query
           existing_query = URI.decode_www_form(@uri.query)
           new_query = hash_to_arrays(@params)
-          puts (existing_query + new_query).inspect
           @uri.query = URI.encode_www_form((existing_query + new_query).uniq)
         else
           @uri.query = URI.encode_www_form(@params)
         end
         @uri
+      end
+
+      ##
+      # Returns the body of the request if the request is an HTTP method that
+      # uses a body to send data. The body is a JSON string of the parameters.
+      # If the request doesn't use a body to send data, this returns nil.
+      #
+      # @example
+      #     uri = URI.parse("https://api-ssl.bitly.com/v3/shorten")
+      #     request = Bitly::HTTP::Request.new(uri, method: 'POST', params: { foo: "bar" })
+      #     request.body
+      #     # => "{\"foo\":\"bar\"}"
+      #
+      # @return [String] The request body
+      def body
+        return nil if HTTP_METHODS_WITHOUT_BODY.include?(@method)
+        return JSON.generate(params)
       end
 
       private
