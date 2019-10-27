@@ -18,6 +18,9 @@ module Bitly
       # @return [Hash] The response's headers
       attr_reader :headers
 
+      # @return [Bitly::HTTP::Request] The request that caused this response
+      attr_reader :request
+
       ##
       # Creates a new Bitly::HTTP::Response object, which can be used by other
       # objects in the library.
@@ -30,7 +33,7 @@ module Bitly
       # @param [String] body The body of the response, a String that is valid
       #   JSON and will be parsed
       # @param [Hash] headers The response headers
-      def initialize(status:, body:, headers:)
+      def initialize(status:, body:, headers:, request: nil)
         errors = []
         @status = status
         errors << "Status must be a valid HTTP status code. Received #{status}" unless is_status?(status)
@@ -41,6 +44,8 @@ module Bitly
         end
         @headers = headers
         errors << "Headers must be a hash. Received #{headers}" unless headers.is_a?(Hash)
+        @request = request
+        errors << "Request must be a Bitly::HTTP::Request. Received #{request}" if request && !request.is_a?(Request)
         raise ArgumentError, errors.join("\n"), caller if errors.any?
       end
 

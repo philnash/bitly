@@ -48,7 +48,7 @@ module Bitly
       #
       # @example
       #     uri = URI.parse("https://api-ssl.bitly.com/v3/shorten")
-      #     request = Bitly::HTTP::Request.new(uri, params: { foo: "bar" })
+      #     request = Bitly::HTTP::Request.new(uri: uri, params: { foo: "bar" })
       #     request.uri.to_s
       #     # => "https://api-ssl.bitly.com/v3/shorten?foo=bar"
       #
@@ -72,7 +72,7 @@ module Bitly
       #
       # @example
       #     uri = URI.parse("https://api-ssl.bitly.com/v3/shorten")
-      #     request = Bitly::HTTP::Request.new(uri, method: 'POST', params: { foo: "bar" })
+      #     request = Bitly::HTTP::Request.new(uri: uri, method: 'POST', params: { foo: "bar" })
       #     request.body
       #     # => "{\"foo\":\"bar\"}"
       #

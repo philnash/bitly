@@ -6,6 +6,14 @@ RSpec.describe Bitly::HTTP::Response do
     expect(response.headers).to eq({})
   end
 
+  it "can be initialized with a status code, body, headers and request" do
+    request = Bitly::HTTP::Request.new(uri: URI.parse("http://example.com"))
+    response = Bitly::HTTP::Response.new(status: "200", body: "{}", headers: {})
+    expect(response.status).to eq("200")
+    expect(response.body).to eq({})
+    expect(response.headers).to eq({})
+  end
+
   it "expects a valid HTTP status" do
     expect {
       Bitly::HTTP::Response.new(status: "hello", body: "{}", headers: {})
@@ -21,6 +29,12 @@ RSpec.describe Bitly::HTTP::Response do
   it "expects headers to be a hash" do
     expect {
       Bitly::HTTP::Response.new(status: "200", body: "{}", headers: [])
+    }.to raise_error(ArgumentError)
+  end
+
+  it "expects a request to be a Bitly::HTTP::Request" do
+    expect {
+      Bitly::HTTP::Response.new(status: "200", body: "{}", headers: {}, request: "What?")
     }.to raise_error(ArgumentError)
   end
 end
