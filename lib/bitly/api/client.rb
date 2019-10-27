@@ -12,7 +12,7 @@ module Bitly
 
       def request(path:, method: 'GET', params: {}, headers: {})
         headers = default_headers.merge(headers)
-        uri = Bitly::API::BASE_URL
+        uri = Bitly::API::BASE_URL.dup
         uri.path += path
         request = Bitly::HTTP::Request.new(uri: uri, method: method, params: params, headers: headers)
         @http.request(request)
