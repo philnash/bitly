@@ -26,6 +26,14 @@ module Bitly
         Organization.fetch(self, guid)
       end
 
+      def groups
+        Group.list(self)
+      end
+
+      def group(guid)
+        Group.fetch(self, guid)
+      end
+
       private
 
       def default_headers
