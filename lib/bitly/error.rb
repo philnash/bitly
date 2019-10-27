@@ -9,8 +9,12 @@ module Bitly
     attr_reader :status_code
 
     ##
-    # @return [String] The status text of the failed request
-    attr_reader :status_txt
+    # @return [String] The description of the failed request
+    attr_reader :description
+
+    ##
+    # @return [Bitly::HTTP::Response] The response that caused the error
+    attr_reader :response
 
     ##
     # Creates a new Bitly::Error object
@@ -18,9 +22,9 @@ module Bitly
     # @param [Bitly::HTTP::Response] response The parsed response to the HTTP request
     def initialize(response)
       @response = response
-      @message = "[#{response.body["status_code"]}] #{response.body["status_txt"]}"
-      @status_code = response.body["status_code"]
-      @status_txt = response.body["status_txt"]
+      @status_code = response.status
+      @description = response.body["description"]
+      @message = "[#{@status_code}] #{response.body["message"]}"
       super(@message)
     end
   end
