@@ -23,16 +23,18 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 19 May 2018 07:00:40 GMT
+      - Mon, 28 Oct 2019 12:33:41 GMT
       Content-Type:
       - application/x-www-form-urlencoded
       Content-Length:
       - '110'
-      Connection:
-      - keep-alive
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - clear
     body:
       encoding: UTF-8
-      string: access_token=<ACCESS_TOKEN>&login=philnash&apiKey=<API_KEY>
+      string: access_token=<ACCESS_TOKEN>&login=<USERNAME>&apiKey=<API_KEY>
     http_version: 
-  recorded_at: Sat, 19 May 2018 07:00:40 GMT
+  recorded_at: Mon, 28 Oct 2019 12:33:41 GMT
 recorded_with: VCR 4.0.0

@@ -38,6 +38,8 @@ VCR.configure do |config|
       match[1] if match && match[1]
     end
   end
+  record_mode = ENV["VCR"] ? ENV["VCR"].to_sym : :once
+  config.default_cassette_options = { :record => record_mode }
 end
 
 RSpec.configure do |config|

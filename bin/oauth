@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "bitly"
+require "envyable"
+
+Envyable.load('./config/env.yml')
+
+oauth = Bitly::OAuth.new(client_id: ENV['CLIENT_ID'], client_secret: ENV['CLIENT_SECRET'])
+puts oauth.authorize_uri('http://example.com/oauth/redirect')

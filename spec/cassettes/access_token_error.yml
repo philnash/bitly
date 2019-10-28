@@ -17,22 +17,24 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 200
-      message: OK
+      code: 401
+      message: Unauthorized
     headers:
       Server:
       - nginx
       Date:
-      - Sat, 19 May 2018 06:49:54 GMT
+      - Mon, 28 Oct 2019 12:33:41 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
       - '64'
-      Connection:
-      - keep-alive
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - clear
     body:
       encoding: UTF-8
       string: '{"status_code": 401, "data": null, "status_txt": "INVALID_CODE"}'
-    http_version:
-  recorded_at: Sat, 19 May 2018 06:49:54 GMT
+    http_version: 
+  recorded_at: Mon, 28 Oct 2019 12:33:41 GMT
 recorded_with: VCR 4.0.0
