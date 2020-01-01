@@ -6,7 +6,8 @@ module Bitly
   end
 end
 
-require_relative './api/client'
-require_relative './api/bitlink'
-require_relative './api/organization'
-require_relative './api/group'
+require_relative "./api/client"
+require_relative "./api/bitlink"
+require_relative "./api/organization"
+require_relative "./api/group/preferences"
+require_relative "./api/group"

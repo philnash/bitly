@@ -5,6 +5,9 @@ module Bitly
     module Base
       def self.included(mod)
         attr_reader :response
+
+        def mod.attributes ; [] ; end
+        def mod.time_attributes ; [] ; end
       end
 
       def assign_attributes(attributes)

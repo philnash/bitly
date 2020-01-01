@@ -86,7 +86,7 @@ RSpec.describe Bitly::API::Group do
 
     it "can fetch its organization" do
       expect(Bitly::API::Organization).to receive(:fetch)
-        .with(client, "abc123")
+        .with(client: client, guid: "abc123")
         .and_return(organization)
       group = Bitly::API::Group.new(data: group_data, client: client)
       expect(group.organization).to eq(organization)
@@ -100,11 +100,20 @@ RSpec.describe Bitly::API::Group do
 
     it "doesn't fetch the organization more than once" do
       expect(Bitly::API::Organization).to receive(:fetch).once
-        .with(client, "abc123")
+        .with(client: client, guid: "abc123")
         .and_return(organization)
       group = Bitly::API::Group.new(data: group_data, client: client)
       group.organization
       group.organization
+    end
+
+    it "fetches its preferences" do
+      preferences = double("preferences")
+      expect(Bitly::API::Group::Preferences).to receive(:fetch)
+        .with(client: client, group_guid: "def456")
+        .and_return(preferences)
+      group = Bitly::API::Group.new(data: group_data, client: client)
+      group.preferences
     end
   end
 end
