@@ -40,6 +40,13 @@ VCR.configure do |config|
       match[1] if match && match[1]
     end
   end
+  config.filter_sensitive_data("<ACCESS_TOKEN>") do |interaction|
+    auth_header = interaction.request.headers['Authorization']
+    if auth_header
+      match = auth_header.first.match(/Bearer ([a-zA-Z0-9\+\/]+)/)
+      match[1] if match && match[1]
+    end
+  end
   record_mode = ENV["VCR"] ? ENV["VCR"].to_sym : :once
   config.default_cassette_options = { :record => record_mode }
 end
