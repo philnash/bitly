@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Bitly::HTTP::Response do
   it "is initialized with a status code, body and headers" do
     response = Bitly::HTTP::Response.new(status: "200", body: "{}", headers: {})

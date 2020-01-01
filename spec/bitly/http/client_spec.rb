@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Bitly::HTTP::Client do
   it "can be initialized with no arguments" do
     expect { client = Bitly::HTTP::Client.new }.not_to raise_error

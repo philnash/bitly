@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bitly
   ##
   # An error class that covers all potential errors from the Bitly API. In an

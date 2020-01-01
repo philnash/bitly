@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Bitly::OAuth do
   let(:client_id) { ENV["CLIENT_ID"] || "client_id" }
   let(:client_secret) { ENV["CLIENT_SECRET"] || "client_secret" }
