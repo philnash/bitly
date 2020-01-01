@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Bitly::HTTP::Request do
   let(:uri) { URI.parse("http://example.com") }
 
