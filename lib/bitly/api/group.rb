@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-require_relative './base.rb'
-require_relative './list.rb'
+require_relative "./base.rb"
+require_relative "./list.rb"
 
 module Bitly
   module API
@@ -11,9 +11,16 @@ module Bitly
 
       def self.list(client, organization: nil)
         params = {}
-        params['organization_guid'] = organization.guid if organization
-        response = client.request(path: '/groups', params: params)
-        List.new(response.body['groups'].map { |group| Group.new(group, client: client, organization: organization) }, response)
+        if organization.is_a? Organization
+          params["organization_guid"] = organization.guid
+        elsif organization.is_a? String
+          params["organization_guid"] = organization
+        end
+        response = client.request(path: "/groups", params: params)
+        groups = response.body["groups"].map do |group|
+          Group.new(group, client: client, organization: organization)
+        end
+        List.new(groups, response)
       end
 
       def self.fetch(client, guid)
@@ -37,7 +44,7 @@ module Bitly
       end
 
       def organization
-        @organization ||= Organization.fetch(client, organization_guid)
+        @organization ||= Organization.fetch(@client, organization_guid)
       end
     end
   end
