@@ -44,7 +44,11 @@ module Bitly
       end
 
       def organization
-        @organization ||= Organization.fetch(@client, organization_guid)
+        @organization ||= Organization.fetch(client: @client, guid: organization_guid)
+      end
+
+      def preferences
+        @preferences = Group::Preferences.fetch(client: @client, group_guid: guid)
       end
     end
   end
