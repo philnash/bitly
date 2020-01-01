@@ -4,7 +4,7 @@ module Bitly
   module API
     module Base
       def self.included(mod)
-        attr_accessor :response
+        attr_reader :response
       end
 
       def assign_attributes(attributes)
