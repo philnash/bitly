@@ -59,6 +59,18 @@ RSpec.describe Bitly::HTTP::Request do
       expect(request.uri.to_s).to eq("http://example.com?foo=baz&foo=bar")
     end
 
+    it "builds a query string out of array parameters" do
+      request = Bitly::HTTP::Request.new(uri: uri, method: "GET", params: { "foo" => ["bar", "baz"] })
+      expect(request.uri.to_s).to eq("http://example.com?foo=bar&foo=baz")
+    end
+
+    it "builds a query string out of array parameters with an existing query string" do
+      request = Bitly::HTTP::Request.new(uri: URI.parse("#{uri}?foo=qux"), method: "GET", params: { "foo" => ["bar", "baz"] })
+      expect(request.uri.to_s).to match("foo=bar")
+      expect(request.uri.to_s).to match("foo=baz")
+      expect(request.uri.to_s).to match("foo=qux")
+    end
+
     it "doesn't have a request body" do
       expect(request.body).to be_nil
     end
