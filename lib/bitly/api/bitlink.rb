@@ -7,7 +7,7 @@ module Bitly
     class Bitlink
       include Base
 
-      def self.shorten(client, long_url, domain: nil, group_guid: nil)
+      def self.shorten(client:, long_url:, domain: nil, group_guid: nil)
         response = client.request(path: '/shorten', method: 'POST', params: { long_url: long_url, domain: domain, group_guid: group_guid })
         Bitlink.new(response.body, client: client, response: response)
       end
@@ -20,8 +20,8 @@ module Bitly
       end
       attr_reader *(attributes + time_attributes)
 
-      def initialize(opts, client:, response: nil)
-        self.assign_attributes(opts)
+      def initialize(data:, client:, response: nil)
+        self.assign_attributes(data)
         @client = client
         @response = response
       end

@@ -9,7 +9,7 @@ module Bitly
 
       class List < Bitly::API::List ; end
 
-      def self.list(client, organization: nil)
+      def self.list(client:, organization: nil)
         params = {}
         if organization.is_a? Organization
           params["organization_guid"] = organization.guid
@@ -18,14 +18,14 @@ module Bitly
         end
         response = client.request(path: "/groups", params: params)
         groups = response.body["groups"].map do |group|
-          Group.new(group, client: client, organization: organization)
+          Group.new(data: group, client: client, organization: organization)
         end
         List.new(groups, response)
       end
 
-      def self.fetch(client, guid)
+      def self.fetch(client:, guid:)
         response = client.request(path: "/groups/#{guid}")
-        Group.new(response.body, client: client, response: response)
+        Group.new(data: response.body, client: client, response: response)
       end
 
       def self.attributes
@@ -36,8 +36,8 @@ module Bitly
       end
       attr_reader *(attributes + time_attributes)
 
-      def initialize(opts, client:, response: nil, organization: nil)
-        self.assign_attributes(opts)
+      def initialize(data: data, client:, response: nil, organization: nil)
+        self.assign_attributes(data)
         @client = client
         @response = response
         @organization = organization

@@ -28,7 +28,7 @@ RSpec.describe Bitly::API::Group do
       .with(path: "/groups", params: {})
       .and_return(response)
 
-    groups = Bitly::API::Group.list(client)
+    groups = Bitly::API::Group.list(client: client)
     expect(groups.count).to eq(1)
     expect(groups.first).to be_instance_of(Bitly::API::Group)
     expect(groups.response).to eq(response)
@@ -44,8 +44,8 @@ RSpec.describe Bitly::API::Group do
     expect(client).to receive(:request)
       .with(path: "/groups", params: { "organization_guid" => "abc123" })
       .and_return(response)
-    organization = Bitly::API::Organization.new({"guid" => "abc123"}, client: client)
-    groups = Bitly::API::Group.list(client, organization: organization)
+    organization = Bitly::API::Organization.new(data: {"guid" => "abc123"}, client: client)
+    groups = Bitly::API::Group.list(client: client, organization: organization)
     expect(groups.count).to eq(1)
     expect(groups.first).to be_instance_of(Bitly::API::Group)
     expect(groups.response).to eq(response)
@@ -61,7 +61,7 @@ RSpec.describe Bitly::API::Group do
     expect(client).to receive(:request)
       .with(path: "/groups", params: { "organization_guid" => "abc123" })
       .and_return(response)
-    groups = Bitly::API::Group.list(client, organization: "abc123")
+    groups = Bitly::API::Group.list(client: client, organization: "abc123")
     expect(groups.count).to eq(1)
     expect(groups.first).to be_instance_of(Bitly::API::Group)
     expect(groups.response).to eq(response)
@@ -75,7 +75,7 @@ RSpec.describe Bitly::API::Group do
     )
     client = double("client")
     expect(client).to receive(:request).with(path: "/groups/def456").and_return(response)
-    group = Bitly::API::Group.fetch(client, "def456")
+    group = Bitly::API::Group.fetch(client: client, guid: "def456")
     expect(group.name).to eq("philnash")
     expect(group.role).to eq("org-admin")
   end
@@ -88,12 +88,12 @@ RSpec.describe Bitly::API::Group do
       expect(Bitly::API::Organization).to receive(:fetch)
         .with(client, "abc123")
         .and_return(organization)
-      group = Bitly::API::Group.new(group_data, client: client)
+      group = Bitly::API::Group.new(data: group_data, client: client)
       expect(group.organization).to eq(organization)
     end
 
     it "doesn't fetch the organization if it already has it" do
-      group = Bitly::API::Group.new(group_data, client: client, organization: organization)
+      group = Bitly::API::Group.new(data: group_data, client: client, organization: organization)
       expect(Bitly::API::Organization).not_to receive(:fetch)
       group.organization
     end
@@ -102,7 +102,7 @@ RSpec.describe Bitly::API::Group do
       expect(Bitly::API::Organization).to receive(:fetch).once
         .with(client, "abc123")
         .and_return(organization)
-      group = Bitly::API::Group.new(group_data, client: client)
+      group = Bitly::API::Group.new(data: group_data, client: client)
       group.organization
       group.organization
     end
