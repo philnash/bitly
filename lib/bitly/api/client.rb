@@ -19,24 +19,24 @@ module Bitly
         @http.request(request)
       end
 
-      def shorten(long_url, domain: nil, group_guid: nil)
-        Bitlink.shorten(self, long_url, domain: domain, group_guid: group_guid)
+      def shorten(long_url:, domain: nil, group_guid: nil)
+        Bitlink.shorten(client: self, long_url: long_url, domain: domain, group_guid: group_guid)
       end
 
       def organizations
-        Organization.list(self)
+        Organization.list(client: self)
       end
 
       def organization(guid)
-        Organization.fetch(self, guid)
+        Organization.fetch(client: self, guid: guid)
       end
 
       def groups
-        Group.list(self)
+        Group.list(client: self)
       end
 
       def group(guid)
-        Group.fetch(self, guid)
+        Group.fetch(client: self, guid: guid)
       end
 
       private

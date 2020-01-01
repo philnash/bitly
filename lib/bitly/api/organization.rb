@@ -9,14 +9,14 @@ module Bitly
 
       class List < Bitly::API::List ; end
 
-      def self.list(client)
+      def self.list(client:)
         response = client.request(path: '/organizations')
-        List.new(response.body['organizations'].map { |org| Organization.new(org, client: client) }, response)
+        List.new(response.body['organizations'].map { |org| Organization.new(data: org, client: client) }, response)
       end
 
-      def self.fetch(client, guid)
+      def self.fetch(client:, guid:)
         response = client.request(path: "/organizations/#{guid}")
-        Organization.new(response.body, client: client, response: response)
+        Organization.new(data: response.body, client: client, response: response)
       end
 
       def self.attributes
@@ -27,14 +27,14 @@ module Bitly
       end
       attr_reader *(attributes + time_attributes)
 
-      def initialize(opts, client:, response: nil)
-        assign_attributes(opts)
+      def initialize(data: data, client:, response: nil)
+        assign_attributes(data)
         @client = client
         @response = response
       end
 
       def groups
-        @groups ||= Group.list(@client, organization: self)
+        @groups ||= Group.list(client: @client, organization: self)
       end
     end
   end
