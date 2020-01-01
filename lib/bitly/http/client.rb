@@ -5,6 +5,7 @@ module Bitly
     class Client
       def initialize(adapter=Bitly::HTTP::Adapters::NetHTTP.new)
         @adapter = adapter
+        raise ArgumentError, "Adapter must have a request method." unless @adapter.respond_to?(:request)
       end
 
       ##
