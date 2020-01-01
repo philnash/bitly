@@ -3,8 +3,9 @@
 module Bitly
   module API
     class List
-      include Base
       include Enumerable
+
+      attr_reader :response
 
       def initialize(items, response)
         @items = items
