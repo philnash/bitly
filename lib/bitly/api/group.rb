@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-require_relative "./base.rb"
-require_relative "./list.rb"
+require_relative "./base"
+require_relative "./list"
+require_relative "./group/preferences"
 
 module Bitly
   module API
