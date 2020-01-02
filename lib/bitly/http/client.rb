@@ -25,7 +25,6 @@ module Bitly
         if success
           return response
         else
-          puts response.inspect
           raise Bitly::Error, response
         end
       end
