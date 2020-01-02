@@ -9,7 +9,9 @@ module Bitly
         def request(request)
           Net::HTTP.start(request.uri.host, request.uri.port, use_ssl: true) do |http|
             method = Object.const_get("Net::HTTP::#{request.method.capitalize}")
-            http_request = method.new request.uri.path
+            full_path = request.uri.path
+            full_path += "?#{request.uri.query}" if request.uri.query
+            http_request = method.new full_path
             http_request.body = request.body
             request.headers.each do |header, value|
               http_request[header] = value
