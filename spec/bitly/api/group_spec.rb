@@ -128,5 +128,62 @@ RSpec.describe Bitly::API::Group do
       expect(group.tags).to eq(tags)
       expect(group.tags).to eq(tags)
     end
+
+    it "can update a group's bsds, name and organization guid" do
+      new_group_data = group_data.clone
+      new_group_data["bsds"] = ["hello"]
+      new_group_data["organization_guid"] = "ghi789"
+      new_group_data["name"] = "New Name"
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: new_group_data.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request)
+        .with(
+          path: "/groups/#{group.guid}",
+          method: "PATCH",
+          params: {
+            "bsds" => ["hello"],
+            "organization_guid" => "ghi789",
+            "name" => "New Name"
+          }
+        )
+        .and_return(response)
+      group.update(bsds: ["hello"], organization_guid: "ghi789", name: "New Name")
+      expect(group.bsds).to eq(["hello"])
+      expect(group.organization_guid).to eq("ghi789")
+      expect(group.name).to eq("New Name")
+    end
+
+    it "refetches the organization after updating the organization guid" do
+      organization1 = double("organization1")
+      expect(Bitly::API::Organization).to receive(:fetch).once
+        .with(client: client, guid: "abc123")
+        .and_return(organization1)
+      organization2 = double("organization2")
+      expect(Bitly::API::Organization).to receive(:fetch).once
+        .with(client: client, guid: "ghi789")
+        .and_return(organization2)
+      new_group_data = group_data.clone
+      new_group_data["organization_guid"] = "ghi789"
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: new_group_data.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request)
+        .with(
+          path: "/groups/#{group.guid}",
+          method: "PATCH",
+          params: { "organization_guid" => "ghi789" }
+        )
+        .and_return(response)
+      puts(group.organization_guid)
+      expect(group.organization).to eq(organization1)
+      group.update(organization_guid: "ghi789")
+      expect(group.organization_guid).to eq("ghi789")
+      expect(group.organization).to eq(organization2)
+    end
   end
 end
