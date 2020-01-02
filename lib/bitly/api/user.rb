@@ -87,8 +87,7 @@ module Bitly
       #
       # @return [Bitly::API::User]
       def update(name: nil, default_group_guid: nil)
-        params = {}
-        params["name"] = name if name
+        params = { "name" => name }
         if default_group_guid
           params["default_group_guid"] = default_group_guid
           @default_group = nil

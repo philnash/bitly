@@ -90,7 +90,7 @@ RSpec.describe Bitly::API::User do
         .with(
           path: "/user",
           method: "PATCH",
-          params: { "default_group_guid" => "ghi789" }
+          params: { "default_group_guid" => "ghi789", "name" => nil }
         )
         .and_return(response)
 
