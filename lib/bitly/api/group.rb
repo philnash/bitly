@@ -107,6 +107,33 @@ module Bitly
       def tags
         @tags ||= @client.request(path: "/groups/#{guid}/tags").body["tags"]
       end
+
+      ##
+      # Allows you to update the group's name, organization or bsds.
+      # If you update the organization guid and have already loaded the
+      # organization, it is nilled out so it can be reloaded with the correct
+      # guid
+      #
+      # @example
+      #     group.update(name: "New Name", organization_guid: "aaabbb")
+      #
+      # @param name [String] A new name
+      # @param organization_guid [String] A new organization guid
+      # @param bsds [Array<String>] An array of branded short domains
+      #
+      # @return [Bitly::API::Group]
+      def update(name: nil, organization_guid: nil, bsds: nil)
+        params = {}
+        params["name"] = name if name
+        params["bsds"] = bsds if bsds
+        if organization_guid
+          params["organization_guid"] = organization_guid
+          @organization = nil
+        end
+        @response = @client.request(path: "/groups/#{guid}", method: "PATCH", params: params)
+        assign_attributes(@response.body)
+        self
+      end
     end
   end
 end
