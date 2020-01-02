@@ -36,8 +36,8 @@ module Bitly
       end
       attr_reader *(attributes + time_attributes)
 
-      def initialize(data: data, client:, response: nil, organization: nil)
-        self.assign_attributes(data)
+      def initialize(data:, client:, response: nil, organization: nil)
+        assign_attributes(data)
         @client = client
         @response = response
         @organization = organization
