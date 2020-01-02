@@ -117,6 +117,17 @@ module Bitly
         Group.fetch(client: self, guid: guid)
       end
 
+      ##
+      # Fetch Branded Short Domains (BSDs).
+      #
+      # @example
+      #     bsds = client.bsds
+      #
+      # @return [Array<String>]
+      def bsds
+        BSD.list(client: self)
+      end
+
       private
 
       def default_headers
