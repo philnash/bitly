@@ -4,11 +4,30 @@ require_relative "./list.rb"
 
 module Bitly
   module API
+    ##
+    # A Group represents a subdivision of an Organization. Most API actions are
+    # taken on behalf of a user and group and groups become a container for
+    # Bitlinks and metrics.
     class Group
       include Base
 
+      ##
+      # A Group::List is a container for a list of groups.
       class List < Bitly::API::List ; end
 
+      ##
+      # Get a list of groups from the API. It receives an authorized
+      # `Bitly::API::Client` object and uses it to request the `/groups`
+      # endpoint, optionally passing an organization guid.
+      #
+      # @example
+      #     groups = Bitly::API::Group.list(client: client)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param organization [Bitly::API::Organization | String] An organization
+      #     object or a String representing an organization guid
+      #
+      # @return [Bitly::API::Group::List]
       def self.list(client:, organization: nil)
         params = {}
         if organization.is_a? Organization
@@ -23,19 +42,49 @@ module Bitly
         List.new(groups, response)
       end
 
+      ##
+      # Retrieve a group from the API. It receives an authorized
+      # `Bitly::API::Client` object and a group guid and uses it to request
+      #  the `/groups/:group_guid` endpoint.
+      #
+      # @example
+      #     group = Bitly::API::Group.fetch(client: client, guid: guid)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param guid [String] A group guid
+      #
+      # @return [Bitly::API::Group]
       def self.fetch(client:, guid:)
         response = client.request(path: "/groups/#{guid}")
         Group.new(data: response.body, client: client, response: response)
       end
 
+      # @return [Array<Symbol>] The attributes the API returns for a group
       def self.attributes
         [:name, :guid, :is_active, :role, :bsds, :organization_guid]
       end
+      # @return [Array<Symbol>] The attributes the API returns that need to be
+      # converted to `Time` objects.
       def self.time_attributes
         [:created, :modified]
       end
+
       attr_reader(*(attributes + time_attributes))
 
+      ##
+      # Creates a new `Bitly::API::Group` object
+      #
+      # @example
+      #     group = Bitly::API::Group.new(data: group_data, client: client)
+      #
+      # @param data [Hash<String, String|Boolean>] Data returned from the API
+      #     about the group
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param respomnse [Bitly::HTTP::Response] The response object from an API
+      #     call
+      # @param organization [Bitly::API::Organization]
+      #
+      # @return [Bitly::API::Group]
       def initialize(data:, client:, response: nil, organization: nil)
         assign_attributes(data)
         @client = client
@@ -43,10 +92,12 @@ module Bitly
         @organization = organization
       end
 
+      # @return [Bitly::API::Organization]
       def organization
         @organization ||= Organization.fetch(client: @client, guid: organization_guid)
       end
 
+      # @return [Bitly::API::Group::Preferences]
       def preferences
         @preferences = Group::Preferences.fetch(client: @client, group_guid: guid)
       end

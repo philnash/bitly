@@ -2,6 +2,8 @@
 
 module Bitly
   module API
+    ##
+    # A base class for lists of API resources. Implements Enumerable.
     class List
       include Enumerable
 
