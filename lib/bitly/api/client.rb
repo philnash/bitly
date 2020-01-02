@@ -31,8 +31,8 @@ module Bitly
         Organization.fetch(client: self, guid: guid)
       end
 
-      def groups
-        Group.list(client: self)
+      def groups(organization: nil)
+        Group.list(client: self, organization: organization)
       end
 
       def group(guid)
