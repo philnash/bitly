@@ -83,12 +83,12 @@ RSpec.describe Bitly::API::Group do
   describe "with a group" do
     let(:client) { double("client") }
     let(:organization) { double("organization") }
+    let(:group) { Bitly::API::Group.new(data: group_data, client: client) }
 
     it "can fetch its organization" do
       expect(Bitly::API::Organization).to receive(:fetch)
         .with(client: client, guid: "abc123")
         .and_return(organization)
-      group = Bitly::API::Group.new(data: group_data, client: client)
       expect(group.organization).to eq(organization)
     end
 
@@ -102,18 +102,31 @@ RSpec.describe Bitly::API::Group do
       expect(Bitly::API::Organization).to receive(:fetch).once
         .with(client: client, guid: "abc123")
         .and_return(organization)
-      group = Bitly::API::Group.new(data: group_data, client: client)
       group.organization
       group.organization
     end
 
-    it "fetches its preferences" do
+    it "fetches its preferences, only once" do
       preferences = double("preferences")
-      expect(Bitly::API::Group::Preferences).to receive(:fetch)
+      expect(Bitly::API::Group::Preferences).to receive(:fetch).once
         .with(client: client, group_guid: "def456")
         .and_return(preferences)
-      group = Bitly::API::Group.new(data: group_data, client: client)
-      group.preferences
+      expect(group.preferences).to eq(preferences)
+      expect(group.preferences).to eq(preferences)
+    end
+
+    it "fetches its tags, only once" do
+      tags = ["a", "b"]
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: { "tags" => tags }.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request).once
+        .with(path: "/groups/def456/tags")
+        .and_return(response)
+      expect(group.tags).to eq(tags)
+      expect(group.tags).to eq(tags)
     end
   end
 end

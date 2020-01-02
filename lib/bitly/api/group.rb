@@ -100,7 +100,12 @@ module Bitly
 
       # @return [Bitly::API::Group::Preferences]
       def preferences
-        @preferences = Group::Preferences.fetch(client: @client, group_guid: guid)
+        @preferences ||= Group::Preferences.fetch(client: @client, group_guid: guid)
+      end
+
+      # @return [Array<String>]
+      def tags
+        @tags ||= @client.request(path: "/groups/#{guid}/tags").body["tags"]
       end
     end
   end
