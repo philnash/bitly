@@ -3,7 +3,7 @@
 RSpec.describe Bitly::API::List do
   it "initializes with a list of items and a response" do
     response = Bitly::HTTP::Response.new(status: "200", body: "{}", headers: {})
-    expect { list = Bitly::API::List.new(["a", "b"], response) }.not_to raise_error
+    expect { Bitly::API::List.new(["a", "b"], response) }.not_to raise_error
   end
 
   it "needs both an item and a response" do

@@ -9,7 +9,6 @@ RSpec.describe Bitly::HTTP::Response do
   end
 
   it "can be initialized with a status code, body, headers and request" do
-    request = Bitly::HTTP::Request.new(uri: URI.parse("http://example.com"))
     response = Bitly::HTTP::Response.new(status: "200", body: "{}", headers: {})
     expect(response.status).to eq("200")
     expect(response.body).to eq({})

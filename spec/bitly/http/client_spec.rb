@@ -2,7 +2,7 @@
 
 RSpec.describe Bitly::HTTP::Client do
   it "can be initialized with no arguments" do
-    expect { client = Bitly::HTTP::Client.new }.not_to raise_error
+    expect { Bitly::HTTP::Client.new }.not_to raise_error
   end
 
   it "can be initialized with an adapter (that has a request method)" do
@@ -37,7 +37,7 @@ RSpec.describe Bitly::HTTP::Client do
       response_values = ["500", { response: "Not OK" }.to_json, {}, false]
       expect(adapter).to receive(:request).once.with(request).and_return(response_values)
       client = Bitly::HTTP::Client.new(adapter)
-      expect { response = client.request(request) }.to raise_error(Bitly::Error)
+      expect { client.request(request) }.to raise_error(Bitly::Error)
     end
   end
 end

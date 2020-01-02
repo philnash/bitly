@@ -39,7 +39,7 @@ module Bitly
         errors << "Status must be a valid HTTP status code. Received #{status}" unless is_status?(status)
         begin
           @body = JSON.parse(body)
-        rescue => e
+        rescue
           errors << "Body must be valid JSON. Received #{body}"
         end
         @headers = headers

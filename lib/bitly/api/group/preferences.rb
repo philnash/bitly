@@ -7,10 +7,9 @@ module Bitly
       class Preferences
         include Base
 
-        def self.attributes
-          [:group_guid, :domain_preference]
-        end
-        attr_reader *attributes
+        def self.attributes ; [:group_guid, :domain_preference] ; end
+        def self.time_attributes ; [] ; end
+        attr_reader(*attributes)
 
         def self.fetch(client:, group_guid:)
           response = client.request(path: "/groups/#{group_guid}/preferences")

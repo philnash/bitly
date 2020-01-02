@@ -3,12 +3,7 @@
 module Bitly
   module API
     module Base
-      def self.included(mod)
-        attr_reader :response
-
-        def mod.attributes ; [] ; end
-        def mod.time_attributes ; [] ; end
-      end
+      attr_reader :response
 
       def assign_attributes(attributes)
         self.class.attributes.each do |attr|

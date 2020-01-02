@@ -34,7 +34,7 @@ module Bitly
       def self.time_attributes
         [:created, :modified]
       end
-      attr_reader *(attributes + time_attributes)
+      attr_reader(*(attributes + time_attributes))
 
       def initialize(data:, client:, response: nil, organization: nil)
         assign_attributes(data)
