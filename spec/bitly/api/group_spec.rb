@@ -176,7 +176,7 @@ RSpec.describe Bitly::API::Group do
         .with(
           path: "/groups/#{group.guid}",
           method: "PATCH",
-          params: { "organization_guid" => "ghi789" }
+          params: { "organization_guid" => "ghi789", "name" => nil, "bsds" => nil }
         )
         .and_return(response)
       puts(group.organization_guid)

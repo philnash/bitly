@@ -123,9 +123,10 @@ module Bitly
       #
       # @return [Bitly::API::Group]
       def update(name: nil, organization_guid: nil, bsds: nil)
-        params = {}
-        params["name"] = name if name
-        params["bsds"] = bsds if bsds
+        params = {
+          "name" => name,
+          "bsds" => bsds
+        }
         if organization_guid
           params["organization_guid"] = organization_guid
           @organization = nil
