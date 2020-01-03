@@ -135,6 +135,18 @@ module Bitly
         assign_attributes(@response.body)
         self
       end
+
+      ##
+      # Deletes the group.
+      #
+      # @example
+      #     group.delete
+      #
+      # @return [Nil]
+      def delete
+        @response = @client.request(path: "/groups/#{guid}", method: "DELETE")
+        return nil
+      end
     end
   end
 end
