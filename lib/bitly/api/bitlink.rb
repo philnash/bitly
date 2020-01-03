@@ -8,8 +8,18 @@ module Bitly
       include Base
 
       def self.shorten(client:, long_url:, domain: nil, group_guid: nil)
-        response = client.request(path: '/shorten', method: 'POST', params: { long_url: long_url, domain: domain, group_guid: group_guid })
-        Bitlink.new(response.body, client: client, response: response)
+        response = client.request(path: "/shorten", method: "POST", params: { "long_url" => long_url, "domain" => domain, "group_guid" => group_guid })
+        new(data: response.body, client: client, response: response)
+      end
+
+      def self.fetch(client:, bitlink:)
+        response = client.request(path: "/bitlinks/#{bitlink}")
+        new(data: response.body, client: client, response: response)
+      end
+
+      def self.expand(client:, bitlink:)
+        response = client.request(path: "/expand", method: "POST", params: { "bitlink_id" => bitlink })
+        new(data: response.body, client: client, response: response)
       end
 
       def self.attributes
