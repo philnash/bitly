@@ -185,5 +185,17 @@ RSpec.describe Bitly::API::Group do
       expect(group.organization_guid).to eq("ghi789")
       expect(group.organization).to eq(organization2)
     end
+
+    it "can be deleted" do
+      response = Bitly::HTTP::Response.new(
+        status: "204",
+        body: "",
+        headers: {}
+      )
+      expect(client).to receive(:request).once
+        .with(path: "/groups/#{group.guid}", method: "DELETE")
+        .and_return(response)
+      expect(group.delete).to be nil
+    end
   end
 end
