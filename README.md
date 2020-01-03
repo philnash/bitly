@@ -70,11 +70,72 @@ oauth.access_token(username: username, password: password)
 
 This gem supports the active v4 API endpoints for the [Bitly API](https://dev.bitly.com/v4_documentation.html).
 
+#### Groups
+
+- [x] [Retrieve groups (`GET /v4/groups`)](https://dev.bitly.com/v4/#operation/getGroups)
+- [x] [Retrieve group (`GET /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/getGroup)
+- [x] [Update group (`PATCH /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/updateGroup)
+- [x] [Delete group (`DELETE /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/deleteGroup)
+- [x] [Retrieve tags by group (`GET /v4/groups/{group_guid}/tags`)](https://dev.bitly.com/v4/#operation/getGroupTags)
+- [x] [Retrieve group preferences (`GET /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/v4/#operation/getGroupPreferences)
+- [x] [Update group preferences (`PATCH /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/v4/#operation/updateGroupPreferences)
+- [ ] [Retrieve Bitlinks by group (`GET /v4/groups/{group_guid}/bitlinks`)](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
+- [ ] [Retrieve sorted Bitlinks by group (`GET /v4/groups/{group_guid}/bitlinks/{sort}`)](https://dev.bitly.com/v4/#operation/getSortedBitlinks)
+- [ ] [Retrieve group shorten counts (`GET /v4/groups/{group_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getGroupShortenCounts)
+- [ ] [Retrieve click metrics for a group by referring networks (`GET /v4/groups/{group_guid}/referring_networks`)](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
+- [ ] [Retrieve click metrics for a group by countries (`GET /v4/groups/{group_guid}/countries`)](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
+
 #### Organizations
 
-- [ ][/v4/organizations](https://dev.bitly.com/v4/#operation/getOrganizations)
-- [ ][/v4/organizations/{organization_guid}](https://dev.bitly.com/v4/#operation/getOrganization)
-- [ ][/v4/organizations/{organization_guid}/shorten_counts](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+- [x] [Retrieve organizations (`GET /v4/organizations`)](https://dev.bitly.com/v4/#operation/getOrganizations)
+- [x] [Retrieve organization (`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/v4/#operation/getOrganization)
+- [ ] [Retrieve organization shorten counts (`GET /v4/organizations/{organization_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+
+#### Users
+
+- [x] [Retrieve user (`GET /v4/user`)](https://dev.bitly.com/v4/#operation/getUser)
+- [x] [Update user (`PATCH /v4/user`)](https://dev.bitly.com/v4/#operation/updateUser)
+
+#### Bitlinks
+
+- [x] [Shorten a link (`POST /v4/shorten`)](https://dev.bitly.com/v4/#operation/createBitlink)
+- [x] [Expand a Bitlink (`POST /v4/expand`)](https://dev.bitly.com/v4/#operation/expandBitlink)
+- [x] [Retrieve a Bitlink (`GET /v4/bitlink/{bitlink}`)](https://dev.bitly.com/v4/#operation/getBitlink)
+- [ ] [Create a Bitlink (`POST /v4/bitlinks`)](https://dev.bitly.com/v4/#operation/createFullBitlink)
+- [ ] [Update a Bitlink (`PATCH /v4/bitlink/{bitlink}`)](https://dev.bitly.com/v4/#operation/updateBitlink)
+- [ ] [Get clicks for a Bitlink (`GET /v4/bitlink/{bitlink}/clicks`)](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
+- [ ] [Get clicks summary for a Bitlink (`GET /v4/bitlink/{bitlink}/clicks/summary`)](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink)
+- [ ] [Get metrics for a Bitlink by countries (`GET /v4/bitlinks/{bitlink}/countries`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByCountries)
+- [ ] [Get metrics for a Bitlink by referrers (`GET /v4/bitlinks/{bitlink}/referrers`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferrers)
+- [ ] [Get metrics for a Bitlink by referring domains (`GET /v4/bitlinks/{bitlink}/referring_domains`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferringDomains)
+- [ ] [Get metrics for a Bitlink by referrers by domain (`GET /v4/bitlinks/{bitlink}/referrers_by_domains`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferrersByDomains)
+- [ ] __[premium]__ [Get a QR code for a Bitlink (`GET /v4/{bitlink}/qr`)](https://dev.bitly.com/v4/#operation/getBitlinkQRCode)
+
+#### Custom Bitlinks
+
+- [ ] [Add custom Bitlink (`POST /v4/custom_bitlinks`)](https://dev.bitly.com/v4/#operation/addCustomBitlink)
+- [ ] __[premium]__ [Retrieve custom Bitlink (`GET /v4/custom_bitlinks/{custom_bitlink}`)](https://dev.bitly.com/v4/#operation/getCustomBitlink)
+- [ ] __[premium]__ [Update custom Bitlink (`PATCH /v4/custom_bitlink/{custom_bitlink}`)](https://dev.bitly.com/v4/#operation/updateCustomBitlink)
+- [ ] __[premium]__ [Get metrics for a custom Bitlink by destination (`GET /v4/custom_bitlinks/{custom_bitlink}/clicks_by_destination`)](https://dev.bitly.com/v4/#operation/getCustomBitlinkMetricsByDestination)
+
+#### Campaigns
+
+- [ ] __[premium]__ [Retrieve campaigns (`GET /v4/campaigns`)](https://dev.bitly.com/v4/#operation/getCampaigns)
+- [ ] __[premium]__ [Create campaign (`POST /v4/campaigns`)](https://dev.bitly.com/v4/#operation/createCampaign)
+- [ ] __[premium]__ [Retrieve campaign (`GET /v4/campaigns/{campaign_guid}`)](https://dev.bitly.com/v4/#operation/getCampaign)
+- [ ] __[premium]__ [Update campaign (`PATCH /v4/campaigns/{campaign_guid}`)](https://dev.bitly.com/v4/#operation/updateCampaign)
+- [ ] __[premium]__ [Retrieve channels (`GET /v4/channels`)](https://dev.bitly.com/v4/#operation/getChannels)
+- [ ] __[premium]__ [Create channel (`POST /v4/channels`)](https://dev.bitly.com/v4/#operation/createChannel)
+- [ ] __[premium]__ [Retrieve channel (`GET /v4/channels/{channel_guid}`)](https://dev.bitly.com/v4/#operation/getChannel)
+- [ ] __[premium]__ [Update channel (`PATCH /v4/channels/{channel_guid}`)](https://dev.bitly.com/v4/#operation/updateChannel)
+
+#### BSDs (Branded Short Domains)
+
+- [x] [Retrieve BSDs (`GET /v4/bsds`)](https://dev.bitly.com/v4/#operation/getBSDs)
+
+#### OAuth Apps
+
+- [x] [Retrieve OAuth App (`GET /v4/apps/{client_id}`)](https://dev.bitly.com/v4/#operation/getOAuthApp)
 
 ## Development
 
