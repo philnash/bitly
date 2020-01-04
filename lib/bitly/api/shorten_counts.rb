@@ -16,6 +16,16 @@ module Bitly
 
       Metric = Struct.new(:key, :value)
 
+      def self.by_group(client:, guid:)
+        response = client.request(path: "/groups/#{guid}/shorten_counts")
+        new(data: response.body, response: response)
+      end
+
+      def self.by_organization(client:, guid:)
+        response = client.request(path: "/organizations/#{guid}/shorten_counts")
+        new(data: response.body, response: response)
+      end
+
       def initialize(data:, response: nil)
         assign_attributes(data)
         @metrics = data["metrics"].map do |metric|

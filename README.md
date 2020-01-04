@@ -89,7 +89,7 @@ This gem supports the active v4 API endpoints for the [Bitly API](https://dev.bi
 
 - [x] [Retrieve organizations (`GET /v4/organizations`)](https://dev.bitly.com/v4/#operation/getOrganizations)
 - [x] [Retrieve organization (`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/v4/#operation/getOrganization)
-- [ ] [Retrieve organization shorten counts (`GET /v4/organizations/{organization_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+- [x] [Retrieve organization shorten counts (`GET /v4/organizations/{organization_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
 
 #### Users
 

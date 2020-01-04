@@ -94,6 +94,17 @@ module Bitly
       end
 
       ##
+      # Fetch the shorten counts for an organization.
+      #
+      # @example
+      #     shorten_counts = client.organization_shorten_counts(guid: org_guid)
+      #
+      # @return [Bitly::API::ShortenCounts]
+      def organization_shorten_counts(guid: guid)
+        Bitly::API::ShortenCounts.by_organization(client: self, guid: guid)
+      end
+
+      ##
       # Lists groups the authorized user can see.
       #
       # @example
@@ -115,6 +126,17 @@ module Bitly
       # @return [Bitly::API::Group]
       def group(guid)
         Group.fetch(client: self, guid: guid)
+      end
+
+      ##
+      # Fetch the shorten counts for a group.
+      #
+      # @example
+      #     shorten_counts = client.group_shorten_counts(guid: group_guid)
+      #
+      # @return [Bitly::API::ShortenCounts]
+      def group_shorten_counts(guid: guid)
+        Bitly::API::ShortenCounts.by_group(client: self, guid: guid)
       end
 
       ##

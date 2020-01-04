@@ -66,5 +66,14 @@ RSpec.describe Bitly::API::Organization do
       organization.groups
       organization.groups
     end
+
+    it "can get shorten counts" do
+      shorten_counts_mock = double("shorten_counts")
+      expect(Bitly::API::ShortenCounts).to receive(:by_organization)
+        .with(client: client, guid: organization.guid)
+        .and_return(shorten_counts_mock)
+      shorten_counts = organization.shorten_counts
+      expect(shorten_counts).to eq(shorten_counts_mock)
+    end
   end
 end
