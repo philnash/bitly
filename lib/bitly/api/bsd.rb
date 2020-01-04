@@ -9,7 +9,7 @@ module Bitly
       def self.list(client:)
         response = client.request(path: "/bsds")
         bsds = response.body["bsds"]
-        List.new(bsds, response)
+        List.new(items: bsds, response: response)
       end
     end
   end

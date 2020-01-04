@@ -8,6 +8,49 @@ module Bitly
     class Bitlink
       include Base
 
+      class List < Bitly::API::List
+        attr_reader :next_url, :prev_url, :size, :page, :total
+
+        def initialize(items:, response: , client:)
+          super(items: items, response: response)
+          @client = client
+          pagination = response.body["pagination"]
+          @next_url = pagination["next"]
+          @prev_url = pagination["prev"]
+          @size = pagination["size"]
+          @page = pagination["page"]
+          @total = pagination["total"]
+        end
+
+        def has_next_page?
+          !next_url.nil? && !next_url.empty?
+        end
+
+        def has_prev_page?
+          !prev_url.nil? && !prev_url.empty?
+        end
+
+        def next_page
+          return false unless has_next_page?
+          page(URI(next_url))
+        end
+
+        def prev_page
+          return false unless has_prev_page?
+          page(URI(prev_url))
+        end
+
+        private
+
+        def page(uri)
+          response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: CGI.parse(uri.query))
+          bitlinks = response.body["links"].map do |link|
+            Bitlink.new(data: link, client: @client)
+          end
+          List.new(items: bitlinks, response: response, client: @client)
+        end
+      end
+
       def self.shorten(client:, long_url:, domain: nil, group_guid: nil)
         response = client.request(path: "/shorten", method: "POST", params: { "long_url" => long_url, "domain" => domain, "group_guid" => group_guid })
         new(data: response.body, client: client, response: response)
@@ -33,6 +76,14 @@ module Bitly
       def self.expand(client:, bitlink:)
         response = client.request(path: "/expand", method: "POST", params: { "bitlink_id" => bitlink })
         new(data: response.body, client: client, response: response)
+      end
+
+      def self.list(client:, group_guid:)
+        response = client.request(path: "/groups/#{group_guid}/bitlinks")
+        bitlinks = response.body["links"].map do |link|
+          new(data: link, client: client)
+        end
+        List.new(items: bitlinks, response: response, client: client)
       end
 
       def self.attributes

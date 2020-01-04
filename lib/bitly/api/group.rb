@@ -41,7 +41,7 @@ module Bitly
         groups = response.body["groups"].map do |group|
           Group.new(data: group, client: client, organization: organization)
         end
-        List.new(groups, response)
+        List.new(items: groups, response: response)
       end
 
       ##
@@ -152,6 +152,11 @@ module Bitly
       # @return [Bitly::API::ShortenCounts]
       def shorten_counts
         ShortenCounts.by_group(client: @client, guid: guid)
+      end
+
+      # @return [Bitly::API::Bitlink::List]
+      def bitlinks
+
       end
     end
   end

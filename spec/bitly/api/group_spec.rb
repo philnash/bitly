@@ -179,7 +179,6 @@ RSpec.describe Bitly::API::Group do
           params: { "organization_guid" => "ghi789", "name" => nil, "bsds" => nil }
         )
         .and_return(response)
-      puts(group.organization_guid)
       expect(group.organization).to eq(organization1)
       group.update(organization_guid: "ghi789")
       expect(group.organization_guid).to eq("ghi789")
@@ -205,6 +204,10 @@ RSpec.describe Bitly::API::Group do
         .and_return(shorten_counts_mock)
       shorten_counts = group.shorten_counts
       expect(shorten_counts).to eq(shorten_counts_mock)
+    end
+
+    it "can get bitlinks" do
+
     end
   end
 end
