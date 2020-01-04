@@ -100,7 +100,7 @@ module Bitly
       #     shorten_counts = client.organization_shorten_counts(guid: org_guid)
       #
       # @return [Bitly::API::ShortenCounts]
-      def organization_shorten_counts(guid: guid)
+      def organization_shorten_counts(guid:)
         Bitly::API::ShortenCounts.by_organization(client: self, guid: guid)
       end
 
@@ -135,7 +135,7 @@ module Bitly
       #     shorten_counts = client.group_shorten_counts(guid: group_guid)
       #
       # @return [Bitly::API::ShortenCounts]
-      def group_shorten_counts(guid: guid)
+      def group_shorten_counts(guid:)
         Bitly::API::ShortenCounts.by_group(client: self, guid: guid)
       end
 
