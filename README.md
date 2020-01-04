@@ -101,7 +101,7 @@ This gem supports the active v4 API endpoints for the [Bitly API](https://dev.bi
 - [x] [Shorten a link (`POST /v4/shorten`)](https://dev.bitly.com/v4/#operation/createBitlink)
 - [x] [Expand a Bitlink (`POST /v4/expand`)](https://dev.bitly.com/v4/#operation/expandBitlink)
 - [x] [Retrieve a Bitlink (`GET /v4/bitlink/{bitlink}`)](https://dev.bitly.com/v4/#operation/getBitlink)
-- [ ] [Create a Bitlink (`POST /v4/bitlinks`)](https://dev.bitly.com/v4/#operation/createFullBitlink)
+- [x] [Create a Bitlink (`POST /v4/bitlinks`)](https://dev.bitly.com/v4/#operation/createFullBitlink)
 - [ ] [Update a Bitlink (`PATCH /v4/bitlink/{bitlink}`)](https://dev.bitly.com/v4/#operation/updateBitlink)
 - [ ] [Get clicks for a Bitlink (`GET /v4/bitlink/{bitlink}/clicks`)](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
 - [ ] [Get clicks summary for a Bitlink (`GET /v4/bitlink/{bitlink}/clicks/summary`)](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink)
