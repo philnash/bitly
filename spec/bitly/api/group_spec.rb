@@ -197,5 +197,29 @@ RSpec.describe Bitly::API::Group do
         .and_return(response)
       expect(group.delete).to be nil
     end
+
+    it "can get shorten counts" do
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: {
+          "unit_reference"=>"2020-01-04T00:21:20+0000",
+          "metrics"=>[
+            {"value"=>2, "key"=>"2020-01-02T00:00:00+0000"},
+            {"value"=>1, "key"=>"2019-04-17T00:00:00+0000"}
+          ],
+          "units"=>-1,
+          "unit"=>"day",
+          "facet"=>"shorten_counts"
+        }.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request)
+        .with(path: "/groups/#{group.guid}/shorten_counts")
+        .and_return(response)
+      shorten_counts = group.shorten_counts
+      expect(shorten_counts.unit).to eq("day")
+      expect(shorten_counts.metrics.first).to be_instance_of(Bitly::API::ShortenCounts::Metric)
+      expect(shorten_counts.metrics.first.value).to eq(2)
+    end
   end
 end
