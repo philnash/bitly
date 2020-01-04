@@ -9,7 +9,6 @@ module Bitly
       def self.attributes
         [:units, :facet, :unit_reference, :unit]
       end
-      def self.time_attributes ; [] ; end
 
       attr_reader(*attributes)
       attr_reader :metrics

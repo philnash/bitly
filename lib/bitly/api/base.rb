@@ -6,11 +6,15 @@ module Bitly
       attr_reader :response
 
       def assign_attributes(attributes)
-        self.class.attributes.each do |attr|
-          instance_variable_set("@#{attr}", attributes[attr.to_s]) if attributes[attr.to_s]
+        if self.class.respond_to?(:attributes)
+          self.class.attributes.each do |attr|
+            instance_variable_set("@#{attr}", attributes[attr.to_s]) if attributes[attr.to_s]
+          end
         end
-        self.class.time_attributes.each do |attr|
-          instance_variable_set("@#{attr}", Time.parse(attributes[attr.to_s])) if attributes[attr.to_s]
+        if self.class.respond_to?(:time_attributes)
+          self.class.time_attributes.each do |attr|
+            instance_variable_set("@#{attr}", Time.parse(attributes[attr.to_s])) if attributes[attr.to_s]
+          end
         end
       end
     end

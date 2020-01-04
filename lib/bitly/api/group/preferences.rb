@@ -13,7 +13,6 @@ module Bitly
 
         # @return [Array<Symbol>] The attributes the API returns for a group
         def self.attributes ; [:group_guid, :domain_preference] ; end
-        def self.time_attributes ; [] ; end
         attr_reader(*attributes)
 
         ##

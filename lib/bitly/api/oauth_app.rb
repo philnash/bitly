@@ -9,7 +9,6 @@ module Bitly
       def self.attributes
         [:name, :description, :link, :client_id]
       end
-      def self.time_attributes ; [] ; end
       attr_reader(*attributes)
 
       def self.fetch(client:, client_id:)
