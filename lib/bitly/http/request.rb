@@ -54,15 +54,16 @@ module Bitly
       #
       # @return [URI] The full URI for the request
       def uri
-        return @uri if HTTP_METHODS_WITH_BODY.include?(@method)
-        if @uri.query
-          existing_query = URI.decode_www_form(@uri.query)
+        uri = @uri.dup
+        return uri if HTTP_METHODS_WITH_BODY.include?(@method)
+        if uri.query
+          existing_query = URI.decode_www_form(uri.query)
           new_query = hash_to_arrays(@params)
-          @uri.query = URI.encode_www_form((existing_query + new_query).uniq)
+          uri.query = URI.encode_www_form((existing_query + new_query).uniq)
         else
-          @uri.query = URI.encode_www_form(@params)
+          uri.query = URI.encode_www_form(@params) if @params.any?
         end
-        @uri
+        uri
       end
 
       ##

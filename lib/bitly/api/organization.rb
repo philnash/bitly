@@ -27,7 +27,10 @@ module Bitly
       # @return [Bitly::API::Organization::List]
       def self.list(client:)
         response = client.request(path: '/organizations')
-        List.new(response.body['organizations'].map { |org| Organization.new(data: org, client: client) }, response)
+        organizations = response.body['organizations'].map do |org|
+          Organization.new(data: org, client: client)
+        end
+        List.new(items: organizations, response: response)
       end
 
       ##

@@ -9,7 +9,7 @@ module Bitly
 
       attr_reader :response
 
-      def initialize(items, response)
+      def initialize(items:, response:)
         @items = items
         @response = response
       end
