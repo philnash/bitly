@@ -2,6 +2,7 @@
 require_relative "./base"
 require_relative "./list"
 require_relative "./group/preferences"
+require_relative "./shorten_counts"
 
 module Bitly
   module API
@@ -146,6 +147,18 @@ module Bitly
       def delete
         @response = @client.request(path: "/groups/#{guid}", method: "DELETE")
         return nil
+      end
+
+      ##
+      # Shorten counts for the group
+      #
+      # @example
+      #     group.shorten_counts
+      #
+      # @return [Bitly::API::ShortenCounts]
+      def shorten_counts
+        response = @client.request(path: "/groups/#{guid}/shorten_counts")
+        ShortenCounts.new(data: response.body, response: response)
       end
     end
   end
