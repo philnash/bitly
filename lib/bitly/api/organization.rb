@@ -82,6 +82,11 @@ module Bitly
       def groups
         @groups ||= Group.list(client: @client, organization: self)
       end
+
+      # @return [Bitly::API::ShortenCounts]
+      def shorten_counts
+        ShortenCounts.by_organization(client: @client, guid: guid)
+      end
     end
   end
 end

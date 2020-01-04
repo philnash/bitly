@@ -149,16 +149,9 @@ module Bitly
         return nil
       end
 
-      ##
-      # Shorten counts for the group
-      #
-      # @example
-      #     group.shorten_counts
-      #
       # @return [Bitly::API::ShortenCounts]
       def shorten_counts
-        response = @client.request(path: "/groups/#{guid}/shorten_counts")
-        ShortenCounts.new(data: response.body, response: response)
+        ShortenCounts.by_group(client: @client, guid: guid)
       end
     end
   end
