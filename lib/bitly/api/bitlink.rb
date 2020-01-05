@@ -8,18 +8,20 @@ module Bitly
     class Bitlink
       include Base
 
-      class List < Bitly::API::List
+      class PaginatedList < Bitly::API::List
         attr_reader :next_url, :prev_url, :size, :page, :total
 
         def initialize(items:, response: , client:)
           super(items: items, response: response)
           @client = client
-          pagination = response.body["pagination"]
-          @next_url = pagination["next"]
-          @prev_url = pagination["prev"]
-          @size = pagination["size"]
-          @page = pagination["page"]
-          @total = pagination["total"]
+          if response.body["pagination"]
+            pagination = response.body["pagination"]
+            @next_url = pagination["next"]
+            @prev_url = pagination["prev"]
+            @size = pagination["size"]
+            @page = pagination["page"]
+            @total = pagination["total"]
+          end
         end
 
         def has_next_page?
@@ -45,9 +47,11 @@ module Bitly
           bitlinks = response.body["links"].map do |link|
             Bitlink.new(data: link, client: @client)
           end
-          List.new(items: bitlinks, response: response, client: @client)
+          PaginatedList.new(items: bitlinks, response: response, client: @client)
         end
       end
+
+      class List < Bitly::API::List ; end
 
       def self.shorten(client:, long_url:, domain: nil, group_guid: nil)
         response = client.request(path: "/shorten", method: "POST", params: { "long_url" => long_url, "domain" => domain, "group_guid" => group_guid })
@@ -108,7 +112,7 @@ module Bitly
       # @param encoding_login [Array<String>] Filter by the login of the
       #     authenticated user that created the Bitlink.
       #
-      # @return [Bitly::API::Bitlink::List]
+      # @return [Bitly::API::Bitlink::PaginatedList]
       def self.list(
         client:,
         group_guid:,
@@ -149,7 +153,49 @@ module Bitly
         bitlinks = response.body["links"].map do |link|
           new(data: link, client: client)
         end
-        List.new(items: bitlinks, response: response, client: client)
+        PaginatedList.new(items: bitlinks, response: response, client: client)
+      end
+
+      ##
+      # Returns a list of Bitlinks sorted by clicks.
+      # https://dev.bitly.com/v4/#operation/getSortedBitlinks. The API returns a
+      # separate list of the links and the click counts, but this method assigns
+      # the number of clicks for each link to the Bitlink object and sorts the
+      # resulting list in descending order.
+      #
+      # Sorted lists are not paginated, so do not have any pagination detail.
+      #
+      # @example
+      #     links = Bitly::API::Bitlink.sorted_list(client: client, group_guid: guid)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param group_guid [String] The group for which you want to return links
+      # @param sort [String] The data to sort on. Default and only option is
+      #     "clicks".
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @returns [Bitly::API::Bitlink::List]
+      def self.sorted_list(client:, group_guid:, sort: "clicks", unit: nil, units: nil, unit_reference: nil, size: nil)
+        params = {
+          "unit" => unit,
+          "units" => units,
+          "unit_reference" => unit_reference,
+          "size" => size
+        }
+        response = client.request(path: "/groups/#{group_guid}/bitlinks/#{sort}", params: params)
+        link_clicks = response.body["sorted_links"]
+        bitlinks = response.body["links"].map do |link|
+          clicks = link_clicks.find { |c| c["id"] == link["id"] }["clicks"]
+          new(data: link, client: client, clicks: clicks)
+        end.sort { |a, b| b.clicks <=> a.clicks }
+        List.new(items: bitlinks, response: response)
       end
 
       def self.attributes
@@ -159,15 +205,16 @@ module Bitly
         [:created_at]
       end
       attr_reader(*(attributes + time_attributes))
-      attr_reader :deeplinks
+      attr_reader :deeplinks, :clicks
 
-      def initialize(data:, client:, response: nil)
+      def initialize(data:, client:, response: nil, clicks: nil)
         assign_attributes(data)
         if data["deeplinks"]
           @deeplinks = data["deeplinks"].map { |data| Deeplink.new(data: data) }
         else
           @deeplinks = []
         end
+        @clicks = clicks
         @client = client
         @response = response
       end
