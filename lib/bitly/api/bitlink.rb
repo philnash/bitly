@@ -2,6 +2,7 @@
 require_relative "./base"
 require_relative "./list"
 require_relative "./bitlink/deeplink"
+require_relative "./bitlink/clicks_summary"
 
 module Bitly
   module API
@@ -276,6 +277,10 @@ module Bitly
         )
         assign_attributes(@response.body)
         self
+      end
+
+      def clicks_summary(unit: nil, units: nil, unit_reference: nil, size: nil)
+        ClicksSummary.fetch(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
       end
     end
   end
