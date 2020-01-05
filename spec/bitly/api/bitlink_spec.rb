@@ -119,4 +119,75 @@ RSpec.describe Bitly::API::Bitlink do
     expect(bitlink.link).to eq("http://bit.ly/2Qj2niP")
     expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
   end
+
+  describe Bitly::API::Bitlink::List do
+    let(:pagination) {
+      {
+        "next" => "https://api-ssl.bit.ly/v4/groups/def456/bitlinks?page=2",
+        "prev" => "",
+        "total" => 100,
+        "page" => 1,
+        "size" => 50
+      }
+    }
+
+    it "initializes with pagination data" do
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: { "pagination" => pagination, "links" => [bitlink_data] }.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request)
+        .with(path: "/groups/def456/bitlinks")
+        .and_return(response)
+      list = Bitly::API::Bitlink.list(client: client, group_guid: "def456")
+      expect(list).to be_instance_of(Bitly::API::Bitlink::List)
+      expect(list.next_url).to eq(pagination["next"])
+      expect(list.prev_url).to eq(pagination["prev"])
+      expect(list.total).to eq(pagination["total"])
+      expect(list.size).to eq(pagination["size"])
+      expect(list.page).to eq(pagination["page"])
+    end
+
+    describe "with a bitlink list" do
+      let(:list) do
+        response = Bitly::HTTP::Response.new(
+          status: "200",
+          body: { "pagination" => pagination, "links" => [bitlink_data] }.to_json,
+          headers: {}
+        )
+        Bitly::API::Bitlink::List.new(
+          client: client,
+          response: response,
+          items: [Bitly::API::Bitlink.new(data: bitlink_data, client: client)]
+        )
+      end
+
+      it "has a next page" do
+        expect(list.has_next_page?).to be true
+      end
+
+      it "doesn't have a previous page" do
+        expect(list.has_prev_page?).to be false
+      end
+
+      it "can fetch the next page from the list" do
+        response = Bitly::HTTP::Response.new(
+          status: "200",
+          body: { "pagination" => pagination, "links" => [bitlink_data] }.to_json,
+          headers: {}
+        )
+        expect(client).to receive(:request)
+          .with(path: "/groups/def456/bitlinks", params: { "page" => ["2"] })
+          .and_return(response)
+        new_list = list.next_page
+        expect(new_list).to be_instance_of(Bitly::API::Bitlink::List)
+      end
+
+      it "can't fetch if there is no prev page" do
+        expect(list.prev_page).to be nil
+      end
+    end
+
+  end
 end
