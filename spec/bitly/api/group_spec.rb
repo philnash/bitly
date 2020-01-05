@@ -190,7 +190,12 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "can get bitlinks" do
-
+      bitlinks_mock = double("bitlinks")
+      expect(Bitly::API::Bitlink).to receive(:list)
+        .with(client: client, group_guid: group.guid)
+        .and_return(bitlinks_mock)
+      bitlinks = group.bitlinks
+      expect(bitlinks).to eq(bitlinks_mock)
     end
   end
 end
