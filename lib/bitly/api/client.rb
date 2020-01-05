@@ -140,6 +140,9 @@ module Bitly
       # @example
       #     shorten_counts = client.group_shorten_counts(guid: group_guid)
       #
+      # @param guid [String] The guid of the group for which you want the
+      #      shorten counts.
+      #
       # @return [Bitly::API::ShortenCounts]
       def group_shorten_counts(guid:)
         Bitly::API::ShortenCounts.by_group(client: self, guid: guid)
