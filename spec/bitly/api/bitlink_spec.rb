@@ -120,6 +120,39 @@ RSpec.describe Bitly::API::Bitlink do
     expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
   end
 
+  describe "with a bitlink" do
+    let(:bitlink) { Bitly::API::Bitlink.new(client: client, data: bitlink_data) }
+
+    it "can be updated" do
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: bitlink_data.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request)
+        .with(
+          path: "/bitlinks/bit.ly/2Qj2niP",
+          method: "PATCH",
+          params: {
+            "archived" => nil,
+            "tags" => nil,
+            "created_at" => nil,
+            "title" => "New title",
+            "deeplinks" => nil,
+            "created_by" => nil,
+            "long_url" => nil,
+            "client_id" => nil,
+            "custom_bitlinks" => nil,
+            "link" => nil,
+            "id" => nil,
+            "references" => nil
+          }
+        )
+        .and_return(response)
+      expect(bitlink.update(title: "New title")).to eq(bitlink)
+    end
+  end
+
   describe Bitly::API::Bitlink::List do
     let(:pagination) {
       {
@@ -204,6 +237,5 @@ RSpec.describe Bitly::API::Bitlink do
         expect(list.prev_page).to be nil
       end
     end
-
   end
 end

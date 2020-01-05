@@ -40,7 +40,7 @@ module Bitly
 
         private
 
-        def get_page(uri: uri)
+        def get_page(uri:)
           response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: CGI.parse(uri.query))
           bitlinks = response.body["links"].map do |link|
             Bitlink.new(data: link, client: @client)
@@ -170,6 +170,65 @@ module Bitly
         end
         @client = client
         @response = response
+      end
+
+      ##
+      # Update the Bitlink. https://dev.bitly.com/v4/#operation/updateBitlink.
+      # The parameters listed below are from the documentation. Some don't
+      # appear to work, I am trying to get in touch with the Bitly API team to
+      # confirm whether the documentation is incorrect.
+      #
+      # @example
+      #     bitlink.update(title: "New title")
+      #
+      # @param archived [Boolean]
+      # @param tags [Array<String>]
+      # @param created_at [String]
+      # @param title [String]
+      # @param deeplinks [Array<Bitly::API::Bitlink::Deeplink>]
+      # @param created_by [String]
+      # @param long_url [String]
+      # @param client_id [String]
+      # @param custom_bitlinks [Array<String>]
+      # @param link [String]
+      # @param id [String]
+      # @param references [Hash<String, String>]
+      #
+      # @returns [Bitly::API::Bitlink]
+      def update(
+        archived: nil,
+        tags: nil,
+        created_at: nil,
+        title: nil,
+        deeplinks: nil,
+        created_by: nil,
+        long_url: nil,
+        client_id: nil,
+        custom_bitlinks: nil,
+        link: nil,
+        id: nil,
+        references: nil
+      )
+        @response = @client.request(
+          path: "/bitlinks/#{@id}",
+          method: "PATCH",
+          params: {
+            "archived" => archived,
+            "tags" => tags,
+            "created_at" => created_at,
+            "title" => title,
+            "deeplinks" => deeplinks,
+            "created_by" => created_by,
+            "long_url" =>long_url ,
+            "client_id" => client_id,
+            "custom_bitlinks" => custom_bitlinks,
+            "link" => link,
+            "id" => id,
+            "references" => references
+          }
+        )
+        assign_attributes(@response.body)
+        self
       end
     end
   end
