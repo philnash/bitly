@@ -151,14 +151,40 @@ RSpec.describe Bitly::API::Bitlink do
         .and_return(response)
       expect(bitlink.update(title: "New title")).to eq(bitlink)
     end
-  end
+
+    it "can fetch the clicks summary" do
+      clicks_summary = double("clicks_summary")
+      expect(Bitly::API::Bitlink::ClicksSummary).to receive(:fetch)
+        .with(client: client, bitlink: bitlink.id, unit: nil, units: nil, unit_reference: nil, size: nil)
+        .and_return(clicks_summary)
+      expect(bitlink.clicks_summary).to eq(clicks_summary)
+    end
+end
 
   describe "sorted lists" do
-    let(:sorted_links) { [{"id" => bitlink_data["id"], "clicks" => 17 }] }
+    let(:bitlink_data2) {
+      {
+        "created_at"=>"2020-01-02T23:51:47+0000",
+        "id"=>"bit.ly/2Qj2niQ",
+        "link"=>"http://bit.ly/2Qj2niQ",
+        "custom_bitlinks"=>[],
+        "long_url"=>"https://example.com/",
+        "archived"=>false,
+        "tags"=>[],
+        "deeplinks"=>[],
+        "references"=>{
+          "group"=>"https://api-ssl.bitly.com/v4/groups/def456"
+        }
+      }
+    }
+    let(:sorted_links) {[
+      {"id" => bitlink_data["id"], "clicks" => 17 },
+      {"id" => bitlink_data2["id"], "clicks" => 341 }
+    ]}
     it "returns sorted data" do
       response = Bitly::HTTP::Response.new(
         status: "200",
-        body: { "sorted_links" => sorted_links, "links" => [bitlink_data] }.to_json,
+        body: { "sorted_links" => sorted_links, "links" => [bitlink_data, bitlink_data2] }.to_json,
         headers: {}
       )
       expect(client).to receive(:request)
@@ -174,7 +200,8 @@ RSpec.describe Bitly::API::Bitlink do
         .and_return(response)
       links = Bitly::API::Bitlink.sorted_list(client: client, group_guid: "def456")
       expect(links).to be_instance_of(Bitly::API::Bitlink::List)
-      expect(links.first.clicks).to eq(17)
+      click_counts = [341, 17]
+      links.each_with_index { |link, index| expect(link.clicks).to eq(click_counts[index])}
     end
   end
 
