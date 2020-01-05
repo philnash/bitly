@@ -82,7 +82,7 @@ module Bitly
       # @param data [Hash<String, String|Boolean>] Data returned from the API
       #     about the group
       # @param client [Bitly::API::Client] An authorized API client
-      # @param respomnse [Bitly::HTTP::Response] The response object from an API
+      # @param response [Bitly::HTTP::Response] The response object from an API
       #     call
       # @param organization [Bitly::API::Organization]
       #
