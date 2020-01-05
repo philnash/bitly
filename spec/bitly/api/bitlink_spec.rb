@@ -153,7 +153,33 @@ RSpec.describe Bitly::API::Bitlink do
     end
   end
 
-  describe Bitly::API::Bitlink::List do
+  describe "sorted lists" do
+    let(:sorted_links) { [{"id" => bitlink_data["id"], "clicks" => 17 }] }
+    it "returns sorted data" do
+      response = Bitly::HTTP::Response.new(
+        status: "200",
+        body: { "sorted_links" => sorted_links, "links" => [bitlink_data] }.to_json,
+        headers: {}
+      )
+      expect(client).to receive(:request)
+        .with(
+          path: "/groups/def456/bitlinks/clicks",
+          params: {
+            "unit" => nil,
+            "units" => nil,
+            "unit_reference" => nil,
+            "size" => nil
+          }
+        )
+        .and_return(response)
+      links = Bitly::API::Bitlink.sorted_list(client: client, group_guid: "def456")
+      expect(links).to be_instance_of(Bitly::API::Bitlink::List)
+      expect(links.first.clicks).to eq(17)
+    end
+  end
+
+
+  describe Bitly::API::Bitlink::PaginatedList do
     let(:pagination) {
       {
         "next" => "https://api-ssl.bit.ly/v4/groups/def456/bitlinks?page=2",
@@ -190,7 +216,7 @@ RSpec.describe Bitly::API::Bitlink do
         })
         .and_return(response)
       list = Bitly::API::Bitlink.list(client: client, group_guid: "def456")
-      expect(list).to be_instance_of(Bitly::API::Bitlink::List)
+      expect(list).to be_instance_of(Bitly::API::Bitlink::PaginatedList)
       expect(list.next_url).to eq(pagination["next"])
       expect(list.prev_url).to eq(pagination["prev"])
       expect(list.total).to eq(pagination["total"])
@@ -205,7 +231,7 @@ RSpec.describe Bitly::API::Bitlink do
           body: { "pagination" => pagination, "links" => [bitlink_data] }.to_json,
           headers: {}
         )
-        Bitly::API::Bitlink::List.new(
+        Bitly::API::Bitlink::PaginatedList.new(
           client: client,
           response: response,
           items: [Bitly::API::Bitlink.new(data: bitlink_data, client: client)]
@@ -230,7 +256,7 @@ RSpec.describe Bitly::API::Bitlink do
           .with(path: "/groups/def456/bitlinks", params: { "page" => ["2"] })
           .and_return(response)
         new_list = list.next_page
-        expect(new_list).to be_instance_of(Bitly::API::Bitlink::List)
+        expect(new_list).to be_instance_of(Bitly::API::Bitlink::PaginatedList)
       end
 
       it "can't fetch if there is no prev page" do
