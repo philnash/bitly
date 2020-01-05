@@ -30,16 +30,11 @@ module Bitly
       #     object or a String representing an organization guid
       #
       # @return [Bitly::API::Group::List]
-      def self.list(client:, organization: nil)
-        params = {}
-        if organization.is_a? Organization
-          params["organization_guid"] = organization.guid
-        elsif organization.is_a? String
-          params["organization_guid"] = organization
-        end
+      def self.list(client:, organization_guid: nil)
+        params = { "organization_guid" => organization_guid }
         response = client.request(path: "/groups", params: params)
         groups = response.body["groups"].map do |group|
-          Group.new(data: group, client: client, organization: organization)
+          Group.new(data: group, client: client)
         end
         List.new(items: groups, response: response)
       end

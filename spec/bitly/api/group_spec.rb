@@ -25,27 +25,10 @@ RSpec.describe Bitly::API::Group do
     )
     client = double("client")
     expect(client).to receive(:request)
-      .with(path: "/groups", params: {})
+      .with(path: "/groups", params: { "organization_guid" => nil })
       .and_return(response)
 
     groups = Bitly::API::Group.list(client: client)
-    expect(groups.count).to eq(1)
-    expect(groups.first).to be_instance_of(Bitly::API::Group)
-    expect(groups.response).to eq(response)
-  end
-
-  it "can list groups filtered by organization" do
-    response = Bitly::HTTP::Response.new(
-      status: "200",
-      body: { "groups" => [group_data] }.to_json,
-      headers: {}
-    )
-    client = double("client")
-    expect(client).to receive(:request)
-      .with(path: "/groups", params: { "organization_guid" => "abc123" })
-      .and_return(response)
-    organization = Bitly::API::Organization.new(data: {"guid" => "abc123"}, client: client)
-    groups = Bitly::API::Group.list(client: client, organization: organization)
     expect(groups.count).to eq(1)
     expect(groups.first).to be_instance_of(Bitly::API::Group)
     expect(groups.response).to eq(response)
@@ -61,7 +44,7 @@ RSpec.describe Bitly::API::Group do
     expect(client).to receive(:request)
       .with(path: "/groups", params: { "organization_guid" => "abc123" })
       .and_return(response)
-    groups = Bitly::API::Group.list(client: client, organization: "abc123")
+    groups = Bitly::API::Group.list(client: client, organization_guid: "abc123")
     expect(groups.count).to eq(1)
     expect(groups.first).to be_instance_of(Bitly::API::Group)
     expect(groups.response).to eq(response)
