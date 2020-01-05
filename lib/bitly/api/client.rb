@@ -99,6 +99,9 @@ module Bitly
       # @example
       #     shorten_counts = client.organization_shorten_counts(guid: org_guid)
       #
+      # @param guid [String] The guid of the organization for which you want the
+      #      shorten counts.
+      #
       # @return [Bitly::API::ShortenCounts]
       def organization_shorten_counts(guid:)
         Bitly::API::ShortenCounts.by_organization(client: self, guid: guid)
@@ -109,6 +112,9 @@ module Bitly
       #
       # @example
       #     groups = client.groups
+      #
+      # @param organization [String] The organization guid of the organization
+      #     for which you want the available groups.
       #
       # @return [Bitly::API::Group::List]
       def groups(organization: nil)
