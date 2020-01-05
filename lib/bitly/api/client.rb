@@ -89,7 +89,7 @@ module Bitly
       # @param guid [String] The guid of the organization you want.
       #
       # @return [Bitly::API::Organization]
-      def organization(guid)
+      def organization(guid:)
         Organization.fetch(client: self, guid: guid)
       end
 
@@ -117,8 +117,8 @@ module Bitly
       #     for which you want the available groups.
       #
       # @return [Bitly::API::Group::List]
-      def groups(organization: nil)
-        Group.list(client: self, organization: organization)
+      def groups(organization_guid: nil)
+        Group.list(client: self, organization_guid: organization_guid)
       end
 
       ##
@@ -130,7 +130,7 @@ module Bitly
       # @param guid [String] The guid of the group you want.
       #
       # @return [Bitly::API::Group]
-      def group(guid)
+      def group(guid:)
         Group.fetch(client: self, guid: guid)
       end
 
