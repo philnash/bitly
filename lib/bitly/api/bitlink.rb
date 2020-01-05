@@ -31,18 +31,16 @@ module Bitly
         end
 
         def next_page
-          return false unless has_next_page?
-          page(URI(next_url))
+          has_next_page? ? get_page(URI(next_url)) : nil
         end
 
         def prev_page
-          return false unless has_prev_page?
-          page(URI(prev_url))
+          has_prev_page? ? get_page(URI(prev_url)) : nil
         end
 
         private
 
-        def page(uri)
+        def get_page(uri)
           response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: CGI.parse(uri.query))
           bitlinks = response.body["links"].map do |link|
             Bitlink.new(data: link, client: @client)
