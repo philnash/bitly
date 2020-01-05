@@ -151,7 +151,7 @@ module Bitly
 
       # @return [Bitly::API::Bitlink::List]
       def bitlinks
-
+        Bitly::API::Bitlink.list(client: @client, group_guid: guid)
       end
     end
   end

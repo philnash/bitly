@@ -138,7 +138,23 @@ RSpec.describe Bitly::API::Bitlink do
         headers: {}
       )
       expect(client).to receive(:request)
-        .with(path: "/groups/def456/bitlinks")
+        .with(path: "/groups/def456/bitlinks", params: {
+          "size"=>nil,
+          "page"=>nil,
+          "keyword"=>nil,
+          "query"=>nil,
+          "created_before"=>nil,
+          "created_after"=>nil,
+          "modified_after"=>nil,
+          "archived"=>nil,
+          "deeplinks"=>nil,
+          "domain_deeplinks"=>nil,
+          "campaign_guid"=>nil,
+          "channel_guid"=>nil,
+          "custom_bitlink"=>nil,
+          "tags"=>nil,
+          "encoding_login"=>nil
+        })
         .and_return(response)
       list = Bitly::API::Bitlink.list(client: client, group_guid: "def456")
       expect(list).to be_instance_of(Bitly::API::Bitlink::List)
