@@ -159,6 +159,14 @@ RSpec.describe Bitly::API::Bitlink do
         .and_return(clicks_summary)
       expect(bitlink.clicks_summary).to eq(clicks_summary)
     end
+
+    it "can fetch the link clicks" do
+      link_clicks = double("link_clicks")
+      expect(Bitly::API::Bitlink::LinkClick).to receive(:list)
+        .with(client: client, bitlink: bitlink.id, unit: nil, units: nil, unit_reference: nil, size: nil)
+        .and_return(link_clicks)
+      expect(bitlink.link_clicks).to eq(link_clicks)
+    end
 end
 
   describe "sorted lists" do

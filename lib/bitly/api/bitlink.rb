@@ -3,6 +3,7 @@ require_relative "./base"
 require_relative "./list"
 require_relative "./bitlink/deeplink"
 require_relative "./bitlink/clicks_summary"
+require_relative "./bitlink/link_click"
 
 module Bitly
   module API
@@ -281,6 +282,10 @@ module Bitly
 
       def clicks_summary(unit: nil, units: nil, unit_reference: nil, size: nil)
         ClicksSummary.fetch(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
+      end
+
+      def link_clicks(unit: nil, units: nil, unit_reference: nil, size: nil)
+        LinkClick.list(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
       end
     end
   end
