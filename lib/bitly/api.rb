@@ -7,6 +7,7 @@ module Bitly
 end
 
 require_relative "./api/client"
+require_relative "./api/click_metric"
 require_relative "./api/bitlink"
 require_relative "./api/organization"
 require_relative "./api/group"
