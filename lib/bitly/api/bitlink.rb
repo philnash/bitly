@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative "./base"
 require_relative "./list"
+require_relative "./bitlink/paginated_list"
 require_relative "./bitlink/deeplink"
 require_relative "./bitlink/clicks_summary"
 require_relative "./bitlink/link_click"
@@ -10,73 +11,97 @@ module Bitly
     class Bitlink
       include Base
 
-      class PaginatedList < Bitly::API::List
-        attr_reader :next_url, :prev_url, :size, :page, :total
-
-        def initialize(items:, response: , client:)
-          super(items: items, response: response)
-          @client = client
-          if response.body["pagination"]
-            pagination = response.body["pagination"]
-            @next_url = pagination["next"]
-            @prev_url = pagination["prev"]
-            @size = pagination["size"]
-            @page = pagination["page"]
-            @total = pagination["total"]
-          end
-        end
-
-        def has_next_page?
-          !next_url.nil? && !next_url.empty?
-        end
-
-        def has_prev_page?
-          !prev_url.nil? && !prev_url.empty?
-        end
-
-        def next_page
-          has_next_page? ? get_page(uri: URI(next_url)) : nil
-        end
-
-        def prev_page
-          has_prev_page? ? get_page(uri: URI(prev_url)) : nil
-        end
-
-        private
-
-        def get_page(uri:)
-          response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: CGI.parse(uri.query))
-          bitlinks = response.body["links"].map do |link|
-            Bitlink.new(data: link, client: @client)
-          end
-          PaginatedList.new(items: bitlinks, response: response, client: @client)
-        end
-      end
-
       class List < Bitly::API::List ; end
 
+      ##
+      # Shortens a long url.
+      # [`POST /v4/shorten`](https://dev.bitly.com/v4/#operation/createBitlink)
+      #
+      # @example
+      #     bitlink = Bitly::API::Bitlink.shorten(client: client, long_url: long_url)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param long_url [String] A long URL that you want shortened
+      # @param domain [String] The bitly domain you want to shorten, API default
+      #     is "bit.ly"
+      # @param group_guid [String] The GUID of the group for which you want to
+      #     shorten this URL
+      #
+      # @return [Bitly::API::Bitlink]
       def self.shorten(client:, long_url:, domain: nil, group_guid: nil)
-        response = client.request(path: "/shorten", method: "POST", params: { "long_url" => long_url, "domain" => domain, "group_guid" => group_guid })
+        response = client.request(
+          path: "/shorten",
+          method: "POST",
+          params: {
+            "long_url" => long_url,
+            "domain" => domain,
+            "group_guid" => group_guid
+          })
         new(data: response.body, client: client, response: response)
       end
 
+      ##
+      # Creates a new Bitlink from a long URL. Similar to #shorten but takes
+      # more parameters.
+      # [`POST /v4/bitlinks`](https://dev.bitly.com/v4/#operation/createFullBitlink)
+      #
+      # @example
+      #     bitlink = Bitly::API::Bitlink.create(client: client, long_url: long_url)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param long_url [String] A long URL that you want shortened
+      # @param domain [String] The bitly domain you want to shorten, API default
+      #     is "bit.ly"
+      # @param group_guid [String] The GUID of the group for which you want to
+      #     shorten this URL
+      # @param title [String] A descriptive title for the link
+      # @param tags [Array<String>] Some tags for the Bitlink
+      # @param deeplinks [Array<Bitly::API::Bitlink::Deeplink>]
+      #
+      # @return [Bitly::API::Bitlink]
       def self.create(client:, long_url:, domain: nil, group_guid: nil, title: nil, tags: nil, deeplinks: nil)
-        response = client.request(path: "/bitlinks", method: "POST", params: {
-          "long_url" => long_url,
-          "domain" => domain,
-          "group_guid" => group_guid,
-          "title" => title,
-          "tags" => tags,
-          "deeplinks" => deeplinks
-        })
+        response = client.request(
+          path: "/bitlinks",
+          method: "POST",
+          params: {
+            "long_url" => long_url,
+            "domain" => domain,
+            "group_guid" => group_guid,
+            "title" => title,
+            "tags" => tags,
+            "deeplinks" => deeplinks
+          }
+        )
         new(data: response.body, client: client, response: response)
       end
 
+      ##
+      # Return information about a bitlink
+      # [`GET /v4/bitlink/{bitlink}`](https://dev.bitly.com/v4/#operation/getBitlink)
+      #
+      # @example
+      #     bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: "bit.ly/example")
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param bitlink [String] The bitlink you want information about
+      #
+      # @return [Bitly::API::Bitlink]
       def self.fetch(client:, bitlink:)
         response = client.request(path: "/bitlinks/#{bitlink}")
         new(data: response.body, client: client, response: response)
       end
 
+      ##
+      # Return public information about a bitlink
+      # [`POST /v4/expand`](https://dev.bitly.com/v4/#operation/expandBitlink)
+      #
+      # @example
+      #     bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: "bit.ly/example")
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param bitlink [String] The bitlink you want information about
+      #
+      # @return [Bitly::API::Bitlink]
       def self.expand(client:, bitlink:)
         response = client.request(path: "/expand", method: "POST", params: { "bitlink_id" => bitlink })
         new(data: response.body, client: client, response: response)
@@ -84,6 +109,7 @@ module Bitly
 
       ##
       # Retrieve a list of bitlinks by group
+      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
       #
       # @example
       #     bitlinks = Bitly::API::Bitlink.list(client: client, group_guid: guid)
@@ -160,10 +186,11 @@ module Bitly
 
       ##
       # Returns a list of Bitlinks sorted by clicks.
-      # https://dev.bitly.com/v4/#operation/getSortedBitlinks. The API returns a
-      # separate list of the links and the click counts, but this method assigns
-      # the number of clicks for each link to the Bitlink object and sorts the
-      # resulting list in descending order.
+      # [`GET /v4/groups/{group_guid}/bitlinks/{sort}`](https://dev.bitly.com/v4/#operation/getSortedBitlinks)
+      #
+      # The API returns a separate list of the links and the click counts, but
+      # this method assigns the number of clicks for each link to the Bitlink
+      # object and sorts the resulting list in descending order.
       #
       # Sorted lists are not paginated, so do not have any pagination detail.
       #
@@ -222,10 +249,11 @@ module Bitly
       end
 
       ##
-      # Update the Bitlink. https://dev.bitly.com/v4/#operation/updateBitlink.
-      # The parameters listed below are from the documentation. Some don't
-      # appear to work, I am trying to get in touch with the Bitly API team to
-      # confirm whether the documentation is incorrect.
+      # Update the Bitlink.
+      # [`PATCH /v4/bitlink/{bitlink}`](https://dev.bitly.com/v4/#operation/updateBitlink)
+      #
+      # The parameters listed below are from the documentation. Some only work
+      # if you have a Bitly Pro account.
       #
       # @example
       #     bitlink.update(title: "New title")
@@ -280,10 +308,16 @@ module Bitly
         self
       end
 
+      # [`GET /v4/bitlink/{bitlink}/clicks/summary`](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink)
+      #
+      # @return [Bitly::API::Bitlink::ClicksSummary]
       def clicks_summary(unit: nil, units: nil, unit_reference: nil, size: nil)
         ClicksSummary.fetch(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
       end
 
+      # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
+      #
+      # @return [Bitly::API::Bitlink::LinkClick]
       def link_clicks(unit: nil, units: nil, unit_reference: nil, size: nil)
         LinkClick.list(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
       end
