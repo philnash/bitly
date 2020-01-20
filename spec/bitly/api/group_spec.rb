@@ -197,5 +197,35 @@ RSpec.describe Bitly::API::Group do
       bitlinks = group.bitlinks
       expect(bitlinks).to eq(bitlinks_mock)
     end
+
+    it "can get referring networks metrics" do
+      click_metrics = double("referring_networks")
+      expect(Bitly::API::ClickMetric).to receive(:list_referring_networks)
+        .with(
+          client: client,
+          group_guid: group.guid,
+          unit: nil,
+          units: nil,
+          unit_reference: nil,
+          size: nil
+        )
+        .and_return(click_metrics)
+      expect(group.referring_networks).to eq(click_metrics)
+    end
+
+    it "can get country metrics" do
+      click_metrics = double("countries")
+      expect(Bitly::API::ClickMetric).to receive(:list_countries_by_group)
+        .with(
+          client: client,
+          group_guid: group.guid,
+          unit: nil,
+          units: nil,
+          unit_reference: nil,
+          size: nil
+        )
+        .and_return(click_metrics)
+      expect(group.countries).to eq(click_metrics)
+    end
   end
 end
