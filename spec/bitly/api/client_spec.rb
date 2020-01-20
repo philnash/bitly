@@ -173,31 +173,6 @@ RSpec.describe Bitly::API::Client do
           client.expand(bitlink: id)
       end
 
-      it "fetches bitlinks by group" do
-        group_guid = "abc123"
-        expect(Bitly::API::Bitlink).to receive(:list)
-          .with(
-            client: client,
-            group_guid: group_guid,
-            size: nil,
-            page: nil,
-            keyword: nil,
-            query: nil,
-            created_before: nil,
-            created_after: nil,
-            modified_after: nil,
-            archived: nil,
-            deeplinks: nil,
-            domain_deeplinks: nil,
-            campaign_guid: nil,
-            channel_guid: nil,
-            custom_bitlink: nil,
-            tags: nil,
-            encoding_login: nil
-          )
-        client.list_bitlinks(group_guid: group_guid)
-      end
-
       it "fetches sorted bitlinks by group" do
         group_guid = "abc123"
         expect(Bitly::API::Bitlink).to receive(:sorted_list)
@@ -280,6 +255,8 @@ RSpec.describe Bitly::API::Client do
     end
 
     describe "Group" do
+      let(:group_guid) { "abc123" }
+
       it "fetches the list of groups" do
         expect(Bitly::API::Group).to receive(:list)
           .with(client: client, organization_guid: nil)
@@ -299,10 +276,69 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "fetches shorten counts by group" do
-        group_guid = "abc123"
         expect(Bitly::API::ShortenCounts).to receive(:by_group)
           .with(client: client, group_guid: group_guid)
         client.group_shorten_counts(group_guid: group_guid)
+      end
+
+      it "fetches a group's preferences" do
+        expect(Bitly::API::Group::Preferences).to receive(:fetch)
+          .with(client: client, group_guid: group_guid)
+        client.group_preferences(group_guid: group_guid)
+      end
+
+      it "updates a group's preferences" do
+        domain_preference = "j.mp"
+        prefs = double("preferences")
+        expect(Bitly::API::Group::Preferences).to receive(:new)
+          .with(data: { "group_guid" => group_guid }, client: client)
+          .and_return(prefs)
+        expect(prefs).to receive(:update)
+          .with(domain_preference: domain_preference)
+        client.update_group_preferences(group_guid: group_guid, domain_preference: domain_preference)
+      end
+
+      it "updates a group" do
+        group = double("group")
+        expect(Bitly::API::Group).to receive(:new)
+          .with(data: { "guid" => group_guid }, client: client)
+          .and_return(group)
+        expect(group).to receive(:update)
+          .with(name: "New name", organization_guid: nil, bsds: nil)
+        client.update_group(group_guid: group_guid, name: "New name")
+      end
+
+      it "deletes a group" do
+        group = double("group")
+        expect(Bitly::API::Group).to receive(:new)
+          .with(data: { "guid" => group_guid }, client: client)
+          .and_return(group)
+        expect(group).to receive(:delete)
+        client.delete_group(group_guid: group_guid)
+      end
+
+      it "gets a group's bitlinks" do
+        expect(Bitly::API::Bitlink).to receive(:list)
+          .with(
+            client: client,
+            group_guid: group_guid,
+            size: nil,
+            page: nil,
+            keyword: nil,
+            query: nil,
+            created_before: nil,
+            created_after: nil,
+            modified_after: nil,
+            archived: nil,
+            deeplinks: nil,
+            domain_deeplinks: nil,
+            campaign_guid: nil,
+            channel_guid: nil,
+            custom_bitlink: nil,
+            tags: nil,
+            encoding_login: nil
+          )
+        client.group_bitlinks(group_guid: group_guid)
       end
     end
 

@@ -123,78 +123,6 @@ module Bitly
       end
 
       ##
-      # Retrieve a list of bitlinks by group.
-      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
-      #
-      # @example
-      #     bitlinks = client.list(group_guid: guid)
-      #
-      # @param group_guid [String] The group guid for which you want bitlinks
-      # @param size [Integer] The number of Bitlinks to return, max 100
-      # @param page [Integer] The page of bitlinks to request
-      # @param keyword [String] Custom keyword to filter on history entries
-      # @param query [String] A value to search for Bitlinks
-      # @param created_before [Integer] Timestamp as an integer unix epoch
-      # @param created_after [Integer] Timestamp as an integer unix epoch
-      # @param modified_after [Integer] Timestamp as an integer unix epoch
-      # @param archived [String] Whether or not to include archived Bitlinks.
-      #     One of "on", "off" or "both". Defaults to "off".
-      # @param deeplinks [String] Filter to only Bitlinks that contain
-      #     deeplinks. One of "on", "off" or "both". Defaults to "both".
-      # @param domain_deeplinks [String] Filter to only Bitlinks that contain
-      #     deeplinks configured with a custom domain. One of "on", "off" or
-      #     "both". Defaults to "both".
-      # @param campaign_guid [String] Filter to return only links for the given
-      #     campaign GUID, can be provided
-      # @param channel_guid [String] Filter to return only links for the given
-      #     channel GUID, can be provided, overrides all other parameters
-      # @param custom_bitlink [String] Filter to return only custom Bitlinks.
-      #     One of "on", "off" or "both". Defaults to "both".
-      # @param tags [Array<String>] Filter by the given tags.
-      # @param encoding_login [Array<String>] Filter by the login of the
-      #     authenticated user that created the Bitlink.
-      #
-      # @return [Bitly::API::Bitlink::PaginatedList]
-      def list_bitlinks(
-        group_guid:,
-        size: nil,
-        page: nil,
-        keyword: nil,
-        query: nil,
-        created_before: nil,
-        created_after: nil,
-        modified_after: nil,
-        archived: nil,
-        deeplinks: nil,
-        domain_deeplinks: nil,
-        campaign_guid: nil,
-        channel_guid: nil,
-        custom_bitlink: nil,
-        tags: nil,
-        encoding_login: nil
-      )
-        Bitlink.list(
-          client: self,
-          group_guid: group_guid,
-          size: size,
-          page: page,
-          keyword: keyword,
-          query: query,
-          created_before: created_before,
-          created_after: created_after,
-          modified_after: modified_after,
-          archived: archived,
-          deeplinks: deeplinks,
-          domain_deeplinks: domain_deeplinks,
-          campaign_guid: campaign_guid,
-          channel_guid: channel_guid,
-          custom_bitlink: custom_bitlink,
-          tags: tags,
-          encoding_login: encoding_login
-        )
-      end
-
-      ##
       # Returns a list of Bitlinks sorted by clicks.
       # [`GET /v4/groups/{group_guid}/bitlinks/{sort}`](https://dev.bitly.com/v4/#operation/getSortedBitlinks)
       #
@@ -406,6 +334,139 @@ module Bitly
       # @return [Bitly::API::ShortenCounts]
       def group_shorten_counts(group_guid:)
         Bitly::API::ShortenCounts.by_group(client: self, group_guid: group_guid)
+      end
+
+      ##
+      # Fetch a group's preferences.
+      # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/getGroupPreferences)
+      #
+      # @param group_guid [String] The group's guid
+      #
+      # @return [Bitly::API::Group::Preferences]
+      def group_preferences(group_guid:)
+        Group::Preferences.fetch(client: self, group_guid: group_guid)
+      end
+
+      ##
+      # Update a group's preferences.
+      # [`PATCH /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/updateGroupPreferences)
+      #
+      # @param group_guid [String] The group's guid
+      # @param domain_preference [String] The new domain preference for this
+      #     group
+      #
+      # @return [Bitly::API::Group::Preferences]
+      def update_group_preferences(group_guid:, domain_preference:)
+        group_preferences = Group::Preferences.new(data: { "group_guid" => group_guid }, client: self)
+        group_preferences.update(domain_preference: domain_preference)
+      end
+
+      ##
+      # Allows you to update a group's name, organization or BSDs.
+      # [`PATCH /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/updateGroup)
+      #
+      # @example
+      #     client.update_group(group_guid: group_guid, name: "New Name", organization_guid: "aaabbb")
+      #
+      # @param group_guid [String] The group's guid
+      # @param name [String] A new name
+      # @param organization_guid [String] A new organization guid
+      # @param bsds [Array<String>] An array of branded short domains
+      #
+      # @return [Bitly::API::Group]
+      def update_group(group_guid:, name: nil, organization_guid: nil, bsds: nil)
+        group = Group.new(data: { "guid" => group_guid }, client: self)
+        group.update(
+          name: name,
+          organization_guid: organization_guid,
+          bsds: bsds
+        )
+      end
+
+      ##
+      # Retrieve a list of bitlinks by group
+      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
+      #
+      # @example
+      #     bitlinks = client.group_bitlinks(group_guid: guid)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param group_guid [String] The group guid for which you want bitlinks
+      # @param size [Integer] The number of Bitlinks to return, max 100
+      # @param page [Integer] The page of bitlinks to request
+      # @param keyword [String] Custom keyword to filter on history entries
+      # @param query [String] A value to search for Bitlinks
+      # @param created_before [Integer] Timestamp as an integer unix epoch
+      # @param created_after [Integer] Timestamp as an integer unix epoch
+      # @param modified_after [Integer] Timestamp as an integer unix epoch
+      # @param archived [String] Whether or not to include archived Bitlinks.
+      #     One of "on", "off" or "both". Defaults to "off".
+      # @param deeplinks [String] Filter to only Bitlinks that contain
+      #     deeplinks. One of "on", "off" or "both". Defaults to "both".
+      # @param domain_deeplinks [String] Filter to only Bitlinks that contain
+      #     deeplinks configured with a custom domain. One of "on", "off" or
+      #     "both". Defaults to "both".
+      # @param campaign_guid [String] Filter to return only links for the given
+      #     campaign GUID, can be provided
+      # @param channel_guid [String] Filter to return only links for the given
+      #     channel GUID, can be provided, overrides all other parameters
+      # @param custom_bitlink [String] Filter to return only custom Bitlinks.
+      #     One of "on", "off" or "both". Defaults to "both".
+      # @param tags [Array<String>] Filter by the given tags.
+      # @param encoding_login [Array<String>] Filter by the login of the
+      #     authenticated user that created the Bitlink.
+      #
+      # @return [Bitly::API::Bitlink::PaginatedList]
+      def group_bitlinks(
+        group_guid:,
+        size: nil,
+        page: nil,
+        keyword: nil,
+        query: nil,
+        created_before: nil,
+        created_after: nil,
+        modified_after: nil,
+        archived: nil,
+        deeplinks: nil,
+        domain_deeplinks: nil,
+        campaign_guid: nil,
+        channel_guid: nil,
+        custom_bitlink: nil,
+        tags: nil,
+        encoding_login: nil
+      )
+        Bitlink.list(
+          client: self,
+          group_guid: group_guid,
+          size: size,
+          page: page,
+          keyword: keyword,
+          query: query,
+          created_before: created_before,
+          created_after: created_after,
+          modified_after: modified_after,
+          archived: archived,
+          deeplinks: deeplinks,
+          domain_deeplinks: domain_deeplinks,
+          campaign_guid: campaign_guid,
+          channel_guid: channel_guid,
+          custom_bitlink: custom_bitlink,
+          tags: tags,
+          encoding_login: encoding_login
+        )
+      end
+
+      ##
+      # Deletes a group.
+      # [`DELETE /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/deleteGroup)
+      #
+      # @example
+      #     client.delete_group(group_guid: group_guid)
+      #
+      # @return [Nil]
+      def delete_group(group_guid:)
+        group = Group.new(data: { "guid" => group_guid }, client: self)
+        group.delete
       end
 
       ##
