@@ -32,6 +32,22 @@ module Bitly
         end
       end
 
+      ##
+      # Gets the referring networks for the group.
+      # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param group_guid [String] The guid of the group
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @return [Bitly::API::ClickMetric::List]
       def self.list_referring_networks(client:, group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
@@ -43,6 +59,22 @@ module Bitly
         )
       end
 
+      ##
+      # Gets the country click metrics for the group.
+      # [`GET /v4/groups/{group_guid}/countries`](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
+      #
+      # @param client [Bitly::API::Client] An authorized API client
+      # @param group_guid [String] The guid of the group
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @return [Bitly::API::ClickMetric::List]
       def self.list_countries_by_group(client:, group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
