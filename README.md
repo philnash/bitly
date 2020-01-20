@@ -68,7 +68,7 @@ oauth.access_token(username: username, password: password)
 
 ### Available API Endpoints
 
-This gem supports the active v4 API endpoints for the [Bitly API](https://dev.bitly.com/v4_documentation.html).
+This gem supports the following active v4 API endpoints for the[Bitly API](https://dev.bitly.com/v4_documentation.html).
 
 #### Groups
 

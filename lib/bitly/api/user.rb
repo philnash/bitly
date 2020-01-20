@@ -18,6 +18,7 @@ module Bitly
       include Base
       ##
       # Gets the authorized user from the API.
+      # [`GET /v4/user`](https://dev.bitly.com/v4/#operation/getUser)
       #
       # @example
       #     user = Bitly::API::User.fetch(client: client)
@@ -78,6 +79,7 @@ module Bitly
       # Allows you to update the authorized user's name or default group guid.
       # If you update the default group ID and have already loaded the default
       # group, it is nilled out so it can be reloaded with the correct ID.
+      # [`PATCH /v4/user`](https://dev.bitly.com/v4/#operation/updateUser)]
       #
       # @example
       #     user.update(name: "New Name", default_group_guid: "aaabbb")
