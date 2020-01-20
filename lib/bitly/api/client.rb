@@ -224,6 +224,34 @@ module Bitly
       end
 
       ##
+      # Get the clicks for a bitlink.
+      # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
+      #
+      # @param bitlink [String] The Bitlink for which you want the clicks
+      # @param sort [String] The data to sort on. Default and only option is
+      #     "clicks".
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @return [Bitly::API::Bitlink::LinkClick::List]
+      def bitlink_clicks(bitlink:, unit: nil, units: nil, unit_reference: nil, size: nil)
+        Bitlink::LinkClick.list(
+          client: self,
+          bitlink: bitlink,
+          unit: unit,
+          units: units,
+          unit_reference: unit_reference,
+          size: size
+        )
+      end
+
+      ##
       # Get a list of organizations from the API.
       # [`GET /v4/organizations`](https://dev.bitly.com/v4/#operation/getOrganizations)
       #
@@ -467,6 +495,58 @@ module Bitly
       def delete_group(group_guid:)
         group = Group.new(data: { "guid" => group_guid }, client: self)
         group.delete
+      end
+
+      ##
+      # Gets the referring networks for the group.
+      # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
+      #
+      # @param group_guid [String] The guid of the group
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @return [Bitly::API::ClickMetric::List]
+      def group_referring_networks(group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        ClickMetric.list_referring_networks(
+          client: self,
+          group_guid: group_guid,
+          unit: unit,
+          units: units,
+          unit_reference: unit_reference,
+          size: size
+        )
+      end
+
+      ##
+      # Gets the country click metrics for the group.
+      # [`GET /v4/groups/{group_guid}/countries`](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
+      #
+      # @param group_guid [String] The guid of the group
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @return [Bitly::API::ClickMetric::List]
+      def group_countries(group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        ClickMetric.list_countries_by_group(
+          client: self,
+          group_guid: group_guid,
+          unit: unit,
+          units: units,
+          unit_reference: unit_reference,
+          size: size
+        )
       end
 
       ##
