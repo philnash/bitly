@@ -132,6 +132,8 @@ RSpec.describe Bitly::API::Client do
     let(:client) { Bitly::API::Client.new(token: token) }
 
     describe "Bitlink" do
+      let(:id) { "https://bit.ly/short" }
+
       it "shortens a URL" do
         long_url = "https://bitly.com"
         expect(Bitly::API::Bitlink).to receive(:shorten)
@@ -160,14 +162,12 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "fetches a Bitlink" do
-        id = "https://bit.ly/short"
         expect(Bitly::API::Bitlink).to receive(:fetch)
           .with(client: client, bitlink: id)
         client.bitlink(bitlink: id)
       end
 
       it "expands a Bitlink" do
-        id = "https://bit.ly/short"
         expect(Bitly::API::Bitlink).to receive(:expand)
           .with(client: client, bitlink: id)
           client.expand(bitlink: id)
@@ -189,7 +189,6 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "updates a bitlink" do
-        id = "https://bit.ly/short"
         bitlink = double("bitlink")
         expect(bitlink).to receive(:update)
           .with(
@@ -210,6 +209,12 @@ RSpec.describe Bitly::API::Client do
           .with(data: { "id" => id }, client: client)
           .and_return(bitlink)
         client.update_bitlink(bitlink: id, title: "new title")
+      end
+
+      it "gets the link clicks for a bitlink" do
+        expect(Bitly::API::Bitlink::LinkClick).to receive(:list)
+          .with(client: client, bitlink: id, unit: nil, units: nil, size: nil, unit_reference: nil)
+        client.bitlink_clicks(bitlink: id)
       end
     end
 
@@ -339,6 +344,32 @@ RSpec.describe Bitly::API::Client do
             encoding_login: nil
           )
         client.group_bitlinks(group_guid: group_guid)
+      end
+
+      it "can get group referring networks metrics" do
+        expect(Bitly::API::ClickMetric).to receive(:list_referring_networks)
+          .with(
+            client: client,
+            group_guid: group_guid,
+            unit: nil,
+            units: nil,
+            unit_reference: nil,
+            size: nil
+          )
+        client.group_referring_networks(group_guid: group_guid)
+      end
+
+      it "can get country metrics" do
+        expect(Bitly::API::ClickMetric).to receive(:list_countries_by_group)
+          .with(
+            client: client,
+            group_guid: group_guid,
+            unit: nil,
+            units: nil,
+            unit_reference: nil,
+            size: nil
+          )
+        client.group_countries(group_guid: group_guid)
       end
     end
 
