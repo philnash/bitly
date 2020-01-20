@@ -21,6 +21,7 @@ module Bitly
       # Get a list of groups from the API. It receives an authorized
       # `Bitly::API::Client` object and uses it to request the `/groups`
       # endpoint, optionally passing an organization guid.
+      # [`GET /v4/groups`](https://dev.bitly.com/v4/#operation/getGroups)
       #
       # @example
       #     groups = Bitly::API::Group.list(client: client)
@@ -43,6 +44,7 @@ module Bitly
       # Retrieve a group from the API. It receives an authorized
       # `Bitly::API::Client` object and a group guid and uses it to request
       #  the `/groups/:group_guid` endpoint.
+      # [`GET /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/getGroup)
       #
       # @example
       #     group = Bitly::API::Group.fetch(client: client, guid: guid)
@@ -51,8 +53,8 @@ module Bitly
       # @param guid [String] A group guid
       #
       # @return [Bitly::API::Group]
-      def self.fetch(client:, guid:)
-        response = client.request(path: "/groups/#{guid}")
+      def self.fetch(client:, group_guid:)
+        response = client.request(path: "/groups/#{group_guid}")
         Group.new(data: response.body, client: client, response: response)
       end
 
@@ -69,7 +71,7 @@ module Bitly
       attr_reader(*(attributes + time_attributes))
 
       ##
-      # Creates a new `Bitly::API::Group` object
+      # Creates a new `Bitly::API::Group` object.
       #
       # @example
       #     group = Bitly::API::Group.new(data: group_data, client: client)
@@ -89,16 +91,28 @@ module Bitly
         @organization = organization
       end
 
+      ##
+      # Fetch the organization for the group.
+      # [`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/v4/#operation/getOrganization)
+      #
       # @return [Bitly::API::Organization]
       def organization
-        @organization ||= Organization.fetch(client: @client, guid: organization_guid)
+        @organization ||= Organization.fetch(client: @client, organization_guid: organization_guid)
       end
 
+      ##
+      # Fetch the group's preferences.
+      # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/getGroupPreferences)
+      #
       # @return [Bitly::API::Group::Preferences]
       def preferences
         @preferences ||= Group::Preferences.fetch(client: @client, group_guid: guid)
       end
 
+      ##
+      # Fetch the group's tags
+      # [`GET /v4/groups/{group_guid}/tags`](https://dev.bitly.com/v4/#operation/getGroupTags)
+      #
       # @return [Array<String>]
       def tags
         @tags ||= @client.request(path: "/groups/#{guid}/tags").body["tags"]
@@ -109,6 +123,7 @@ module Bitly
       # If you update the organization guid and have already loaded the
       # organization, it is nilled out so it can be reloaded with the correct
       # guid
+      # [`PATCH /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/updateGroup)
       #
       # @example
       #     group.update(name: "New Name", organization_guid: "aaabbb")
@@ -134,6 +149,7 @@ module Bitly
 
       ##
       # Deletes the group.
+      # [`DELETE /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/deleteGroup)
       #
       # @example
       #     group.delete
@@ -144,11 +160,19 @@ module Bitly
         return nil
       end
 
+      ##
+      # Get the shorten counts for the group.
+      # # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getGroupShortenCounts)
+      #
       # @return [Bitly::API::ShortenCounts]
       def shorten_counts
-        ShortenCounts.by_group(client: @client, guid: guid)
+        ShortenCounts.by_group(client: @client, group_guid: guid)
       end
 
+      ##
+      # Gets the Bitlinks for the group.
+      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
+      #
       # @return [Bitly::API::Bitlink::List]
       def bitlinks
         Bitly::API::Bitlink.list(client: @client, group_guid: guid)

@@ -58,7 +58,7 @@ RSpec.describe Bitly::API::Group do
     )
     client = double("client")
     expect(client).to receive(:request).with(path: "/groups/def456").and_return(response)
-    group = Bitly::API::Group.fetch(client: client, guid: "def456")
+    group = Bitly::API::Group.fetch(client: client, group_guid: "def456")
     expect(group.name).to eq("philnash")
     expect(group.role).to eq("org-admin")
   end
@@ -70,7 +70,7 @@ RSpec.describe Bitly::API::Group do
 
     it "can fetch its organization" do
       expect(Bitly::API::Organization).to receive(:fetch)
-        .with(client: client, guid: "abc123")
+        .with(client: client, organization_guid: "abc123")
         .and_return(organization)
       expect(group.organization).to eq(organization)
     end
@@ -83,7 +83,7 @@ RSpec.describe Bitly::API::Group do
 
     it "doesn't fetch the organization more than once" do
       expect(Bitly::API::Organization).to receive(:fetch).once
-        .with(client: client, guid: "abc123")
+        .with(client: client, organization_guid: "abc123")
         .and_return(organization)
       group.organization
       group.organization
@@ -142,11 +142,11 @@ RSpec.describe Bitly::API::Group do
     it "refetches the organization after updating the organization guid" do
       organization1 = double("organization1")
       expect(Bitly::API::Organization).to receive(:fetch).once
-        .with(client: client, guid: "abc123")
+        .with(client: client, organization_guid: "abc123")
         .and_return(organization1)
       organization2 = double("organization2")
       expect(Bitly::API::Organization).to receive(:fetch).once
-        .with(client: client, guid: "ghi789")
+        .with(client: client, organization_guid: "ghi789")
         .and_return(organization2)
       new_group_data = group_data.clone
       new_group_data["organization_guid"] = "ghi789"
@@ -183,7 +183,7 @@ RSpec.describe Bitly::API::Group do
     it "can get shorten counts" do
       shorten_counts_mock = double("shorten_counts")
       expect(Bitly::API::ShortenCounts).to receive(:by_group)
-        .with(client: client, guid: group.guid)
+        .with(client: client, group_guid: group.guid)
         .and_return(shorten_counts_mock)
       shorten_counts = group.shorten_counts
       expect(shorten_counts).to eq(shorten_counts_mock)

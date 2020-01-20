@@ -17,10 +17,11 @@ module Bitly
       ##
       # Get a list of organizations from the API. It receives an authorized
       # `Bitly::API::Client` object and uses it to request the `/organizations`
-      # endpoint..
+      # endpoint.
+      # [`GET /v4/organizations`](https://dev.bitly.com/v4/#operation/getOrganizations)
       #
       # @example
-      #     organization = Bitly::API::Organization.list(client: client)
+      #     organizations = Bitly::API::Organization.list(client: client)
       #
       # @param client [Bitly::API::Client] An authorized API client
       #
@@ -37,16 +38,17 @@ module Bitly
       # Retrieve an organization from the API. It receives an authorized
       # `Bitly::API::Client` object and an organization guid and uses it to
       #  request the `/organizations/:organization_guid` endpoint.
+      # [`GET /v4/organizations/{organization_guid}`](https://dev.bitly.com/v4/#operation/getOrganization)
       #
       # @example
-      #     organization = Bitly::API::Organization.fetch(client: client, guid: guid)
+      #     organization = Bitly::API::Organization.fetch(client: client, organization_guid: guid)
       #
       # @param client [Bitly::API::Client] An authorized API client
-      # @param guid [String] An organization guid
+      # @param organization_guid [String] An organization guid
       #
       # @return [Bitly::API::Organization]
-      def self.fetch(client:, guid:)
-        response = client.request(path: "/organizations/#{guid}")
+      def self.fetch(client:, organization_guid:)
+        response = client.request(path: "/organizations/#{organization_guid}")
         Organization.new(data: response.body, client: client, response: response)
       end
 
@@ -86,9 +88,16 @@ module Bitly
         @groups ||= Group.list(client: @client, organization: self)
       end
 
+      ##
+      # Shorten counts by organization
+      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+      #
+      # @example
+      #     shorten_counts = organization.shorten_counts
+      #
       # @return [Bitly::API::ShortenCounts]
       def shorten_counts
-        ShortenCounts.by_organization(client: @client, guid: guid)
+        ShortenCounts.by_organization(client: @client, organization_guid: guid)
       end
     end
   end

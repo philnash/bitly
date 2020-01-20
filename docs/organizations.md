@@ -31,7 +31,7 @@ organization = client.organization(guid)
 Or with the class method
 
 ```ruby
-organization = Bitly::API::Organization.fetch(client: client, guid: guid)
+organization = Bitly::API::Organization.fetch(client: client, organization_guid: guid)
 ```
 
 ## Organization attributes
