@@ -119,7 +119,7 @@ module Bitly
       end
 
       ##
-      # Allows you to update the group's name, organization or bsds.
+      # Allows you to update the group's name, organization or BSDs.
       # If you update the organization guid and have already loaded the
       # organization, it is nilled out so it can be reloaded with the correct
       # guid
