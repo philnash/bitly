@@ -41,7 +41,13 @@ module Bitly
           if body.nil? || body.empty?
             @body = nil
           else
-            @body = JSON.parse(body)
+            begin
+              @body = JSON.parse(body)
+            rescue JSON::ParserError
+              @body = {
+                "message" => body
+              }
+            end
           end
         rescue
           errors << "Body must be valid JSON or empty. Received #{body}"
