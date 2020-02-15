@@ -380,5 +380,13 @@ RSpec.describe Bitly::API::Client do
         client.bsds
       end
     end
+
+    describe "OAuth app" do
+      it "fetches an app by client id" do
+        expect(Bitly::API::OAuthApp).to receive(:fetch)
+          .with(client: client, client_id: "abc123")
+        client.oauth_app(client_id: "abc123")
+      end
+    end
   end
 end

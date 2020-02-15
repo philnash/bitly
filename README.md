@@ -4,6 +4,26 @@ A Ruby gem for using the version 4 [Bitly API](https://dev.bitly.com/) to shorte
 
 [![Gem Version](https://badge.fury.io/rb/bitly.svg)](https://rubygems.org/gems/bitly) [![Build Status](https://travis-ci.org/philnash/bitly.svg?branch=master)](https://travis-ci.org/philnash/bitly) [![Maintainability](https://api.codeclimate.com/v1/badges/f8e078b468c1f2aeca53/maintainability)](https://codeclimate.com/github/philnash/bitly/maintainability) [![Inline docs](https://inch-ci.org/github/philnash/bitly.svg?branch=master)](https://inch-ci.org/github/philnash/bitly)
 
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Authentication](#authentication)
+  - [Creating an API client](#creating-an-api-client)
+  - [Shorten a link](#shorten-a-link)
+  - [Expand a link](#expand-a-link)
+- [Available API Endpoints](#available-api-endpoints)
+  - [Groups](#groups)
+  - [Organizations](#organizations)
+  - [Users](#users)
+  - [Bitlinks](#bitlinks)
+  - [Custom Bitlinks](#custom-bitlinks)
+  - [Campaigns](#campaigns)
+  - [BSDs (Branded Short Domains)](#bsds-branded-short-domains)
+  - [OAuth Apps](#oauth-apps)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+- [Code of Conduct](#code-of-conduct)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -14,63 +34,63 @@ gem 'bitly'
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install bitly
+```bash
+$ gem install bitly
+```
 
 ## Usage
 
 ### Authentication
 
-Bitly requires OAuth access tokens to use the API. You will need to [register your application with the Bitly API](bitly.com/a/oauth_apps), you will get a `client_id` and `client_secret`.
+All API endpoints require authentication with an OAuth token. You can get your own OAuth token from the [Bitly console](https://app.bitly.com/). Click on the account drop down menu, then _Profile Settings_ then _Generic Access Token_. Fill in your password and you can generate an OAuth access token.
 
-There are 2 methods you can use to get an OAuth access token:
+For other methods to generate access tokens for users via OAuth flows, see the [Authentication documentation](docs/authentication.md).
 
-#### OAuth Web Flow
+Once you have an access token you can use all the API methods.
 
-Redirect the user to the Bitly authorization page using your `client_id` and a `redirect_uri` that Bitly should redirect your user to after authorization. You can get the URL like so:
+### Creating an API client
 
-```ruby
-oauth = Bitly::OAuth.new(client_id: client_id, client_secret: client_secret)
-oauth.authorize_uri("http://myexamplewebapp.com/oauth_page")
-#=> "https://bitly.com/oauth/authorize?client_id=client_id&redirect_uri=http%3A%2F%2Fmyexamplewebapp.com%2Foauth_page"
-```
-
-You can pass an optional `state` parameter that will be included, unchanged, in the redirect.
+All API methods are available through the `Bitly::API::Client`. Initialise the client with the access token like so:
 
 ```ruby
-oauth.authorize_uri("http://myexamplewebapp.com/oauth_page", state: "state")
-#=> "https://bitly.com/oauth/authorize?client_id=client_id&redirect_uri=http%3A%2F%2Fmyexamplewebapp.com%2Foauth_page&state=state"
+client = Bitly::API::Client.new(token: token)
 ```
 
-Once the user has authorized you to use their Bitly account, you will get a
-`code` parameter in the redirect. You can exchange that code, along with the
-redirect_uri, for the access token.
+You can then use the client to perform actions with the API
+
+### Shorten a link
+
+With an authenticated client you can shorten a link like so:
 
 ```ruby
-oauth.access_token(redirect_uri: "http://myexamplewebapp.com/oauth_page", code: "code")
-#=> "<ACCESS_TOKEN>"
+bitlink = client.shorten(long_url: "http://example.com")
+bitlink.link
+# => http://bit.ly/2OUJim0
 ```
 
-#### Resource Owner Credential Grant Flow
+### Expand a link
 
-If you cannot perform a web flow, the resource owner credential grant flow allows you to take a user's username and password and exchange it for an OAuth access token. If you use this method you _should_ store only the user's access token and never the password.
-
-To use the resource owner credential grant flow, create an OAuth client object then request the access token with the username and password:
+With an authorised you can expand any Bitlink.
 
 ```ruby
-oauth = Bitly::OAuth.new(client_id: client_id, client_secret: client_secret)
-oauth.access_token(username: username, password: password)
-#=> "<ACCESS_TOKEN>"
+bitlink = client.expand(bitlink: "bit.ly/2OUJim0")
+bitlink.long_url
+# => http://example.com
 ```
 
-### Available API Endpoints
+## Available API Endpoints
 
 This gem supports the following active v4 API endpoints for the[Bitly API](https://dev.bitly.com/v4_documentation.html).
 
-#### Groups
+### Groups
+
+[Groups documentation](docs/groups.md)
 
 - [x] [Retrieve groups (`GET /v4/groups`)](https://dev.bitly.com/v4/#operation/getGroups)
 - [x] [Retrieve group (`GET /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/getGroup)
@@ -85,18 +105,24 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [x] [Retrieve click metrics for a group by referring networks (`GET /v4/groups/{group_guid}/referring_networks`)](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
 - [x] [Retrieve click metrics for a group by countries (`GET /v4/groups/{group_guid}/countries`)](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
 
-#### Organizations
+### Organizations
+
+[Organizations documentation](docs/organizations.md)
 
 - [x] [Retrieve organizations (`GET /v4/organizations`)](https://dev.bitly.com/v4/#operation/getOrganizations)
 - [x] [Retrieve organization (`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/v4/#operation/getOrganization)
 - [x] [Retrieve organization shorten counts (`GET /v4/organizations/{organization_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
 
-#### Users
+### Users
+
+[Users documentation](docs/users.md)
 
 - [x] [Retrieve user (`GET /v4/user`)](https://dev.bitly.com/v4/#operation/getUser)
 - [x] [Update user (`PATCH /v4/user`)](https://dev.bitly.com/v4/#operation/updateUser)
 
-#### Bitlinks
+### Bitlinks
+
+[Bitlinks documentation](docs/bitlinks.md)
 
 - [x] [Shorten a link (`POST /v4/shorten`)](https://dev.bitly.com/v4/#operation/createBitlink)
 - [x] [Expand a Bitlink (`POST /v4/expand`)](https://dev.bitly.com/v4/#operation/expandBitlink)
@@ -111,14 +137,14 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [x] [Get metrics for a Bitlink by referrers by domain (`GET /v4/bitlinks/{bitlink}/referrers_by_domains`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferrersByDomains)
 - [ ] __[premium]__ [Get a QR code for a Bitlink (`GET /v4/{bitlink}/qr`)](https://dev.bitly.com/v4/#operation/getBitlinkQRCode)
 
-#### Custom Bitlinks
+### Custom Bitlinks
 
 - [ ] [Add custom Bitlink (`POST /v4/custom_bitlinks`)](https://dev.bitly.com/v4/#operation/addCustomBitlink)
 - [ ] __[premium]__ [Retrieve custom Bitlink (`GET /v4/custom_bitlinks/{custom_bitlink}`)](https://dev.bitly.com/v4/#operation/getCustomBitlink)
 - [ ] __[premium]__ [Update custom Bitlink (`PATCH /v4/custom_bitlink/{custom_bitlink}`)](https://dev.bitly.com/v4/#operation/updateCustomBitlink)
 - [ ] __[premium]__ [Get metrics for a custom Bitlink by destination (`GET /v4/custom_bitlinks/{custom_bitlink}/clicks_by_destination`)](https://dev.bitly.com/v4/#operation/getCustomBitlinkMetricsByDestination)
 
-#### Campaigns
+### Campaigns
 
 - [ ] __[premium]__ [Retrieve campaigns (`GET /v4/campaigns`)](https://dev.bitly.com/v4/#operation/getCampaigns)
 - [ ] __[premium]__ [Create campaign (`POST /v4/campaigns`)](https://dev.bitly.com/v4/#operation/createCampaign)
@@ -129,11 +155,15 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [ ] __[premium]__ [Retrieve channel (`GET /v4/channels/{channel_guid}`)](https://dev.bitly.com/v4/#operation/getChannel)
 - [ ] __[premium]__ [Update channel (`PATCH /v4/channels/{channel_guid}`)](https://dev.bitly.com/v4/#operation/updateChannel)
 
-#### BSDs (Branded Short Domains)
+### BSDs (Branded Short Domains)
+
+[Branded Short Domains documentation](docs/branded_short_domains.md)
 
 - [x] [Retrieve BSDs (`GET /v4/bsds`)](https://dev.bitly.com/v4/#operation/getBSDs)
 
-#### OAuth Apps
+### OAuth Apps
+
+[OAuth Apps documentation](docs/oauth_apps.md)
 
 - [x] [Retrieve OAuth App (`GET /v4/apps/{client_id}`)](https://dev.bitly.com/v4/#operation/getOAuthApp)
 
@@ -145,7 +175,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bitly. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/philnash/bitly. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -153,4 +183,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Bitly project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/bitly/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Bitly project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/philnash/bitly/blob/master/CODE_OF_CONDUCT.md).
