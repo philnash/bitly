@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 require_relative "./base"
 require_relative "./list"
-require_relative "./group/preferences"
-require_relative "./shorten_counts"
 
 module Bitly
   module API
@@ -11,6 +9,8 @@ module Bitly
     # taken on behalf of a user and group and groups become a container for
     # Bitlinks and metrics.
     class Group
+      autoload :Preferences, File.join(File.dirname(__FILE__), "group/preferences.rb")
+
       include Base
 
       ##
