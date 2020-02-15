@@ -2,6 +2,11 @@
 
 ...
 
+=== 2.0.0.beta.1 / 2020-02-15
+
+* Complete overhaul of the gem.
+* Supports version 4 of the Bitly API
+
 === 1.1.2
 
 * 2 minor updates
