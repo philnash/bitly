@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 require_relative "./base"
 require_relative "./list"
-require_relative "./bitlink/paginated_list"
-require_relative "./bitlink/deeplink"
-require_relative "./bitlink/clicks_summary"
-require_relative "./bitlink/link_click"
 
 module Bitly
   module API
     ##
     # A Bitlink represents a shortened link within Bitly.
     class Bitlink
+      autoload :PaginatedList, File.join(File.dirname(__FILE__), "bitlink/paginated_list.rb")
+      autoload :Deeplink, File.join(File.dirname(__FILE__), "bitlink/deeplink.rb")
+      autoload :ClicksSummary, File.join(File.dirname(__FILE__), "bitlink/clicks_summary.rb")
+      autoload :LinkClick, File.join(File.dirname(__FILE__), "bitlink/link_click.rb")
+
       include Base
 
       class List < Bitly::API::List ; end

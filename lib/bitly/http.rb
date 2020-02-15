@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "./http/adapters/net_http"
-require_relative "./http/response"
-require_relative "./http/request"
-require_relative "./http/client"
+module Bitly
+  module HTTP
+    autoload :Adapters, File.join(File.dirname(__FILE__), "http/adapters.rb")
+    autoload :Response, File.join(File.dirname(__FILE__), "http/response.rb")
+    autoload :Request, File.join(File.dirname(__FILE__), "http/request.rb")
+    autoload :Client, File.join(File.dirname(__FILE__), "http/client.rb")
+  end
+end
