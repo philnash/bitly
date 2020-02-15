@@ -23,17 +23,16 @@ RSpec.describe Bitly::HTTP::Response do
     }.to raise_error(ArgumentError)
   end
 
-  it "expects a valid JSON body" do
-    expect {
-      Bitly::HTTP::Response.new(status: "200", body: "blah", headers: {})
-    }.to raise_error(ArgumentError)
-  end
-
   it "accepts an empty or nil body" do
     response = Bitly::HTTP::Response.new(status: "204", body: "", headers: {})
     expect(response.body).to be nil
     response = Bitly::HTTP::Response.new(status: "204", body: nil, headers: {})
     expect(response.body).to be nil
+  end
+
+  it "accepts a plain string body and turns it into an hash with a message" do
+    response = Bitly::HTTP::Response.new(status: "404", body: "404 page not found", headers: {})
+    expect(response.body).to eq({ "message" => "404 page not found" })
   end
 
   it "expects headers to be a hash" do
