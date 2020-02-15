@@ -37,20 +37,16 @@ module Bitly
         errors = []
         @status = status
         errors << "Status must be a valid HTTP status code. Received #{status}" unless is_status?(status)
-        begin
-          if body.nil? || body.empty?
-            @body = nil
-          else
-            begin
-              @body = JSON.parse(body)
-            rescue JSON::ParserError
-              @body = {
-                "message" => body
-              }
-            end
+        if body.nil? || body.empty?
+          @body = nil
+        else
+          begin
+            @body = JSON.parse(body)
+          rescue JSON::ParserError
+            @body = {
+              "message" => body
+            }
           end
-        rescue
-          errors << "Body must be valid JSON or empty. Received #{body}"
         end
         @headers = headers
         errors << "Headers must be a hash. Received #{headers}" unless headers.is_a?(Hash)

@@ -561,6 +561,18 @@ module Bitly
         BSD.list(client: self)
       end
 
+      ##
+      # Fetch OAuth application by client ID
+      # [`GET /v4/apps/{client_id}`)](https://dev.bitly.com/v4/#operation/getOAuthApp)
+      #
+      # @example
+      #     app = client.oauth_app(client_id: "client_id")
+      #
+      # @return Bitly::API::OAuthApp
+      def oauth_app(client_id:)
+        OAuthApp.fetch(client: self, client_id: client_id)
+      end
+
       private
 
       def default_headers

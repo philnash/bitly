@@ -8,6 +8,8 @@ require_relative "./bitlink/link_click"
 
 module Bitly
   module API
+    ##
+    # A Bitlink represents a shortened link within Bitly.
     class Bitlink
       include Base
 
