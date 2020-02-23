@@ -7,6 +7,7 @@ There are 3 methods you can use to get an OAuth access token:
 - [Account Generic Access Token](#account-generic-access-token)
 - [OAuth Web Flow](#oauth-web-flow)
 - [Resource Owner Credential Grant Flow](#resource-owner-credential-grant-flow)
+- [Initialise the API client](#initialise-the-api-client)
 
 ## Account Generic Access Token
 
@@ -48,4 +49,12 @@ To use the resource owner credential grant flow, create an OAuth client object t
 oauth = Bitly::OAuth.new(client_id: client_id, client_secret: client_secret)
 oauth.access_token(username: username, password: password)
 #=> "<ACCESS_TOKEN>"
+```
+
+## Initialise the API client
+
+Once you have an OAuth token, you can initialise the API client with the token like this:
+
+```ruby
+client = Bitly::API::Client.new(token: token)
 ```
