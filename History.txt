@@ -2,6 +2,10 @@
 
 ...
 
+=== 2.0.0.beta.2 / 2020-03-02
+
+* Uses autoload to improve memory consumption
+
 === 2.0.0.beta.1 / 2020-02-15
 
 * Complete overhaul of the gem.
