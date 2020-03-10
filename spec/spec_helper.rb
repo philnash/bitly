@@ -6,6 +6,8 @@ SimpleCov.start do
   add_filter "/spec/"
 end
 
+require "cgi"
+require "uri"
 require "webmock/rspec"
 require "vcr"
 require "envyable"

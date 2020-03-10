@@ -175,7 +175,7 @@ module Bitly
       # if you have a Bitly Pro account.
       #
       # @example
-      #     client.update_bitlink(title: "New title")
+      #     client.update_bitlink(bitlink: bitlink, title: "New title")
       #
       # @param archived [Boolean]
       # @param tags [Array<String>]
