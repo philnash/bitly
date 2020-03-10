@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "time"
 
 module Bitly
   module API
