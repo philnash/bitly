@@ -2,13 +2,19 @@
 
 ...
 
+=== 2.0.0 / 2020-03-12
+
+* Complete overhaul of the gem
+* Supports version 4 of the Bitly API
+* See the README and documentation for more details
+
 === 2.0.0.beta.2 / 2020-03-02
 
 * Uses autoload to improve memory consumption
 
 === 2.0.0.beta.1 / 2020-02-15
 
-* Complete overhaul of the gem.
+* Complete overhaul of the gem
 * Supports version 4 of the Bitly API
 
 === 1.1.2
