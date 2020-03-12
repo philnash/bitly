@@ -151,3 +151,12 @@ bitlink_page.next_page
 bitlink_page.has_prev_page?
 # => false
 ```
+
+## Clicks
+
+With your Bitlink you can also get the clicks for the link or a summary. See the [Bitlink documentation](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink) for more details.
+
+```ruby
+bitlink.clicks_summary
+bitlink.link_clicks
+```
