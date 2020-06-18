@@ -11,10 +11,10 @@ module Bitly
           response = client.request(
             path: "/bitlinks/#{bitlink}/clicks/summary",
             params: {
-              "unit" => nil,
-              "units" => nil,
-              "unit_reference" => nil,
-              "size" => nil
+              "unit" => unit,
+              "units" => units,
+              "unit_reference" => unit_reference,
+              "size" => size
             }
           )
           new(data: response.body, response: response)
