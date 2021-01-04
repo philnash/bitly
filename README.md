@@ -2,7 +2,7 @@
 
 A Ruby gem for using the version 4 [Bitly API](https://dev.bitly.com/) to shorten links, expand short links and view metrics across users, links and organizations.
 
-[![Gem Version](https://badge.fury.io/rb/bitly.svg)](https://rubygems.org/gems/bitly) [![Build Status](https://travis-ci.org/philnash/bitly.svg?branch=master)](https://travis-ci.org/philnash/bitly) [![Maintainability](https://api.codeclimate.com/v1/badges/f8e078b468c1f2aeca53/maintainability)](https://codeclimate.com/github/philnash/bitly/maintainability) [![Inline docs](https://inch-ci.org/github/philnash/bitly.svg?branch=master)](https://inch-ci.org/github/philnash/bitly)
+[![Gem version](https://badge.fury.io/rb/bitly.svg)](https://rubygems.org/gems/bitly) ![Build status](https://github.com/philnash/bitly/workflows/tests/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/f8e078b468c1f2aeca53/maintainability)](https://codeclimate.com/github/philnash/bitly/maintainability) [![Inline docs](https://inch-ci.org/github/philnash/bitly.svg?branch=master)](https://inch-ci.org/github/philnash/bitly)
 
 * [Installation](#installation)
 * [Usage](#usage)
