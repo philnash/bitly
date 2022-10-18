@@ -2,6 +2,10 @@
 
 ...
 
+=== 2.0.2 / 2022-10-18
+
+* Allows oauth2 gem version 2
+
 === 2.0.1 / 2020-06-18
 
 * Fixes sending parameters in ClicksSummary (thanks @CodingFu)
