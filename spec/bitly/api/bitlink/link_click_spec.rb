@@ -34,7 +34,7 @@ RSpec.describe Bitly::API::Bitlink::LinkClick do
       })
       .and_return(response)
 
-    link_clicks = Bitly::API::Bitlink::LinkClick.list(client: client, bitlink: bitlink_id)
+    link_clicks = Bitly::API::Bitlink::LinkClick.list(client: client, bitlink: "https://#{bitlink_id}")
     expect(link_clicks.unit).to eq(links_list_data["unit"])
     expect(link_clicks.units).to eq(links_list_data["units"])
     expect(link_clicks.unit_reference).to eq(Time.parse(links_list_data["unit_reference"]))

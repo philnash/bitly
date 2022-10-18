@@ -104,6 +104,19 @@ RSpec.describe Bitly::API::Bitlink do
     expect(bitlink.long_url).to eq("https://example.com/")
   end
 
+  it "can fetch a bitlink with protocol" do
+    response = Bitly::HTTP::Response.new(
+      status: "200",
+      body: bitlink_data.to_json,
+      headers: {}
+    )
+    expect(client).to receive(:request)
+      .with(path: "/bitlinks/#{bitlink_data["id"]}")
+      .and_return(response)
+    bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: "https://bit.ly/2Qj2niP")
+    expect(bitlink.long_url).to eq("https://example.com/")
+  end
+
   it "can expand a bitlink to public information" do
     response = Bitly::HTTP::Response.new(
       status: "200",
@@ -118,6 +131,33 @@ RSpec.describe Bitly::API::Bitlink do
     expect(bitlink.id).to eq("bit.ly/2Qj2niP")
     expect(bitlink.link).to eq("http://bit.ly/2Qj2niP")
     expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
+  end
+
+  it "can expand a bitlink with protocol to public information" do
+    response = Bitly::HTTP::Response.new(
+      status: "200",
+      body: public_bitlink_data.to_json,
+      headers: {}
+    )
+    expect(client).to receive(:request)
+      .with(path: "/expand", method: "POST", params: { "bitlink_id" => "bit.ly/2Qj2niP" })
+      .and_return(response)
+    bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: "https://bit.ly/2Qj2niP")
+    expect(bitlink.long_url).to eq("https://example.com/")
+    expect(bitlink.id).to eq("bit.ly/2Qj2niP")
+    expect(bitlink.link).to eq("http://bit.ly/2Qj2niP")
+    expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
+  end
+
+  describe "creating" do
+    it "normalises the id under initialisation" do
+      bitlink_id_without_protocol = bitlink_data["id"]
+      bitlink = Bitly::API::Bitlink.new(client: client, data: bitlink_data)
+      expect(bitlink.id).to eq(bitlink_id_without_protocol)
+      bitlink_data["id"] = "https://#{bitlink_data["id"]}"
+      bitlink = Bitly::API::Bitlink.new(client: client, data: bitlink_data)
+      expect(bitlink.id).to eq(bitlink_id_without_protocol)
+    end
   end
 
   describe "with a bitlink" do

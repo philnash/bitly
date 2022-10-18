@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative "../base"
+require_relative "./utils"
 
 module Bitly
   module API
@@ -8,6 +9,7 @@ module Bitly
         include Base
 
         def self.fetch(client:, bitlink:, unit: nil, units: nil, unit_reference: nil, size: nil)
+          bitlink = Utils.normalise_bitlink(bitlink: bitlink)
           response = client.request(
             path: "/bitlinks/#{bitlink}/clicks/summary",
             params: {

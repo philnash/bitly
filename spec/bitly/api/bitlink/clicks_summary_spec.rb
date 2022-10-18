@@ -12,6 +12,7 @@ RSpec.describe Bitly::API::Bitlink::ClicksSummary do
   }
 
   it "requests the summary from the API" do
+    bitlink = "bit.ly/abc123"
     response = Bitly::HTTP::Response.new(
       status: "200",
       body: clicks_summary_data.to_json,
@@ -19,7 +20,7 @@ RSpec.describe Bitly::API::Bitlink::ClicksSummary do
     )
     expect(client).to receive(:request)
       .with(
-        path: "/bitlinks/bit.ly/abc123/clicks/summary",
+        path: "/bitlinks/#{bitlink}/clicks/summary",
         params: {
           "unit" => nil,
           "units" => nil,
@@ -28,7 +29,7 @@ RSpec.describe Bitly::API::Bitlink::ClicksSummary do
         }
       )
       .and_return(response)
-    clicks_summary = Bitly::API::Bitlink::ClicksSummary.fetch(client: client, bitlink: "bit.ly/abc123")
+    clicks_summary = Bitly::API::Bitlink::ClicksSummary.fetch(client: client, bitlink: "https://#{bitlink}")
     expect(clicks_summary.total_clicks).to eq(100)
   end
 end

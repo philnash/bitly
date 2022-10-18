@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative "./base"
 require_relative "./list"
+require_relative "./bitlink/utils"
 
 module Bitly
   module API
@@ -90,6 +91,7 @@ module Bitly
       #
       # @return [Bitly::API::Bitlink]
       def self.fetch(client:, bitlink:)
+        bitlink = Utils.normalise_bitlink(bitlink: bitlink)
         response = client.request(path: "/bitlinks/#{bitlink}")
         new(data: response.body, client: client, response: response)
       end
@@ -106,6 +108,7 @@ module Bitly
       #
       # @return [Bitly::API::Bitlink]
       def self.expand(client:, bitlink:)
+        bitlink = Utils.normalise_bitlink(bitlink: bitlink)
         response = client.request(path: "/expand", method: "POST", params: { "bitlink_id" => bitlink })
         new(data: response.body, client: client, response: response)
       end
@@ -241,6 +244,7 @@ module Bitly
 
       def initialize(data:, client:, response: nil, clicks: nil)
         assign_attributes(data)
+        @id = Utils.normalise_bitlink(bitlink: @id)
         if data["deeplinks"]
           @deeplinks = data["deeplinks"].map { |data| Deeplink.new(data: data) }
         else

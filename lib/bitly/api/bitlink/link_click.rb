@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 require "time"
 require_relative "../base"
-require_relative '../list'
+require_relative "../list"
+require_relative "./utils"
 
 module Bitly
   module API
@@ -38,6 +39,7 @@ module Bitly
         #
         # @return [Bitly::API::Bitlink::LinkClick::List]
         def self.list(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+          bitlink = Utils.normalise_bitlink(bitlink: bitlink)
           response = client.request(
             path: "/bitlinks/#{bitlink}/clicks",
             params: {
