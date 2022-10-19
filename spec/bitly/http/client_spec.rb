@@ -20,7 +20,7 @@ RSpec.describe Bitly::HTTP::Client do
   describe "#request" do
     it "returns a Bitly::HTTP::Response if the request is made successfully" do
       request = Bitly::HTTP::Request.new(uri: URI.parse("https://bitly.com"))
-      adapter = double(:adapter)
+      adapter = instance_double(Bitly::HTTP::Adapters::NetHTTP)
       response_values = ["200", { response: "OK" }.to_json, {}, true]
       expect(adapter).to receive(:request).once.with(request).and_return(response_values)
       client = Bitly::HTTP::Client.new(adapter)
@@ -33,7 +33,7 @@ RSpec.describe Bitly::HTTP::Client do
 
     it "raises a Bitly::Error if the request is not successful" do
       request = Bitly::HTTP::Request.new(uri: URI.parse("https://bitly.com"))
-      adapter = double(:adapter)
+      adapter = instance_double(Bitly::HTTP::Adapters::NetHTTP)
       response_values = ["500", { response: "Not OK" }.to_json, {}, false]
       expect(adapter).to receive(:request).once.with(request).and_return(response_values)
       client = Bitly::HTTP::Client.new(adapter)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Bitly::API::Bitlink::ClicksSummary do
-  let(:client) { double("client") }
+  let(:client) { instance_double(Bitly::API::Client) }
   let(:clicks_summary_data) {
     {
       "unit_reference"=>"2020-01-05T05:17:43+0000",

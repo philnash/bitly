@@ -20,7 +20,7 @@ RSpec.describe Bitly::API::User do
       "default_group_guid"=>"def456"
     }
   }
-  let(:client) { double("client") }
+  let(:client) { instance_double(Bitly::API::Client) }
 
   it "fetches the authorized user with an API client" do
     response = Bitly::HTTP::Response.new(
@@ -47,7 +47,7 @@ RSpec.describe Bitly::API::User do
     end
 
     it "fetches the default group from the API" do
-      group = double("group")
+      group = instance_double(Bitly::API::Group)
       expect(Bitly::API::Group).to receive(:fetch).once
         .with(client: client, guid: "def456")
         .and_return(group)
@@ -73,11 +73,11 @@ RSpec.describe Bitly::API::User do
     end
 
     it "can update the default group guid" do
-      group1 = double("group")
+      group1 = instance_double(Bitly::API::Group)
       expect(Bitly::API::Group).to receive(:fetch).once
         .with(client: client, guid: "def456")
         .and_return(group1)
-      group2 = double("group")
+      group2 = instance_double(Bitly::API::Group)
       expect(Bitly::API::Group).to receive(:fetch).once
         .with(client: client, guid: "ghi789")
         .and_return(group2)

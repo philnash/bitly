@@ -9,7 +9,7 @@ RSpec.describe Bitly::API::Group::Preferences do
   }
 
   it "can be fetched with a client and a group guid" do
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     response = Bitly::HTTP::Response.new(
       status: "200",
       body: preference_data.to_json,
@@ -25,7 +25,7 @@ RSpec.describe Bitly::API::Group::Preferences do
   end
 
   describe "with preferences" do
-    let(:client) { double("client") }
+    let(:client) { instance_double(Bitly::API::Client) }
     let(:preference) { Bitly::API::Group::Preferences.new(client: client, data: preference_data) }
 
     it "can update preferences" do

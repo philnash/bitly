@@ -9,7 +9,7 @@ RSpec.describe Bitly::API::BSD do
       body: { "bsds" => bsds }.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/bsds")
       .and_return(response)

@@ -24,7 +24,7 @@ RSpec.describe Bitly::API::Bitlink::LinkClick do
       body: links_list_data.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/bitlinks/#{bitlink_id}/clicks", params: {
         "units" => nil,

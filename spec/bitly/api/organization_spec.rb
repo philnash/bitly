@@ -25,7 +25,7 @@ RSpec.describe Bitly::API::Organization do
       body: { "organizations" => [organization_data] }.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request).with(path: "/organizations").and_return(response)
 
     organizations = Bitly::API::Organization.list(client: client)
@@ -40,7 +40,7 @@ RSpec.describe Bitly::API::Organization do
       body: organization_data.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request).with(path: "/organizations/abc123").and_return(response)
     organization = Bitly::API::Organization.fetch(client: client, organization_guid: "abc123")
     expect(organization.tier).to eq("free")
@@ -48,8 +48,8 @@ RSpec.describe Bitly::API::Organization do
   end
 
   describe "with an organization" do
-    let(:client) { double("client") }
-    let(:groups) { double("groups") }
+    let(:client) { instance_double(Bitly::API::Client) }
+    let(:groups) { instance_double(Bitly::API::Group::List) }
     let(:organization) { Bitly::API::Organization.new(data: organization_data, client: client) }
 
     it "can fetch groups filtered by guid" do
@@ -68,7 +68,7 @@ RSpec.describe Bitly::API::Organization do
     end
 
     it "can get shorten counts" do
-      shorten_counts_mock = double("shorten_counts")
+      shorten_counts_mock = instance_double(Bitly::API::ShortenCounts)
       expect(Bitly::API::ShortenCounts).to receive(:by_organization)
         .with(client: client, organization_guid: organization.guid)
         .and_return(shorten_counts_mock)
