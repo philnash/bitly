@@ -25,6 +25,7 @@ RSpec.describe Bitly::API::Bitlink do
       "long_url"=>"https://example.com/"
     }
   }
+  let(:bitlink_id) { "bit.ly/2Qj2niP" }
 
   it "can shorten a link with an API client" do
     response = Bitly::HTTP::Response.new(
@@ -41,7 +42,7 @@ RSpec.describe Bitly::API::Bitlink do
       .and_return(response)
     bitlink = Bitly::API::Bitlink.shorten(client: client, long_url: "https://example.com/")
     expect(bitlink.long_url).to eq("https://example.com/")
-    expect(bitlink.id).to eq("bit.ly/2Qj2niP")
+    expect(bitlink.id).to eq(bitlink_id)
   end
 
   it "can create a bitlink with more details" do
@@ -85,68 +86,68 @@ RSpec.describe Bitly::API::Bitlink do
       deeplinks: [deeplink]
     )
     expect(bitlink.long_url).to eq("https://example.com/")
-    expect(bitlink.id).to eq("bit.ly/2Qj2niP")
+    expect(bitlink.id).to eq(bitlink_id)
     expect(bitlink.title).to eq("Test link")
     expect(bitlink.deeplinks.first).to be_instance_of(Bitly::API::Bitlink::Deeplink)
     expect(bitlink.deeplinks.first.app_uri_path).to eq(deeplink.app_uri_path)
   end
 
-  it "can fetch a bitlink" do
-    response = Bitly::HTTP::Response.new(
-      status: "200",
-      body: bitlink_data.to_json,
-      headers: {}
-    )
-    expect(client).to receive(:request)
-      .with(path: "/bitlinks/#{bitlink_data["id"]}")
-      .and_return(response)
-    bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: "bit.ly/2Qj2niP")
-    expect(bitlink.long_url).to eq("https://example.com/")
+  describe "fetching a bitlink" do
+    let(:response) {
+      Bitly::HTTP::Response.new(
+        status: "200",
+        body: bitlink_data.to_json,
+        headers: {}
+      )
+    }
+
+    before(:each) {
+      expect(client).to receive(:request)
+        .with(path: "/bitlinks/#{bitlink_id}")
+        .and_return(response)
+    }
+
+    it "can fetch with a bitlink" do
+      bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: bitlink_id)
+      expect(bitlink.long_url).to eq("https://example.com/")
+    end
+
+    it "can fetch a bitlink with protocol" do
+      bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: "https://#{bitlink_id}")
+      expect(bitlink.long_url).to eq("https://example.com/")
+    end
   end
 
-  it "can fetch a bitlink with protocol" do
-    response = Bitly::HTTP::Response.new(
-      status: "200",
-      body: bitlink_data.to_json,
-      headers: {}
-    )
-    expect(client).to receive(:request)
-      .with(path: "/bitlinks/#{bitlink_data["id"]}")
-      .and_return(response)
-    bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: "https://bit.ly/2Qj2niP")
-    expect(bitlink.long_url).to eq("https://example.com/")
-  end
+  describe "expanding a bitlink" do
+    let(:response) {
+      Bitly::HTTP::Response.new(
+        status: "200",
+        body: public_bitlink_data.to_json,
+        headers: {}
+      )
+    }
 
-  it "can expand a bitlink to public information" do
-    response = Bitly::HTTP::Response.new(
-      status: "200",
-      body: public_bitlink_data.to_json,
-      headers: {}
-    )
-    expect(client).to receive(:request)
-      .with(path: "/expand", method: "POST", params: { "bitlink_id" => "bit.ly/2Qj2niP" })
-      .and_return(response)
-    bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: "bit.ly/2Qj2niP")
-    expect(bitlink.long_url).to eq("https://example.com/")
-    expect(bitlink.id).to eq("bit.ly/2Qj2niP")
-    expect(bitlink.link).to eq("http://bit.ly/2Qj2niP")
-    expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
-  end
+    before(:each) {
+      expect(client).to receive(:request)
+        .with(path: "/expand", method: "POST", params: { "bitlink_id" => bitlink_id })
+        .and_return(response)
+    }
 
-  it "can expand a bitlink with protocol to public information" do
-    response = Bitly::HTTP::Response.new(
-      status: "200",
-      body: public_bitlink_data.to_json,
-      headers: {}
-    )
-    expect(client).to receive(:request)
-      .with(path: "/expand", method: "POST", params: { "bitlink_id" => "bit.ly/2Qj2niP" })
-      .and_return(response)
-    bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: "https://bit.ly/2Qj2niP")
-    expect(bitlink.long_url).to eq("https://example.com/")
-    expect(bitlink.id).to eq("bit.ly/2Qj2niP")
-    expect(bitlink.link).to eq("http://bit.ly/2Qj2niP")
-    expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
+    it "can expand to public information" do
+      bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: bitlink_id)
+      expect(bitlink.long_url).to eq("https://example.com/")
+      expect(bitlink.id).to eq(bitlink_id)
+      expect(bitlink.link).to eq("http://#{bitlink_id}")
+      expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
+    end
+
+    it "can expand a bitlink with protocol to public information" do
+      bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: "https://#{bitlink_id}")
+      expect(bitlink.long_url).to eq("https://example.com/")
+      expect(bitlink.id).to eq(bitlink_id)
+      expect(bitlink.link).to eq("http://#{bitlink_id}")
+      expect(bitlink.created_at).to eq(Time.parse(public_bitlink_data["created_at"]))
+    end
   end
 
   describe "creating" do
@@ -171,7 +172,7 @@ RSpec.describe Bitly::API::Bitlink do
       )
       expect(client).to receive(:request)
         .with(
-          path: "/bitlinks/bit.ly/2Qj2niP",
+          path: "/bitlinks/#{bitlink_id}",
           method: "PATCH",
           params: {
             "archived" => nil,
@@ -207,7 +208,7 @@ RSpec.describe Bitly::API::Bitlink do
         .and_return(link_clicks)
       expect(bitlink.link_clicks).to eq(link_clicks)
     end
-end
+  end
 
   describe "sorted lists" do
     let(:bitlink_data2) {
