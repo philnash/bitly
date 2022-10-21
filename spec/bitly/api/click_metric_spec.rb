@@ -143,7 +143,7 @@ RSpec.describe Bitly::API::ClickMetric do
       })
       .and_return(response)
 
-    click_metrics = Bitly::API::ClickMetric.list_referrers(client: client, bitlink: bitlink)
+    click_metrics = Bitly::API::ClickMetric.list_referrers(client: client, bitlink: "https://#{bitlink}")
     expect(click_metrics.unit).to eq(click_metric_bitlink_referrers['unit'])
     expect(click_metrics.units).to eq(click_metric_bitlink_referrers['units'])
     expect(click_metrics.unit_reference).to eq(Time.parse(click_metric_bitlink_referrers['unit_reference']))
@@ -168,7 +168,7 @@ RSpec.describe Bitly::API::ClickMetric do
       })
       .and_return(response)
 
-    click_metrics = Bitly::API::ClickMetric.list_countries_by_bitlink(client: client, bitlink: bitlink)
+    click_metrics = Bitly::API::ClickMetric.list_countries_by_bitlink(client: client, bitlink: "https://#{bitlink}")
     expect(click_metrics.unit).to eq(click_metric_data_countries['unit'])
     expect(click_metrics.units).to eq(click_metric_data_countries['units'])
     expect(click_metrics.unit_reference).to eq(Time.parse(click_metric_data_countries['unit_reference']))
@@ -193,7 +193,7 @@ RSpec.describe Bitly::API::ClickMetric do
       })
       .and_return(response)
 
-    click_metrics = Bitly::API::ClickMetric.list_referring_domains(client: client, bitlink: bitlink)
+    click_metrics = Bitly::API::ClickMetric.list_referring_domains(client: client, bitlink: "https://#{bitlink}")
     expect(click_metrics.unit).to eq(click_metric_bitlink_referring_domains['unit'])
     expect(click_metrics.units).to eq(click_metric_bitlink_referring_domains['units'])
     expect(click_metrics.unit_reference).to eq(Time.parse(click_metric_bitlink_referring_domains['unit_reference']))
@@ -218,7 +218,7 @@ RSpec.describe Bitly::API::ClickMetric do
       })
       .and_return(response)
 
-    click_metrics = Bitly::API::ClickMetric.list_referrers_by_domain(client: client, bitlink: bitlink)
+    click_metrics = Bitly::API::ClickMetric.list_referrers_by_domain(client: client, bitlink: "https://#{bitlink}")
     expect(click_metrics.unit).to eq(click_metric_bitlink_referrers_by_domain['unit'])
     expect(click_metrics.units).to eq(click_metric_bitlink_referrers_by_domain['units'])
     expect(click_metrics.unit_reference).to eq(Time.at(click_metric_bitlink_referrers_by_domain['unit_reference']))

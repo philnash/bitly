@@ -132,7 +132,7 @@ RSpec.describe Bitly::API::Client do
     let(:client) { Bitly::API::Client.new(token: token) }
 
     describe "Bitlink" do
-      let(:id) { "https://bit.ly/short" }
+      let(:id) { "bit.ly/short" }
 
       it "shortens a URL" do
         long_url = "https://bitly.com"

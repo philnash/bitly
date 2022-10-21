@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-require 'simplecov'
+require "simplecov"
+
 SimpleCov.start do
   add_filter "/spec/"
+
+  if ENV["COVERAGE"] == "json"
+    require "simplecov_json_formatter"
+    formatter SimpleCov::Formatter::JSONFormatter
+  else
+    formatter SimpleCov::Formatter::HTMLFormatter
+  end
 end
 
 require "cgi"

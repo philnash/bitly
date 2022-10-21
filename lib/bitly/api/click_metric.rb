@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 require "time"
 require_relative "./base"
-require_relative './list'
+require_relative "./list"
+require_relative "./bitlink/utils"
 
 module Bitly
   module API
@@ -88,6 +89,7 @@ module Bitly
       end
 
       def self.list_referrers(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        bitlink = Bitlink::Utils.normalise_bitlink(bitlink: bitlink)
         list_metrics(
           client: client,
           path: "/bitlinks/#{bitlink}/referrers",
@@ -99,6 +101,7 @@ module Bitly
       end
 
       def self.list_countries_by_bitlink(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        bitlink = Bitlink::Utils.normalise_bitlink(bitlink: bitlink)
         list_metrics(
           client: client,
           path: "/bitlinks/#{bitlink}/countries",
@@ -110,6 +113,7 @@ module Bitly
       end
 
       def self.list_referring_domains(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        bitlink = Bitlink::Utils.normalise_bitlink(bitlink: bitlink)
         list_metrics(
           client: client,
           path: "/bitlinks/#{bitlink}/referring_domains",
@@ -121,6 +125,7 @@ module Bitly
       end
 
       def self.list_referrers_by_domain(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        bitlink = Bitlink::Utils.normalise_bitlink(bitlink: bitlink)
         response = client.request(
           path: "/bitlinks/#{bitlink}/referrers_by_domains",
           params: {
