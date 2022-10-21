@@ -1,5 +1,9 @@
 === Ongoing
 
+...
+
+=== 2.1.0 / 2022-10-21
+
 * Strips protocol from the start of a bitlink when fetching/expanding (fixes #80)
 * Adds SonarCloud quality check GitHub Action
 * Uses verifying doubles in tests over generic doubles
