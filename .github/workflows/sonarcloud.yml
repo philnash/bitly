@@ -23,6 +23,10 @@ jobs:
         run: bundle exec rspec
         env:
           COVERAGE: json
+      - name: fix code coverage paths
+        working-directory: ./coverage
+        run: |
+          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.json
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
