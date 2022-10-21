@@ -23,7 +23,7 @@ RSpec.describe Bitly::API::Group do
       body: { "groups" => [group_data] }.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/groups", params: { "organization_guid" => nil })
       .and_return(response)
@@ -40,7 +40,7 @@ RSpec.describe Bitly::API::Group do
       body: { "groups" => [group_data] }.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/groups", params: { "organization_guid" => "abc123" })
       .and_return(response)
@@ -56,7 +56,7 @@ RSpec.describe Bitly::API::Group do
       body: group_data.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request).with(path: "/groups/def456").and_return(response)
     group = Bitly::API::Group.fetch(client: client, group_guid: "def456")
     expect(group.name).to eq("philnash")
@@ -64,8 +64,8 @@ RSpec.describe Bitly::API::Group do
   end
 
   describe "with a group" do
-    let(:client) { double("client") }
-    let(:organization) { double("organization") }
+    let(:client) { instance_double(Bitly::API::Client) }
+    let(:organization) { instance_double(Bitly::API::Organization) }
     let(:group) { Bitly::API::Group.new(data: group_data, client: client) }
 
     it "can fetch its organization" do
@@ -90,7 +90,7 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "fetches its preferences, only once" do
-      preferences = double("preferences")
+      preferences = instance_double(Bitly::API::Group::Preferences)
       expect(Bitly::API::Group::Preferences).to receive(:fetch).once
         .with(client: client, group_guid: "def456")
         .and_return(preferences)
@@ -140,11 +140,11 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "refetches the organization after updating the organization guid" do
-      organization1 = double("organization1")
+      organization1 = instance_double(Bitly::API::Organization)
       expect(Bitly::API::Organization).to receive(:fetch).once
         .with(client: client, organization_guid: "abc123")
         .and_return(organization1)
-      organization2 = double("organization2")
+      organization2 = instance_double(Bitly::API::Organization)
       expect(Bitly::API::Organization).to receive(:fetch).once
         .with(client: client, organization_guid: "ghi789")
         .and_return(organization2)
@@ -181,7 +181,7 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "can get shorten counts" do
-      shorten_counts_mock = double("shorten_counts")
+      shorten_counts_mock = instance_double(Bitly::API::ShortenCounts)
       expect(Bitly::API::ShortenCounts).to receive(:by_group)
         .with(client: client, group_guid: group.guid)
         .and_return(shorten_counts_mock)
@@ -190,7 +190,7 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "can get bitlinks" do
-      bitlinks_mock = double("bitlinks")
+      bitlinks_mock = instance_double(Bitly::API::Bitlink)
       expect(Bitly::API::Bitlink).to receive(:list)
         .with(client: client, group_guid: group.guid)
         .and_return(bitlinks_mock)
@@ -199,7 +199,7 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "can get referring networks metrics" do
-      click_metrics = double("referring_networks")
+      click_metrics = instance_double(Bitly::API::ClickMetric::List)
       expect(Bitly::API::ClickMetric).to receive(:list_referring_networks)
         .with(
           client: client,
@@ -214,7 +214,7 @@ RSpec.describe Bitly::API::Group do
     end
 
     it "can get country metrics" do
-      click_metrics = double("countries")
+      click_metrics = instance_double(Bitly::API::ClickMetric::List)
       expect(Bitly::API::ClickMetric).to receive(:list_countries_by_group)
         .with(
           client: client,

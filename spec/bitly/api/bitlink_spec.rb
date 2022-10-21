@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Bitly::API::Bitlink do
-  let(:client) { double("client") }
+  let(:client) { instance_double(Bitly::API::Client) }
   let(:bitlink_data) {
     {
       "created_at"=>"2020-01-02T23:51:47+0000",
@@ -194,7 +194,7 @@ RSpec.describe Bitly::API::Bitlink do
     end
 
     it "can fetch the clicks summary" do
-      clicks_summary = double("clicks_summary")
+      clicks_summary = instance_double(Bitly::API::Bitlink::ClicksSummary)
       expect(Bitly::API::Bitlink::ClicksSummary).to receive(:fetch)
         .with(client: client, bitlink: bitlink.id, unit: nil, units: nil, unit_reference: nil, size: nil)
         .and_return(clicks_summary)
@@ -202,7 +202,7 @@ RSpec.describe Bitly::API::Bitlink do
     end
 
     it "can fetch the link clicks" do
-      link_clicks = double("link_clicks")
+      link_clicks = instance_double(Bitly::API::Bitlink::LinkClick)
       expect(Bitly::API::Bitlink::LinkClick).to receive(:list)
         .with(client: client, bitlink: bitlink.id, unit: nil, units: nil, unit_reference: nil, size: nil)
         .and_return(link_clicks)

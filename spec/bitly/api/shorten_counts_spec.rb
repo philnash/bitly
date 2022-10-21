@@ -13,7 +13,7 @@ RSpec.describe Bitly::API::ShortenCounts do
       "facet"=>"shorten_counts"
     }
   }
-  let(:client) { double("client") }
+  let(:client) { instance_double(Bitly::API::Client) }
 
   it "fetches data by organization" do
     response = Bitly::HTTP::Response.new(

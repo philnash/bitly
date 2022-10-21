@@ -15,7 +15,7 @@ RSpec.describe Bitly::API::OAuthApp do
       body: oauth_app_data.to_json,
       headers: {}
     )
-    client = double("client")
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/apps/jkl123")
       .and_return(response)

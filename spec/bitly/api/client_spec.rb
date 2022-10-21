@@ -2,7 +2,7 @@
 
 RSpec.describe Bitly::API::Client do
   let(:token) { "token" }
-  let(:http) { double("http") }
+  let(:http) { instance_double(Bitly::HTTP::Client) }
 
   describe "#new" do
     it "requires at least one argument" do
@@ -189,7 +189,7 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "updates a bitlink" do
-        bitlink = double("bitlink")
+        bitlink = instance_double(Bitly::API::Bitlink)
         expect(bitlink).to receive(:update)
           .with(
             archived: nil,
@@ -248,7 +248,7 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "updates a user" do
-        user = double("user")
+        user = instance_double(Bitly::API::User)
         expect(Bitly::API::User).to receive(:new).and_return(user)
         expect(user).to receive(:update)
           .with(
@@ -294,7 +294,7 @@ RSpec.describe Bitly::API::Client do
 
       it "updates a group's preferences" do
         domain_preference = "j.mp"
-        prefs = double("preferences")
+        prefs = instance_double(Bitly::API::Group::Preferences)
         expect(Bitly::API::Group::Preferences).to receive(:new)
           .with(data: { "group_guid" => group_guid }, client: client)
           .and_return(prefs)
@@ -304,7 +304,7 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "updates a group" do
-        group = double("group")
+        group = instance_double(Bitly::API::Group)
         expect(Bitly::API::Group).to receive(:new)
           .with(data: { "guid" => group_guid }, client: client)
           .and_return(group)
@@ -314,7 +314,7 @@ RSpec.describe Bitly::API::Client do
       end
 
       it "deletes a group" do
-        group = double("group")
+        group = instance_double(Bitly::API::Group)
         expect(Bitly::API::Group).to receive(:new)
           .with(data: { "guid" => group_guid }, client: client)
           .and_return(group)

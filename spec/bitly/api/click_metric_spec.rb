@@ -83,7 +83,7 @@ RSpec.describe Bitly::API::ClickMetric do
       body: click_metric_data_referring_networks.to_json,
       headers: {}
     )
-    client = double('client')
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/groups/#{group_guid}/referring_networks", params: {
         'units' => nil,
@@ -108,7 +108,7 @@ RSpec.describe Bitly::API::ClickMetric do
       body: click_metric_data_countries.to_json,
       headers: {}
     )
-    client = double('client')
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/groups/#{group_guid}/countries", params: {
         'units' => nil,
@@ -133,7 +133,7 @@ RSpec.describe Bitly::API::ClickMetric do
       body: click_metric_bitlink_referrers.to_json,
       headers: {}
     )
-    client = double('client')
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/bitlinks/#{bitlink}/referrers", params: {
         'units' => nil,
@@ -158,7 +158,7 @@ RSpec.describe Bitly::API::ClickMetric do
       body: click_metric_data_countries.to_json,
       headers: {}
     )
-    client = double('client')
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/bitlinks/#{bitlink}/countries", params: {
         'units' => nil,
@@ -183,7 +183,7 @@ RSpec.describe Bitly::API::ClickMetric do
       body: click_metric_bitlink_referring_domains.to_json,
       headers: {}
     )
-    client = double('client')
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/bitlinks/#{bitlink}/referring_domains", params: {
         'units' => nil,
@@ -208,7 +208,7 @@ RSpec.describe Bitly::API::ClickMetric do
       body: click_metric_bitlink_referrers_by_domain.to_json,
       headers: {}
     )
-    client = double('client')
+    client = instance_double(Bitly::API::Client)
     expect(client).to receive(:request)
       .with(path: "/bitlinks/#{bitlink}/referrers_by_domains", params: {
         'units' => nil,
