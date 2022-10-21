@@ -1,6 +1,7 @@
 === Ongoing
 
-...
+* Strips protocol from the start of a bitlink when fetching/expanding (fixes #80)
+* Adds SonarCloud quality check GitHub Action
 
 === 2.0.2 / 2022-10-18
 
