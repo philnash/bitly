@@ -1,6 +1,7 @@
 === Ongoing
 
-...
+* Updates all URLs in the documentation
+* Adds click_metrics_by_country to Bitlink instances
 
 === 2.1.0 / 2022-10-21
 

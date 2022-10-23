@@ -21,7 +21,7 @@ module Bitly
       # Get a list of groups from the API. It receives an authorized
       # `Bitly::API::Client` object and uses it to request the `/groups`
       # endpoint, optionally passing an organization guid.
-      # [`GET /v4/groups`](https://dev.bitly.com/v4/#operation/getGroups)
+      # [`GET /v4/groups`](https://dev.bitly.com/api-reference/#getGroups)
       #
       # @example
       #     groups = Bitly::API::Group.list(client: client)
@@ -44,7 +44,7 @@ module Bitly
       # Retrieve a group from the API. It receives an authorized
       # `Bitly::API::Client` object and a group guid and uses it to request
       #  the `/groups/:group_guid` endpoint.
-      # [`GET /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/getGroup)
+      # [`GET /v4/groups/{group_guid}`](https://dev.bitly.com/api-reference/#getGroup)
       #
       # @example
       #     group = Bitly::API::Group.fetch(client: client, guid: guid)
@@ -93,7 +93,7 @@ module Bitly
 
       ##
       # Fetch the organization for the group.
-      # [`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/v4/#operation/getOrganization)
+      # [`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/api-reference/#getOrganization)
       #
       # @return [Bitly::API::Organization]
       def organization
@@ -102,7 +102,7 @@ module Bitly
 
       ##
       # Fetch the group's preferences.
-      # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/getGroupPreferences)
+      # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/api-reference/#getGroupPreferences)
       #
       # @return [Bitly::API::Group::Preferences]
       def preferences
@@ -111,7 +111,7 @@ module Bitly
 
       ##
       # Fetch the group's tags
-      # [`GET /v4/groups/{group_guid}/tags`](https://dev.bitly.com/v4/#operation/getGroupTags)
+      # [`GET /v4/groups/{group_guid}/tags`](https://dev.bitly.com/api-reference/#getGroupTags)
       #
       # @return [Array<String>]
       def tags
@@ -123,7 +123,7 @@ module Bitly
       # If you update the organization guid and have already loaded the
       # organization, it is nilled out so it can be reloaded with the correct
       # guid
-      # [`PATCH /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/updateGroup)
+      # [`PATCH /v4/groups/{group_guid}`](https://dev.bitly.com/api-reference/#updateGroup)
       #
       # @example
       #     group.update(name: "New Name", organization_guid: "aaabbb")
@@ -149,7 +149,7 @@ module Bitly
 
       ##
       # Deletes the group.
-      # [`DELETE /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/deleteGroup)
+      # `DELETE /v4/groups/{group_guid}`
       #
       # @example
       #     group.delete
@@ -162,7 +162,7 @@ module Bitly
 
       ##
       # Get the shorten counts for the group.
-      # # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getGroupShortenCounts)
+      # # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getGroupShortenCounts)
       #
       # @return [Bitly::API::ShortenCounts]
       def shorten_counts
@@ -171,7 +171,7 @@ module Bitly
 
       ##
       # Gets the Bitlinks for the group.
-      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
+      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/api-reference/#getBitlinksByGroup)
       #
       # @return [Bitly::API::Bitlink::List]
       def bitlinks
@@ -180,7 +180,7 @@ module Bitly
 
       ##
       # Gets the referring networks for the group.
-      # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
+      # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
       #
       # @param unit [String] A unit of time. Default is "day" and can be
       #     "minute", "hour", "day", "week" or "month"
@@ -205,7 +205,7 @@ module Bitly
 
       ##
       # Gets the country click metrics for the group.
-      # [`GET /v4/groups/{group_guid}/countries`](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
+      # [`GET /v4/groups/{group_guid}/countries`](https://dev.bitly.com/api-reference/#getGroupMetricsByCountries)
       #
       # @param unit [String] A unit of time. Default is "day" and can be
       #     "minute", "hour", "day", "week" or "month"

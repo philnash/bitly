@@ -19,7 +19,7 @@ module Bitly
 
       ##
       # Shortens a long url.
-      # [`POST /v4/shorten`](https://dev.bitly.com/v4/#operation/createBitlink)
+      # [`POST /v4/shorten`](https://dev.bitly.com/api-reference/#createBitlink)
       #
       # @example
       #     bitlink = Bitly::API::Bitlink.shorten(client: client, long_url: long_url)
@@ -47,7 +47,7 @@ module Bitly
       ##
       # Creates a new Bitlink from a long URL. Similar to #shorten but takes
       # more parameters.
-      # [`POST /v4/bitlinks`](https://dev.bitly.com/v4/#operation/createFullBitlink)
+      # [`POST /v4/bitlinks`](https://dev.bitly.com/api-reference/#createFullBitlink)
       #
       # @example
       #     bitlink = Bitly::API::Bitlink.create(client: client, long_url: long_url)
@@ -81,7 +81,7 @@ module Bitly
 
       ##
       # Return information about a bitlink
-      # [`GET /v4/bitlink/{bitlink}`](https://dev.bitly.com/v4/#operation/getBitlink)
+      # [`GET /v4/bitlinks/{bitlink}`](https://dev.bitly.com/api-reference/#getBitlink)
       #
       # @example
       #     bitlink = Bitly::API::Bitlink.fetch(client: client, bitlink: "bit.ly/example")
@@ -98,7 +98,7 @@ module Bitly
 
       ##
       # Return public information about a bitlink
-      # [`POST /v4/expand`](https://dev.bitly.com/v4/#operation/expandBitlink)
+      # [`POST /v4/expand`](https://dev.bitly.com/api-reference/#expandBitlink)
       #
       # @example
       #     bitlink = Bitly::API::Bitlink.expand(client: client, bitlink: "bit.ly/example")
@@ -115,7 +115,7 @@ module Bitly
 
       ##
       # Retrieve a list of bitlinks by group
-      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
+      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/api-reference/#getBitlinksByGroup)
       #
       # @example
       #     bitlinks = Bitly::API::Bitlink.list(client: client, group_guid: guid)
@@ -192,7 +192,7 @@ module Bitly
 
       ##
       # Returns a list of Bitlinks sorted by clicks.
-      # [`GET /v4/groups/{group_guid}/bitlinks/{sort}`](https://dev.bitly.com/v4/#operation/getSortedBitlinks)
+      # [`GET /v4/groups/{group_guid}/bitlinks/{sort}`](https://dev.bitly.com/api-reference/#getSortedBitlinks)
       #
       # The API returns a separate list of the links and the click counts, but
       # this method assigns the number of clicks for each link to the Bitlink
@@ -257,7 +257,7 @@ module Bitly
 
       ##
       # Update the Bitlink.
-      # [`PATCH /v4/bitlink/{bitlink}`](https://dev.bitly.com/v4/#operation/updateBitlink)
+      # [`PATCH /v4/bitlinks/{bitlink}`](https://dev.bitly.com/api-reference/#getClicksSummaryForBitlink)
       #
       # The parameters listed below are from the documentation. Some only work
       # if you have a Bitly Pro account.
@@ -315,7 +315,7 @@ module Bitly
         self
       end
 
-      # [`GET /v4/bitlink/{bitlink}/clicks/summary`](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink)
+      # [`GET /v4/bitlinks/{bitlink}/clicks/summary`](https://dev.bitly.com/api-reference/#getClicksSummaryForBitlink)
       #
       # @return [Bitly::API::Bitlink::ClicksSummary]
       def clicks_summary(unit: nil, units: nil, unit_reference: nil, size: nil)
@@ -324,7 +324,7 @@ module Bitly
 
       ##
       # Get the clicks for the bitlink.
-      # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
+      # [`GET /v4/bitlinks/{bitlink}/clicks`](https://dev.bitly.com/api-reference/#getClicksForBitlink)
       #
       # @param sort [String] The data to sort on. Default and only option is
       #     "clicks".
@@ -340,6 +340,24 @@ module Bitly
       # @return [Bitly::API::Bitlink::LinkClick::List]
       def link_clicks(unit: nil, units: nil, unit_reference: nil, size: nil)
         LinkClick.list(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
+      end
+
+      ##
+      # Get metrics for a Bitlink by country
+      # [`GET  /v4/bitlinks/{bitlink}/countries`](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByCountries)
+      #
+      # @param unit [String] A unit of time. Default is "day" and can be
+      #     "minute", "hour", "day", "week" or "month"
+      # @param units [Integer] An integer representing the time units to query
+      #     data for. pass -1 to return all units of time. Defaults to -1.
+      # @param unit_reference [String] An ISO-8601 timestamp, indicating the
+      #     most recent time for which to pull metrics. Will default to current
+      #     time.
+      # @param size [Integer] The number of links to be returned. Defaults to 50
+      #
+      # @return [Bitly::API::ClickMetric::List]
+      def click_metrics_by_country(unit: nil, units: nil, unit_reference: nil, size: nil)
+        ClickMetric.list_countries_by_bitlink(client: @client, bitlink: id, unit: unit, units: units, unit_reference: unit_reference, size: size)
       end
     end
   end

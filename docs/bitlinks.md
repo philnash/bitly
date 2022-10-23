@@ -2,7 +2,7 @@
 
 Bitlinks are the core object in the Bitly API. They represent a long URL that has been shortened using Bitly, and they are the base for the metrics and clicks that can be read for each Bitlink.
 
-See the full [Bitly API documentation for Bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks).
+See the full [Bitly API documentation for Bitlinks](https://dev.bitly.com/api-reference/#createBitlink).
 
 ## Creating Bitlinks
 
@@ -127,7 +127,7 @@ bitlink.title
 
 ### Sorted list
 
-You can get a list of your Bitlinks sorted by clicks. See the Bitly docs for [information on the parameters](https://dev.bitly.com/v4/#operation/getSortedBitlinks).
+You can get a list of your Bitlinks sorted by clicks. See the Bitly docs for [information on the parameters](https://dev.bitly.com/api-reference/#getSortedBitlinks).
 
 ```ruby
 bitlinks = client.sorted_bitlinks(group_guid: guid)
@@ -154,7 +154,7 @@ bitlink_page.has_prev_page?
 
 ## Clicks
 
-With your Bitlink you can also get the clicks for the link or a summary. See the [Bitlink documentation](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink) for more details.
+With your Bitlink you can also get the clicks for the link or a summary. See the [Bitlink documentation](https://dev.bitly.com/api-reference/#getClicksForBitlink) for more details.
 
 ```ruby
 bitlink.clicks_summary

@@ -208,6 +208,14 @@ RSpec.describe Bitly::API::Bitlink do
         .and_return(link_clicks)
       expect(bitlink.link_clicks).to eq(link_clicks)
     end
+
+    it "can fetch click metrics by country" do
+      click_metrics = instance_double(Bitly::API::ClickMetric)
+      expect(Bitly::API::ClickMetric).to receive(:list_countries_by_bitlink)
+        .with(client: client, bitlink: bitlink.id, unit: nil, units: nil, unit_reference: nil, size: nil)
+        .and_return(click_metrics)
+      expect(bitlink.click_metrics_by_country).to eq(click_metrics)
+    end
   end
 
   describe "sorted lists" do

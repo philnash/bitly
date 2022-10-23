@@ -19,6 +19,7 @@ A Ruby gem for using the version 4 [Bitly API](https://dev.bitly.com/) to shorte
   * [Campaigns](#campaigns)
   * [BSDs (Branded Short Domains)](#bsds-branded-short-domains)
   * [OAuth Apps](#oauth-apps)
+  * [Webhooks](#webhooks)
 * [Development](#development)
 * [Contributing](#contributing)
 * [License](#license)
@@ -86,86 +87,103 @@ bitlink.long_url
 
 ## Available API Endpoints
 
-This gem supports the following active v4 API endpoints for the[Bitly API](https://dev.bitly.com/v4_documentation.html).
+This gem supports the following active v4 API endpoints for the[Bitly API](https://dev.bitly.com/api-reference).
 
 ### Groups
 
 [Groups documentation](docs/groups.md)
 
-- [x] [Retrieve groups (`GET /v4/groups`)](https://dev.bitly.com/v4/#operation/getGroups)
-- [x] [Retrieve group (`GET /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/getGroup)
-- [x] [Update group (`PATCH /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/updateGroup)
-- [x] [Delete group (`DELETE /v4/groups/{group_guid}`)](https://dev.bitly.com/v4/#operation/deleteGroup)
-- [x] [Retrieve tags by group (`GET /v4/groups/{group_guid}/tags`)](https://dev.bitly.com/v4/#operation/getGroupTags)
-- [x] [Retrieve group preferences (`GET /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/v4/#operation/getGroupPreferences)
-- [x] [Update group preferences (`PATCH /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/v4/#operation/updateGroupPreferences)
-- [x] [Retrieve Bitlinks by group (`GET /v4/groups/{group_guid}/bitlinks`)](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
-- [x] [Retrieve sorted Bitlinks by group (`GET /v4/groups/{group_guid}/bitlinks/{sort}`)](https://dev.bitly.com/v4/#operation/getSortedBitlinks)
-- [x] [Retrieve group shorten counts (`GET /v4/groups/{group_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getGroupShortenCounts)
-- [x] [Retrieve click metrics for a group by referring networks (`GET /v4/groups/{group_guid}/referring_networks`)](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
-- [x] [Retrieve click metrics for a group by countries (`GET /v4/groups/{group_guid}/countries`)](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
+- [x] [Retrieve groups (`GET /v4/groups`)](https://dev.bitly.com/api-reference/#getGroups)
+- [x] [Retrieve group (`GET /v4/groups/{group_guid}`)](https://dev.bitly.com/api-reference/#getGroup)
+- [x] [Update group (`PATCH /v4/groups/{group_guid}`)](https://dev.bitly.com/api-reference/#updateGroup)
+- [x] Delete group (`DELETE /v4/groups/{group_guid}`)
+- [x] [Retrieve tags by group (`GET /v4/groups/{group_guid}/tags`)](https://dev.bitly.com/api-reference/#getGroupTags)
+- [x] [Retrieve group preferences (`GET /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/api-reference/#getGroupPreferences)
+- [x] [Update group preferences (`PATCH /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/api-reference/#updateGroupPreferences)
+- [x] [Retrieve Bitlinks by group (`GET /v4/groups/{group_guid}/bitlinks`)](https://dev.bitly.com/api-reference/#getBitlinksByGroup)
+- [x] [Retrieve sorted Bitlinks by group (`GET /v4/groups/{group_guid}/bitlinks/{sort}`)](https://dev.bitly.com/api-reference/#getSortedBitlinks)
+- [x] [Retrieve group shorten counts (`GET /v4/groups/{group_guid}/shorten_counts`)](https://dev.bitly.com/api-reference/#getGroupShortenCounts)
+- [x] [Retrieve click metrics for a group by referring networks (`GET /v4/groups/{group_guid}/referring_networks`)](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
+- [x] [Retrieve click metrics for a group by countries (`GET /v4/groups/{group_guid}/countries`)](https://dev.bitly.com/api-reference/#getGroupMetricsByCountries)
+- [ ] __[premium]__ [Retrieve click metrics for a group by city (`GET /v4/groups/{group_guid}/cities`)](https://dev.bitly.com/api-reference/#getGroupMetricsByCities)
+- [ ] __[premium]__ [Get group overrides (`GET /v4/groups/{group_guid}/overrides`)](https://dev.bitly.com/api-reference/#getOverridesForGroups)
 
 ### Organizations
 
 [Organizations documentation](docs/organizations.md)
 
-- [x] [Retrieve organizations (`GET /v4/organizations`)](https://dev.bitly.com/v4/#operation/getOrganizations)
-- [x] [Retrieve organization (`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/v4/#operation/getOrganization)
-- [x] [Retrieve organization shorten counts (`GET /v4/organizations/{organization_guid}/shorten_counts`)](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+- [x] [Retrieve organizations (`GET /v4/organizations`)](https://dev.bitly.com/api-reference/#getOrganizations)
+- [x] [Retrieve organization (`GET /v4/organizations/{organization_guid}`)](https://dev.bitly.com/api-reference/#getOrganization)
+- [x] [Retrieve organization shorten counts (`GET /v4/organizations/{organization_guid}/shorten_counts`)](https://dev.bitly.com/api-reference/#getOrganizationShortenCounts)
 
 ### Users
 
 [Users documentation](docs/users.md)
 
-- [x] [Retrieve user (`GET /v4/user`)](https://dev.bitly.com/v4/#operation/getUser)
-- [x] [Update user (`PATCH /v4/user`)](https://dev.bitly.com/v4/#operation/updateUser)
+- [x] [Retrieve user (`GET /v4/user`)](https://dev.bitly.com/api-reference/#getUser)
+- [x] [Update user (`PATCH /v4/user`)](https://dev.bitly.com/api-reference/#updateUser)
 
 ### Bitlinks
 
 [Bitlinks documentation](docs/bitlinks.md)
 
-- [x] [Shorten a link (`POST /v4/shorten`)](https://dev.bitly.com/v4/#operation/createBitlink)
-- [x] [Expand a Bitlink (`POST /v4/expand`)](https://dev.bitly.com/v4/#operation/expandBitlink)
-- [x] [Retrieve a Bitlink (`GET /v4/bitlink/{bitlink}`)](https://dev.bitly.com/v4/#operation/getBitlink)
-- [x] [Create a Bitlink (`POST /v4/bitlinks`)](https://dev.bitly.com/v4/#operation/createFullBitlink)
-- [x] [Update a Bitlink (`PATCH /v4/bitlink/{bitlink}`)](https://dev.bitly.com/v4/#operation/updateBitlink)
-- [x] [Get clicks for a Bitlink (`GET /v4/bitlink/{bitlink}/clicks`)](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
-- [x] [Get clicks summary for a Bitlink (`GET /v4/bitlink/{bitlink}/clicks/summary`)](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink)
-- [x] [Get metrics for a Bitlink by countries (`GET /v4/bitlinks/{bitlink}/countries`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByCountries)
-- [x] [Get metrics for a Bitlink by referrers (`GET /v4/bitlinks/{bitlink}/referrers`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferrers)
-- [x] [Get metrics for a Bitlink by referring domains (`GET /v4/bitlinks/{bitlink}/referring_domains`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferringDomains)
-- [x] [Get metrics for a Bitlink by referrers by domain (`GET /v4/bitlinks/{bitlink}/referrers_by_domains`)](https://dev.bitly.com/v4/#operation/getMetricsForBitlinkByReferrersByDomains)
-- [ ] __[premium]__ [Get a QR code for a Bitlink (`GET /v4/{bitlink}/qr`)](https://dev.bitly.com/v4/#operation/getBitlinkQRCode)
+- [x] [Shorten a link (`POST /v4/shorten`)](https://dev.bitly.com/api-reference/#createBitlink)
+- [x] [Expand a Bitlink (`POST /v4/expand`)](https://dev.bitly.com/api-reference/#expandBitlink)
+- [x] [Retrieve a Bitlink (`GET /v4/bitlinks/{bitlink}`)](https://dev.bitly.com/api-reference/#getBitlink)
+- [x] [Create a Bitlink (`POST /v4/bitlinks`)](https://dev.bitly.com/api-reference/#createFullBitlink)
+- [x] [Update a Bitlink (`PATCH /v4/bitlinks/{bitlink}`)](https://dev.bitly.com/api-reference/#updateBitlink)
+- [ ] [Delete an unedited hash Bitlink (`DELETE /v4/bitlinks/{bitlink}`)](https://dev.bitly.com/api-reference/#deleteBitlink)
+- [x] [Get clicks for a Bitlink (`GET /v4/bitlinks/{bitlink}/clicks`)](https://dev.bitly.com/api-reference/#getClicksForBitlink)
+- [x] [Get clicks summary for a Bitlink (`GET /v4/bitlinks/{bitlink}/clicks/summary`)](https://dev.bitly.com/api-reference/#getClicksSummaryForBitlink)
+- [x] [Get metrics for a Bitlink by countries (`GET /v4/bitlinks/{bitlink}/countries`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByCountries)
+- [x] [Get metrics for a Bitlink by referrers (`GET /v4/bitlinks/{bitlink}/referrers`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByReferrers)
+- [x] [Get metrics for a Bitlink by referring domains (`GET /v4/bitlinks/{bitlink}/referring_domains`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByReferringDomains)
+- [x] [Get metrics for a Bitlink by referrers by domain (`GET /v4/bitlinks/{bitlink}/referrers_by_domains`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByReferrersByDomains)
+- [ ] __[premium]__ [Get metrics for a Bitlink by city (`GET /v4/bitlinks/{bitlink}/cities`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByCities)
+- [ ] __[premium]__ [Get metrics for a Bitlink by device type (`GET /v4/bitlinks/{bitlink}/devices`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByDevices)
+- [ ] __[premium]__ [Retrieve a QR code for a Bitlink (`GET /v4/bitlinks/{bitlink}/qr`)](https://dev.bitly.com/api-reference/#getBitlinkQRCode)
+- [ ] __[premium]__ [Update a QR code (`PATCH /v4/bitlinks/{bitlink}/qr`)](https://dev.bitly.com/api-reference/#updateBitlinkQRCode)
+- [ ] __[premium]__ [Create a QR code (`POST /v4/bitlinks/{bitlink}/qr`)](https://dev.bitly.com/api-reference/#createBitlinkQRCode)
 
 ### Custom Bitlinks
 
-- [ ] [Add custom Bitlink (`POST /v4/custom_bitlinks`)](https://dev.bitly.com/v4/#operation/addCustomBitlink)
-- [ ] __[premium]__ [Retrieve custom Bitlink (`GET /v4/custom_bitlinks/{custom_bitlink}`)](https://dev.bitly.com/v4/#operation/getCustomBitlink)
-- [ ] __[premium]__ [Update custom Bitlink (`PATCH /v4/custom_bitlink/{custom_bitlink}`)](https://dev.bitly.com/v4/#operation/updateCustomBitlink)
-- [ ] __[premium]__ [Get metrics for a custom Bitlink by destination (`GET /v4/custom_bitlinks/{custom_bitlink}/clicks_by_destination`)](https://dev.bitly.com/v4/#operation/getCustomBitlinkMetricsByDestination)
+- [ ] [Add custom Bitlink (`POST /v4/custom_bitlinks`)](https://dev.bitly.com/api-reference/#addCustomBitlink)
+- [ ] __[premium]__ [Retrieve custom Bitlink (`GET /v4/custom_bitlinks/{custom_bitlink}`)](https://dev.bitly.com/api-reference/#getCustomBitlink)
+- [ ] __[premium]__ [Update custom Bitlink (`PATCH /v4/custom_bitlinks/{custom_bitlink}`)](https://dev.bitly.com/api-reference/#updateCustomBitlink)
+- [ ] __[premium]__ [Get metrics for a custom Bitlink by destination (`GET /v4/custom_bitlinks/{custom_bitlink}/clicks_by_destination`)](https://dev.bitly.com/api-reference/#getCustomBitlinkMetricsByDestination)
+- [ ] __[premium]__ [Get clicks for a custom Bitlin's entire history (`GET /v4/custom_bitlinks/{custom_bitlink}/clicks`)](https://dev.bitly.com/api-reference/#getClicksForCustomBitlink)
 
 ### Campaigns
 
-- [ ] __[premium]__ [Retrieve campaigns (`GET /v4/campaigns`)](https://dev.bitly.com/v4/#operation/getCampaigns)
-- [ ] __[premium]__ [Create campaign (`POST /v4/campaigns`)](https://dev.bitly.com/v4/#operation/createCampaign)
-- [ ] __[premium]__ [Retrieve campaign (`GET /v4/campaigns/{campaign_guid}`)](https://dev.bitly.com/v4/#operation/getCampaign)
-- [ ] __[premium]__ [Update campaign (`PATCH /v4/campaigns/{campaign_guid}`)](https://dev.bitly.com/v4/#operation/updateCampaign)
-- [ ] __[premium]__ [Retrieve channels (`GET /v4/channels`)](https://dev.bitly.com/v4/#operation/getChannels)
-- [ ] __[premium]__ [Create channel (`POST /v4/channels`)](https://dev.bitly.com/v4/#operation/createChannel)
-- [ ] __[premium]__ [Retrieve channel (`GET /v4/channels/{channel_guid}`)](https://dev.bitly.com/v4/#operation/getChannel)
-- [ ] __[premium]__ [Update channel (`PATCH /v4/channels/{channel_guid}`)](https://dev.bitly.com/v4/#operation/updateChannel)
+- [ ] __[premium]__ [Retrieve campaigns (`GET /v4/campaigns`)](https://dev.bitly.com/api-reference/#getCampaigns)
+- [ ] __[premium]__ [Create campaign (`POST /v4/campaigns`)](https://dev.bitly.com/api-reference/#createCampaign)
+- [ ] __[premium]__ [Retrieve campaign (`GET /v4/campaigns/{campaign_guid}`)](https://dev.bitly.com/api-reference/#getCampaign)
+- [ ] __[premium]__ [Update campaign (`PATCH /v4/campaigns/{campaign_guid}`)](https://dev.bitly.com/api-reference/#updateCampaign)
+- [ ] __[premium]__ [Retrieve channels (`GET /v4/channels`)](https://dev.bitly.com/api-reference/#getChannels)
+- [ ] __[premium]__ [Create channel (`POST /v4/channels`)](https://dev.bitly.com/api-reference/#createChannel)
+- [ ] __[premium]__ [Retrieve channel (`GET /v4/channels/{channel_guid}`)](https://dev.bitly.com/api-reference/#getChannel)
+- [ ] __[premium]__ [Update channel (`PATCH /v4/channels/{channel_guid}`)](https://dev.bitly.com/api-reference/#updateChannel)
 
 ### BSDs (Branded Short Domains)
 
 [Branded Short Domains documentation](docs/branded_short_domains.md)
 
-- [x] [Retrieve BSDs (`GET /v4/bsds`)](https://dev.bitly.com/v4/#operation/getBSDs)
+- [x] [Retrieve BSDs (`GET /v4/bsds`)](https://dev.bitly.com/api-reference/#getBSDs)
 
 ### OAuth Apps
 
 [OAuth Apps documentation](docs/oauth_apps.md)
 
-- [x] [Retrieve OAuth App (`GET /v4/apps/{client_id}`)](https://dev.bitly.com/v4/#operation/getOAuthApp)
+- [x] Retrieve OAuth App (`GET /v4/apps/{client_id}`)
+
+### Webhooks
+
+- [ ] __[premium]__ [Get webhooks (`GET /v4/organizations/{organization_guid}/webhooks`)](https://dev.bitly.com/api-reference/#getWebhooks)
+- [ ] __[premium]__ [Create a webhook (`POST /v4/webhooks`)](https://dev.bitly.com/api-reference/#createWebhook)
+- [ ] __[premium]__ [Retrieve a webhook (`GET /v4/webhooks/{webhook_guid}`)](https://dev.bitly.com/api-reference/#getWebhook)
+- [ ] __[premium]__ [Update a webhook (`POST /v4/webhooks/{webhook_guid`)](https://dev.bitly.com/api-reference/#updateWebhook)
+- [ ] __[premium]__ [Delete a webhook (`DELETE /v4/webhooks/{webhook_guid}`)](https://dev.bitly.com/api-reference/#deleteWebhook)
+- [ ] __[premium]__ [Verify a webhook (`POST /v4/webhooks/{webhook_guid}/verify`)](https://dev.bitly.com/api-reference/#verifyWebhook)
 
 ## Development
 

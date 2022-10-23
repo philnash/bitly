@@ -8,7 +8,7 @@ module Bitly
 
       ##
       # Fetch Branded Short Domains (BSDs).
-      # [`GET /v4/bsds`](https://dev.bitly.com/v4/#operation/getBSDs)
+      # [`GET /v4/bsds`](https://dev.bitly.com/api-reference/#getBSDs)
       #
       # @example
       #     bsds = Bitly::API::BSD.list(client: client)

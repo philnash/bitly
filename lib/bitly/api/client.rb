@@ -58,7 +58,7 @@ module Bitly
 
       ##
       # Shortens a long URL.
-      # [`POST /v4/shorten`](https://dev.bitly.com/v4/#operation/createBitlink)
+      # [`POST /v4/shorten`](https://dev.bitly.com/api-reference/#createBitlink)
       #
       # @example
       #     client.shorten(long_url: "http://example.com")
@@ -75,7 +75,7 @@ module Bitly
 
       ##
       # Creates a Bitlink with more options than #shorten.
-      # [`POST /v4/bitlinks`](https://dev.bitly.com/v4/#operation/createFullBitlink)
+      # [`POST /v4/bitlinks`](https://dev.bitly.com/api-reference/#createFullBitlink)
       #
       # @example
       #     bitlink = client.create_bitlink(long_url: "http://example.com", title: "An example")
@@ -96,7 +96,7 @@ module Bitly
 
       ##
       # Return information about a bitlink
-      # [`GET /v4/bitlink/{bitlink}`](https://dev.bitly.com/v4/#operation/getBitlink)
+      # [`GET /v4/bitlink/{bitlink}`](https://dev.bitly.com/api-reference/#getBitlink)
       #
       # @example
       #     bitlink = client.bitlink(bitlink: "bit.ly/example")
@@ -110,7 +110,7 @@ module Bitly
 
       ##
       # Return public information about a bitlink.
-      # [`POST /v4/expand`](https://dev.bitly.com/v4/#operation/expandBitlink)
+      # [`POST /v4/expand`](https://dev.bitly.com/api-reference/#expandBitlink)
       #
       # @example
       #     bitlink = client.expand(bitlink: "bit.ly/example")
@@ -124,7 +124,7 @@ module Bitly
 
       ##
       # Returns a list of Bitlinks sorted by clicks.
-      # [`GET /v4/groups/{group_guid}/bitlinks/{sort}`](https://dev.bitly.com/v4/#operation/getSortedBitlinks)
+      # [`GET /v4/groups/{group_guid}/bitlinks/{sort}`](https://dev.bitly.com/api-reference/#getSortedBitlinks)
       #
       # The API returns a separate list of the links and the click counts, but
       # this method assigns the number of clicks for each link to the Bitlink
@@ -169,7 +169,7 @@ module Bitly
 
       ##
       # Update a Bitlink.
-      # [`PATCH /v4/bitlink/{bitlink}`](https://dev.bitly.com/v4/#operation/updateBitlink)
+      # [`PATCH /v4/bitlink/{bitlink}`](https://dev.bitly.com/api-reference/#updateBitlink)
       #
       # The parameters listed below are from the documentation. Some only work
       # if you have a Bitly Pro account.
@@ -225,7 +225,7 @@ module Bitly
 
       ##
       # Get the clicks for a bitlink.
-      # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
+      # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/api-reference/#getClicksForBitlink)
       #
       # @param bitlink [String] The Bitlink for which you want the clicks
       # @param sort [String] The data to sort on. Default and only option is
@@ -253,7 +253,7 @@ module Bitly
 
       ##
       # Get a list of organizations from the API.
-      # [`GET /v4/organizations`](https://dev.bitly.com/v4/#operation/getOrganizations)
+      # [`GET /v4/organizations`](https://dev.bitly.com/api-reference/#getOrganizations)
       #
       # @example
       #     organizations = client.organizations
@@ -265,7 +265,7 @@ module Bitly
 
       ##
       # Retrieve an organization from the API.
-      # [`GET /v4/organizations/{organization_guid}`](https://dev.bitly.com/v4/#operation/getOrganization)
+      # [`GET /v4/organizations/{organization_guid}`](https://dev.bitly.com/api-reference/#getOrganization)
       #
       # @example
       #     organization = client.organization(organization_guid: guid)
@@ -279,7 +279,7 @@ module Bitly
 
       ##
       # Shorten counts by organization
-      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getOrganizationShortenCounts)
       #
       # @example
       #     shorten_counts = client.organization_shorten_counts(organization_guid: organization_guid)
@@ -294,7 +294,7 @@ module Bitly
 
       ##
       # Gets the authorized user from the API.
-      # [`GET /v4/user`](https://dev.bitly.com/v4/#operation/getUser)
+      # [`GET /v4/user`](https://dev.bitly.com/api-reference/#getUser)
       #
       # @example
       #     user = client.user
@@ -306,7 +306,7 @@ module Bitly
 
       ##
       # Allows you to update the authorized user's name or default group guid.
-      # [`PATCH /v4/user`](https://dev.bitly.com/v4/#operation/updateUser)]
+      # [`PATCH /v4/user`](https://dev.bitly.com/api-reference/#updateUser)]
       #
       # @example
       #     client.update_user(name: "New Name", default_group_guid: "aaabbb")
@@ -322,7 +322,7 @@ module Bitly
 
       ##
       # Lists groups the authorized user can see.
-      # [`GET /v4/groups`](https://dev.bitly.com/v4/#operation/getGroups)
+      # [`GET /v4/groups`](https://dev.bitly.com/api-reference/#getGroups)
       #
       # @example
       #     groups = client.groups
@@ -337,7 +337,7 @@ module Bitly
 
       ##
       # Fetch a particular group.
-      # [`GET /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/getGroup)
+      # [`GET /v4/groups/{group_guid}`](https://dev.bitly.com/api-reference/#getGroup)
       #
       # @example
       #     group = client.group(guid)
@@ -351,7 +351,7 @@ module Bitly
 
       ##
       # Fetch the shorten counts for a group.
-      # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getGroupShortenCounts)
+      # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getGroupShortenCounts)
       #
       # @example
       #     shorten_counts = client.group_shorten_counts(guid: group_guid)
@@ -366,7 +366,7 @@ module Bitly
 
       ##
       # Fetch a group's preferences.
-      # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/getGroupPreferences)
+      # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/api-reference/#getGroupPreferences)
       #
       # @param group_guid [String] The group's guid
       #
@@ -377,7 +377,7 @@ module Bitly
 
       ##
       # Update a group's preferences.
-      # [`PATCH /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/updateGroupPreferences)
+      # [`PATCH /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/api-reference/#updateGroupPreferences)
       #
       # @param group_guid [String] The group's guid
       # @param domain_preference [String] The new domain preference for this
@@ -391,7 +391,7 @@ module Bitly
 
       ##
       # Allows you to update a group's name, organization or BSDs.
-      # [`PATCH /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/updateGroup)
+      # [`PATCH /v4/groups/{group_guid}`](https://dev.bitly.com/api-reference/#updateGroup)
       #
       # @example
       #     client.update_group(group_guid: group_guid, name: "New Name", organization_guid: "aaabbb")
@@ -413,7 +413,7 @@ module Bitly
 
       ##
       # Retrieve a list of bitlinks by group
-      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/v4/#operation/getBitlinksByGroup)
+      # [`GET /v4/groups/{group_guid}/bitlinks`](https://dev.bitly.com/api-reference/#getBitlinksByGroup)
       #
       # @example
       #     bitlinks = client.group_bitlinks(group_guid: guid)
@@ -486,7 +486,7 @@ module Bitly
 
       ##
       # Deletes a group.
-      # [`DELETE /v4/groups/{group_guid}`](https://dev.bitly.com/v4/#operation/deleteGroup)
+      # `DELETE /v4/groups/{group_guid}
       #
       # @example
       #     client.delete_group(group_guid: group_guid)
@@ -499,7 +499,7 @@ module Bitly
 
       ##
       # Gets the referring networks for the group.
-      # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/v4/#operation/GetGroupMetricsByReferringNetworks)
+      # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
       #
       # @param group_guid [String] The guid of the group
       # @param unit [String] A unit of time. Default is "day" and can be
@@ -525,7 +525,7 @@ module Bitly
 
       ##
       # Gets the country click metrics for the group.
-      # [`GET /v4/groups/{group_guid}/countries`](https://dev.bitly.com/v4/#operation/getGroupMetricsByCountries)
+      # [`GET /v4/groups/{group_guid}/countries`](https://dev.bitly.com/api-reference/#getGroupMetricsByCountries)
       #
       # @param group_guid [String] The guid of the group
       # @param unit [String] A unit of time. Default is "day" and can be
@@ -551,7 +551,7 @@ module Bitly
 
       ##
       # Fetch Branded Short Domains (BSDs).
-      # [`GET /v4/bsds`](https://dev.bitly.com/v4/#operation/getBSDs)
+      # [`GET /v4/bsds`](https://dev.bitly.com/api-reference/#getBSDs)
       #
       # @example
       #     bsds = client.bsds
@@ -563,7 +563,7 @@ module Bitly
 
       ##
       # Fetch OAuth application by client ID
-      # [`GET /v4/apps/{client_id}`)](https://dev.bitly.com/v4/#operation/getOAuthApp)
+      # `GET /v4/apps/{client_id}`
       #
       # @example
       #     app = client.oauth_app(client_id: "client_id")

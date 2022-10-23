@@ -2,7 +2,7 @@
 
 An organization is the top level of the Bitly user hierarchy. Both [Users](./users.md) and [Groups](./groups.md) live within an organization.
 
-See the full [Bitly API documentation for Organizations](https://dev.bitly.com/v4/#tag/Organizations).
+See the full [Bitly API documentation for Organizations](https://dev.bitly.com/api-reference/#getOrganizations).
 
 ## List Organizations
 

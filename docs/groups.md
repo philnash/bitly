@@ -2,7 +2,7 @@
 
 Groups are a subdivision within an [organization](./organizations.md). A [user](./users.md) belongs to a group within an organization. Most actions in the API are on behalf of a group. For example, when you shorten a link, it will be on behalf of a user and a group.
 
-See the full [Bitly API documentation for Groups](https://dev.bitly.com/v4/#tag/Groups).
+See the full [Bitly API documentation for Groups](https://dev.bitly.com/api-reference/#getGroups).
 
 ## List Groups
 

@@ -18,7 +18,7 @@ module Bitly
       # Get a list of organizations from the API. It receives an authorized
       # `Bitly::API::Client` object and uses it to request the `/organizations`
       # endpoint.
-      # [`GET /v4/organizations`](https://dev.bitly.com/v4/#operation/getOrganizations)
+      # [`GET /v4/organizations`](https://dev.bitly.com/api-reference/#getOrganizations)
       #
       # @example
       #     organizations = Bitly::API::Organization.list(client: client)
@@ -38,7 +38,7 @@ module Bitly
       # Retrieve an organization from the API. It receives an authorized
       # `Bitly::API::Client` object and an organization guid and uses it to
       #  request the `/organizations/:organization_guid` endpoint.
-      # [`GET /v4/organizations/{organization_guid}`](https://dev.bitly.com/v4/#operation/getOrganization)
+      # [`GET /v4/organizations/{organization_guid}`](https://dev.bitly.com/api-reference/#getOrganization)
       #
       # @example
       #     organization = Bitly::API::Organization.fetch(client: client, organization_guid: guid)
@@ -90,7 +90,7 @@ module Bitly
 
       ##
       # Shorten counts by organization
-      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getOrganizationShortenCounts)
       #
       # @example
       #     shorten_counts = organization.shorten_counts

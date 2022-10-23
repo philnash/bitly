@@ -2,7 +2,7 @@
 
 BSDs is an acronym for branded short domains. A branded short domain is a custom 15 character or less domain for bitlinks. This allows you to customize the domain to your brand.
 
-See the full [Bitly API documentation for BSDs](https://dev.bitly.com/v4/#tag/BSDs).
+See the full [Bitly API documentation for BSDs](https://dev.bitly.com/api-reference/#getBSDs).
 
 ## List BSDs
 

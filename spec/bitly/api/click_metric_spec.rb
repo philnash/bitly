@@ -224,7 +224,6 @@ RSpec.describe Bitly::API::ClickMetric do
     expect(click_metrics.unit_reference).to eq(Time.at(click_metric_bitlink_referrers_by_domain['unit_reference']))
     expect(click_metrics.facet).to eq(click_metric_bitlink_referrers_by_domain['facet'])
     expect(click_metrics.first.network).to eq('twitter')
-    puts click_metrics.first
     expect(click_metrics.first.count).to eq(2)
     expect(click_metrics.first.first.value).to eq('http://t.co/')
     expect(click_metrics.first.first.clicks).to eq(30)

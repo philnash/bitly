@@ -17,7 +17,7 @@ module Bitly
 
       ##
       # Shorten counts by group
-      # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getGroupShortenCounts)
+      # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getGroupShortenCounts)
       #
       # @example
       #     shorten_counts = Bitly::API::ShortenCounts.by_group(client: client, group_guid: group_guid)
@@ -34,7 +34,7 @@ module Bitly
 
       ##
       # Shorten counts by organization
-      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/v4/#operation/getOrganizationShortenCounts)
+      # [`GET /v4/organizations/{organization_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getOrganizationShortenCounts)
       #
       # @example
       #     shorten_counts = Bitly::API::ShortenCounts.by_organization(client: client, organization_guid: organization_guid)

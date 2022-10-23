@@ -2,8 +2,6 @@
 
 You can fetch the details of an OAuth app you have in your account by the `client_id`.
 
-See the full [Bitly documentation for OAuth apps](https://dev.bitly.com/v4/#operation/getOAuthApp)
-
 ## Fetch an OAuth app
 
 With the `client_id` of an OAuth app, you can fetch it directly.

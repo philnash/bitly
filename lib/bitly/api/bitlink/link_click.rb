@@ -22,7 +22,7 @@ module Bitly
 
         ##
         # Get the clicks for a bitlink.
-        # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/v4/#operation/getClicksForBitlink)
+        # [`GET /v4/bitlink/{bitlink}/clicks`](https://dev.bitly.com/api-reference/#getClicksForBitlink)
         #
         # @param client [Bitly::API::Client] An authorized API client
         # @param bitlink [String] The Bitlink for which you want the clicks

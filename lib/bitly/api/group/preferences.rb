@@ -33,7 +33,7 @@ module Bitly
         ##
         # Creates a new Bitly::API::Group::Preferences object from the data,
         # API client and optional response.
-        # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/getGroupPreferences)
+        # [`GET /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/api-reference/#updateGroupPreferences)
         #
         # @example
         #     preferences = Bitly::API::Group::Preferences.new(data: data, client: client)
@@ -49,7 +49,7 @@ module Bitly
 
         ##
         # Updates the preferences via the API
-        # [`PATCH /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/v4/#operation/updateGroupPreferences)
+        # [`PATCH /v4/groups/{group_guid}/preferences`](https://dev.bitly.com/api-reference/#updateGroupPreferences)
         #
         # @example
         #     preferences.update(domain_preference: 'bit.ly')
