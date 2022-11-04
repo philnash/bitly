@@ -18,7 +18,6 @@ A Ruby gem for using the version 4 [Bitly API](https://dev.bitly.com/) to shorte
   * [Custom Bitlinks](#custom-bitlinks)
   * [Campaigns](#campaigns)
   * [BSDs (Branded Short Domains)](#bsds-branded-short-domains)
-  * [OAuth Apps](#oauth-apps)
   * [Webhooks](#webhooks)
 * [Customising HTTP requests](#customising-http-requests)
   * [Build your own adapter](#build-your-own-adapter)
@@ -170,12 +169,6 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 [Branded Short Domains documentation](docs/branded_short_domains.md)
 
 - [x] [Retrieve BSDs (`GET /v4/bsds`)](https://dev.bitly.com/api-reference/#getBSDs)
-
-### OAuth Apps
-
-[OAuth Apps documentation](docs/oauth_apps.md)
-
-- [x] Retrieve OAuth App (`GET /v4/apps/{client_id}`)
 
 ### Webhooks
 
