@@ -485,19 +485,6 @@ module Bitly
       end
 
       ##
-      # Deletes a group.
-      # `DELETE /v4/groups/{group_guid}
-      #
-      # @example
-      #     client.delete_group(group_guid: group_guid)
-      #
-      # @return [Nil]
-      def delete_group(group_guid:)
-        group = Group.new(data: { "guid" => group_guid }, client: self)
-        group.delete
-      end
-
-      ##
       # Gets the referring networks for the group.
       # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
       #

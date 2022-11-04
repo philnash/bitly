@@ -98,7 +98,6 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [x] [Retrieve groups (`GET /v4/groups`)](https://dev.bitly.com/api-reference/#getGroups)
 - [x] [Retrieve group (`GET /v4/groups/{group_guid}`)](https://dev.bitly.com/api-reference/#getGroup)
 - [x] [Update group (`PATCH /v4/groups/{group_guid}`)](https://dev.bitly.com/api-reference/#updateGroup)
-- [x] Delete group (`DELETE /v4/groups/{group_guid}`)
 - [x] [Retrieve tags by group (`GET /v4/groups/{group_guid}/tags`)](https://dev.bitly.com/api-reference/#getGroupTags)
 - [x] [Retrieve group preferences (`GET /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/api-reference/#getGroupPreferences)
 - [x] [Update group preferences (`PATCH /v4/groups/{group_guid}/preferences`)](https://dev.bitly.com/api-reference/#updateGroupPreferences)

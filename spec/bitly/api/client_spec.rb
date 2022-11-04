@@ -313,15 +313,6 @@ RSpec.describe Bitly::API::Client do
         client.update_group(group_guid: group_guid, name: "New name")
       end
 
-      it "deletes a group" do
-        group = instance_double(Bitly::API::Group)
-        expect(Bitly::API::Group).to receive(:new)
-          .with(data: { "guid" => group_guid }, client: client)
-          .and_return(group)
-        expect(group).to receive(:delete)
-        client.delete_group(group_guid: group_guid)
-      end
-
       it "gets a group's bitlinks" do
         expect(Bitly::API::Bitlink).to receive(:list)
           .with(
