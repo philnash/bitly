@@ -20,6 +20,8 @@ A Ruby gem for using the version 4 [Bitly API](https://dev.bitly.com/) to shorte
   * [BSDs (Branded Short Domains)](#bsds-branded-short-domains)
   * [OAuth Apps](#oauth-apps)
   * [Webhooks](#webhooks)
+* [Customising HTTP requests](#customising-http-requests)
+  * [Build your own adapter](#build-your-own-adapter)
 * [Development](#development)
 * [Contributing](#contributing)
 * [License](#license)
@@ -184,6 +186,37 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [ ] __[premium]__ [Update a webhook (`POST /v4/webhooks/{webhook_guid`)](https://dev.bitly.com/api-reference/#updateWebhook)
 - [ ] __[premium]__ [Delete a webhook (`DELETE /v4/webhooks/{webhook_guid}`)](https://dev.bitly.com/api-reference/#deleteWebhook)
 - [ ] __[premium]__ [Verify a webhook (`POST /v4/webhooks/{webhook_guid}/verify`)](https://dev.bitly.com/api-reference/#verifyWebhook)
+
+## Customising HTTP requests
+
+This gem comes with an HTTP client that can use different adapters. It ships with a `Net::HTTP` adapter that it uses by default.
+
+If you want to control the connection, you can create your own instance of the `Net::HTTP` adapter and pass it options for an HTTP proxy or options that control the request. For example, to control the `read_timeout` you can do this:
+
+```ruby
+adapter = Bitly::HTTP::Adapters::NetHTTP.new(request_options: { read_timeout: 1 })
+http_client = Bitly::HTTP::Client.new(adapter)
+api_client = Bitly::API::Client.new(http: http_client, token: token)
+```
+
+Similarly, you can use an HTTP proxy with the adapter by passing the proxy variables to the adapter's constructor.
+
+```ruby
+adapter = Bitly::HTTP::Adapters::NetHTTP.new(proxy_addr: "example.com", proxy_port: 80, proxy_user: "username", proxy_pass: "password")
+http_client = Bitly::HTTP::Client.new(adapter)
+api_client = Bitly::API::Client.new(http: http_client, token: token)
+```
+
+### Build your own adapter
+
+If you want even more control over the request, you can build your own adapter. An HTTP adapter within this gem must have a `request` instance method that receives a `Bitly::HTTP::Request` object and returns an array of four objects:
+
+1. The response status code
+2. The body of the response as a string
+3. The response headers as a hash
+4. A boolean denoting whether the response was a success or not
+
+See `./src/bitly/http/adapters/net_http.rb` for an example.
 
 ## Development
 

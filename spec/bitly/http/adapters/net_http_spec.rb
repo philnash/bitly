@@ -38,4 +38,34 @@ RSpec.describe Bitly::HTTP::Adapters::NetHTTP do
     response = adapter.request(request)
     expect(response).to eq(["200", { "success" => true }.to_json, {}, true])
   end
+
+  describe "HTTP options" do
+    it "sets use_ssl to true by default" do
+      stub_request(:get, "https://example.com/")
+        .to_return(body: { "success" => true }.to_json)
+      allow(Net::HTTP).to receive(:start).and_call_original
+      request = Bitly::HTTP::Request.new(uri: URI.parse("https://example.com/"))
+      adapter = Bitly::HTTP::Adapters::NetHTTP.new
+      response = adapter.request(request)
+      expect(Net::HTTP).to have_received(:start).with("example.com", 443, nil, nil, nil, nil, use_ssl: true)
+    end
+
+    it "can set http options when instantiating the adapter" do
+      stub_request(:get, "https://example.com/")
+        .to_return(body: { "success" => true }.to_json)
+      allow(Net::HTTP).to receive(:start).and_call_original
+      request = Bitly::HTTP::Request.new(uri: URI.parse("https://example.com/"))
+      adapter = Bitly::HTTP::Adapters::NetHTTP.new(request_opts: { read_timeout: 1 })
+      response = adapter.request(request)
+      expect(Net::HTTP).to have_received(:start).with("example.com", 443, nil, nil, nil, nil, use_ssl: true, read_timeout: 1)
+    end
+
+    it "can set proxy options when instantiating the adapter" do
+      allow(Net::HTTP).to receive(:start)
+      request = Bitly::HTTP::Request.new(uri: URI.parse("https://example.com/"))
+      adapter = Bitly::HTTP::Adapters::NetHTTP.new(proxy_addr: "example.org", proxy_port: 80, proxy_user: "username", proxy_pass: "password")
+      response = adapter.request(request)
+      expect(Net::HTTP).to have_received(:start).with("example.com", 443, "example.org", 80, "username", "password", use_ssl: true)
+    end
+  end
 end
