@@ -148,19 +148,6 @@ module Bitly
       end
 
       ##
-      # Deletes the group.
-      # `DELETE /v4/groups/{group_guid}`
-      #
-      # @example
-      #     group.delete
-      #
-      # @return [Nil]
-      def delete
-        @response = @client.request(path: "/groups/#{guid}", method: "DELETE")
-        return nil
-      end
-
-      ##
       # Get the shorten counts for the group.
       # # [`GET /v4/groups/{group_guid}/shorten_counts`](https://dev.bitly.com/api-reference/#getGroupShortenCounts)
       #

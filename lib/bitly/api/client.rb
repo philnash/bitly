@@ -485,19 +485,6 @@ module Bitly
       end
 
       ##
-      # Deletes a group.
-      # `DELETE /v4/groups/{group_guid}
-      #
-      # @example
-      #     client.delete_group(group_guid: group_guid)
-      #
-      # @return [Nil]
-      def delete_group(group_guid:)
-        group = Group.new(data: { "guid" => group_guid }, client: self)
-        group.delete
-      end
-
-      ##
       # Gets the referring networks for the group.
       # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
       #
@@ -559,18 +546,6 @@ module Bitly
       # @return [Array<String>]
       def bsds
         BSD.list(client: self)
-      end
-
-      ##
-      # Fetch OAuth application by client ID
-      # `GET /v4/apps/{client_id}`
-      #
-      # @example
-      #     app = client.oauth_app(client_id: "client_id")
-      #
-      # @return Bitly::API::OAuthApp
-      def oauth_app(client_id:)
-        OAuthApp.fetch(client: self, client_id: client_id)
       end
 
       private

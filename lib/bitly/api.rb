@@ -13,7 +13,6 @@ module Bitly
     autoload :Group, File.join(File.dirname(__FILE__), "api/group.rb")
     autoload :User, File.join(File.dirname(__FILE__), "api/user.rb")
     autoload :BSD, File.join(File.dirname(__FILE__), "api/bsd.rb")
-    autoload :OAuthApp, File.join(File.dirname(__FILE__), "api/oauth_app.rb")
     autoload :ShortenCounts, File.join(File.dirname(__FILE__), "api/shorten_counts.rb")
   end
 end
