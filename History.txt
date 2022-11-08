@@ -1,7 +1,11 @@
 === Ongoing
 
+=== 3.0.0 / 2022-11-08
+
+* **Breaking** Removes Group DELETE and Oauth Apps endpoints
 * Updates all URLs in the documentation
 * Adds click_metrics_by_country to Bitlink instances
+* Adds request options and proxy options to the Net::HTTP adapter
 
 === 2.1.0 / 2022-10-21
 
