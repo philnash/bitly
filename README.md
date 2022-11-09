@@ -48,6 +48,8 @@ $ gem install bitly
 
 ## Usage
 
+For a quick introduction, read this blog post on [how to use the Bitly API in Ruby](https://philna.sh/blog/2022/11/09/how-to-use-the-bitly-api-in-ruby/).
+
 ### Authentication
 
 All API endpoints require authentication with an OAuth token. You can get your own OAuth token from the [Bitly console](https://app.bitly.com/). Click on the account drop down menu, then _Profile Settings_ then _Generic Access Token_. Fill in your password and you can generate an OAuth access token.
