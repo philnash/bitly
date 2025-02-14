@@ -318,7 +318,6 @@ RSpec.describe Bitly::API::Bitlink do
         Bitly::API::Bitlink::PaginatedList.new(
           client: client,
           response: response,
-          items: [Bitly::API::Bitlink.new(data: bitlink_data, client: client)]
         )
       end
 

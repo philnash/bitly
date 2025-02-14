@@ -215,5 +215,14 @@ RSpec.describe Bitly::API::Group do
         .and_return(click_metrics)
       expect(group.countries).to eq(click_metrics)
     end
+
+    it "can get QR codes" do
+      qrcode_mock = instance_double(Bitly::API::Qrcode)
+      expect(Bitly::API::Qrcode).to receive(:list)
+        .with(client: client, group_guid: group.guid)
+        .and_return(qrcode_mock)
+      qrcodes = group.qrcodes
+      expect(qrcodes).to eq(qrcode_mock)
+    end
   end
 end
