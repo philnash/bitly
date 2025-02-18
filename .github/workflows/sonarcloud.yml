@@ -4,9 +4,9 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-name: SonarCloud Analysis
+name: SonarQube Analysis
 jobs:
-  sonarcloud:
+  sonarqube:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
