@@ -37,7 +37,7 @@ module Bitly
       #     One of "on", "off" or "both". Defaults to "both".
       #
       # @return [Bitly::API::Qrcode::PaginatedList]
-      def self.list(
+      def self.list_by_group(
         client:,
         group_guid:,
         size: nil,

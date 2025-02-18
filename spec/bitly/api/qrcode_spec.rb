@@ -3,10 +3,11 @@
 RSpec.describe Bitly::API::Bitlink do
   let(:client) { instance_double(Bitly::API::Client) }
   let(:qrcode_id) { "the_qrcode_id" }
+  let(:group_guid) { "the_group_guid" }
   let(:qrcode_data) {
     {
       "qrcode_id" => qrcode_id,
-      "group_guid" => "the_group_guid",
+      "group_guid" => group_guid,
       "title" => "The title",
       "render_customizations" => {
         "background_color" => "#ffffff",
@@ -117,6 +118,38 @@ RSpec.describe Bitly::API::Bitlink do
 
       qrcode = Bitly::API::Qrcode.new(data: {"qrcode_id" => "A1B2C3"}, client: client)
       expect(qrcode.image(format: "png")).to eq("data:image/svg+xml;base64,...")
+    end
+  end
+
+  describe "#list_by_group" do
+    let(:pagination) {
+      {
+        "next" => "https://api-ssl.bit.ly/v4/groups/def456/qr-codes?page=2",
+        "prev" => "",
+        "total" => 100,
+        "page" => 1,
+        "size" => 50
+      }
+    }
+    let(:response) {
+      Bitly::HTTP::Response.new(
+        status: "200",
+        body: { qr_codes: [qrcode_data], pagination: pagination }.to_json,
+        headers: {}
+      )
+    }
+
+    it "fetches a list of QR codes by group" do
+      expect(client).to receive(:request)
+        .with(path: "/groups/#{group_guid}/qr-codes", params: {
+          "archived" => nil,
+          "has_render_customizations" => nil,
+          "size" => nil
+        })
+        .and_return(response)
+
+        qrcodes = Bitly::API::Qrcode.list_by_group(client: client, group_guid: group_guid)
+        expect(qrcodes.to_a.first.qrcode_id).to eq(qrcode_id)
     end
   end
 end

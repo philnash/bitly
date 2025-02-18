@@ -171,7 +171,7 @@ module Bitly
       #
       # @return [Bitly::API::Qrcode::List]
       def qrcodes
-        Bitly::API::Qrcode.list(client: @client, group_guid: guid)
+        Bitly::API::Qrcode.list_by_group(client: @client, group_guid: guid)
       end
 
       ##
