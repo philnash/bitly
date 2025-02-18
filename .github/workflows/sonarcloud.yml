@@ -27,7 +27,9 @@ jobs:
         working-directory: ./coverage
         run: |
           sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.json
-      - run: cat coverage.json
+      - name: print coverage
+        working-directory: ./coverage
+        run: cat coverage.json
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
