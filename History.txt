@@ -1,5 +1,11 @@
 === Ongoing
 
+=== 3.1.0 / 2025-02-18
+
+* Adds `Qrcode` class and methods to fetch qrcodes and list qrcodes by group as well as get a summary of scans and retrieve an image
+* Adds Ruby 3.4 to test matrix
+* Updates to latest SonarQube scanner
+
 === 3.0.0 / 2022-11-08
 
 * **Breaking** Removes Group DELETE and Oauth Apps endpoints
