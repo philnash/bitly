@@ -9,6 +9,7 @@ module Bitly
     autoload :Client, File.join(File.dirname(__FILE__), "api/client.rb")
     autoload :ClickMetric, File.join(File.dirname(__FILE__), "api/click_metric.rb")
     autoload :Bitlink, File.join(File.dirname(__FILE__), "api/bitlink.rb")
+    autoload :Qrcode, File.join(File.dirname(__FILE__), "api/qrcode.rb")
     autoload :Organization, File.join(File.dirname(__FILE__), "api/organization.rb")
     autoload :Group, File.join(File.dirname(__FILE__), "api/group.rb")
     autoload :User, File.join(File.dirname(__FILE__), "api/user.rb")

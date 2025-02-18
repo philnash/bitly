@@ -184,10 +184,7 @@ module Bitly
           "encoding_login" => encoding_login
         }
         response = client.request(path: "/groups/#{group_guid}/bitlinks", params: params)
-        bitlinks = response.body["links"].map do |link|
-          new(data: link, client: client)
-        end
-        PaginatedList.new(items: bitlinks, response: response, client: client)
+        PaginatedList.new(response: response, client: client)
       end
 
       ##

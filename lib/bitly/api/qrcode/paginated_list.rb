@@ -3,14 +3,14 @@ require_relative "../paginated_list"
 
 module Bitly
   module API
-    class Bitlink
+    class Qrcode
       class PaginatedList < Bitly::API::PaginatedList
         def item_key
-          "links"
+          "qr_codes"
         end
 
         def item_factory(data)
-          Bitlink.new(data: data, client: @client)
+          Qrcode.new(data: data, client: @client)
         end
       end
     end

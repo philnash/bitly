@@ -166,6 +166,15 @@ module Bitly
       end
 
       ##
+      # Gets the QR Codes for the group.
+      # [`GET /v4/groups/{group_guid}/qr-codes`](https://dev.bitly.com/api-reference/#listQRMinimal)
+      #
+      # @return [Bitly::API::Qrcode::List]
+      def qrcodes
+        Bitly::API::Qrcode.list(client: @client, group_guid: guid)
+      end
+
+      ##
       # Gets the referring networks for the group.
       # [`GET /v4/groups/{group_guid}/referring_networks`](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
       #
