@@ -371,5 +371,14 @@ RSpec.describe Bitly::API::Client do
         client.bsds
       end
     end
+
+    describe "Qrcode" do    
+      it "fetches a QR code" do
+        qrcode_id = "abc123"
+        expect(Bitly::API::Qrcode).to receive(:fetch)
+          .with(client: client, qrcode_id: qrcode_id)
+        client.qrcode(qrcode_id: qrcode_id)
+      end
+    end
   end
 end

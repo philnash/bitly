@@ -548,6 +548,18 @@ module Bitly
         BSD.list(client: self)
       end
 
+      ##
+      # Fetch a qr code by ID
+      # [`GET /v4/qr-codes/{qrcode_id}`](https://dev.bitly.com/api-reference/#getQRCodeByIdPublic)
+      # 
+      # @example
+      #    qrcode = client.qrcode(qrcode_id: "a1b2c3")
+      #    
+      # @return [Bitly::API::Qrcode]
+      def qrcode(qrcode_id:)
+        Qrcode.fetch(client: self, qrcode_id: qrcode_id)
+      end
+
       private
 
       def default_headers

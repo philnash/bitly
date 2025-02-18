@@ -4,27 +4,29 @@ A Ruby gem for using the version 4 [Bitly API](https://dev.bitly.com/) to shorte
 
 [![Gem version](https://badge.fury.io/rb/bitly.svg)](https://rubygems.org/gems/bitly) ![Build status](https://github.com/philnash/bitly/workflows/tests/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/f8e078b468c1f2aeca53/maintainability)](https://codeclimate.com/github/philnash/bitly/maintainability) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=philnash_bitly&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=philnash_bitly) [![Inline docs](https://inch-ci.org/github/philnash/bitly.svg?branch=master)](https://inch-ci.org/github/philnash/bitly)
 
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Authentication](#authentication)
-  * [Creating an API client](#creating-an-api-client)
-  * [Shorten a link](#shorten-a-link)
-  * [Expand a link](#expand-a-link)
-* [Available API Endpoints](#available-api-endpoints)
-  * [Groups](#groups)
-  * [Organizations](#organizations)
-  * [Users](#users)
-  * [Bitlinks](#bitlinks)
-  * [Custom Bitlinks](#custom-bitlinks)
-  * [Campaigns](#campaigns)
-  * [BSDs (Branded Short Domains)](#bsds-branded-short-domains)
-  * [Webhooks](#webhooks)
-* [Customising HTTP requests](#customising-http-requests)
-  * [Build your own adapter](#build-your-own-adapter)
-* [Development](#development)
-* [Contributing](#contributing)
-* [License](#license)
-* [Code of Conduct](#code-of-conduct)
+* [Bitly](#bitly)
+  * [Installation](#installation)
+  * [Usage](#usage)
+    * [Authentication](#authentication)
+    * [Creating an API client](#creating-an-api-client)
+    * [Shorten a link](#shorten-a-link)
+    * [Expand a link](#expand-a-link)
+  * [Available API Endpoints](#available-api-endpoints)
+    * [Groups](#groups)
+    * [Organizations](#organizations)
+    * [Users](#users)
+    * [Bitlinks](#bitlinks)
+    * [QR codes](#qr-codes)
+    * [Custom Bitlinks](#custom-bitlinks)
+    * [Campaigns](#campaigns)
+    * [BSDs (Branded Short Domains)](#bsds-branded-short-domains)
+    * [Webhooks](#webhooks)
+  * [Customising HTTP requests](#customising-http-requests)
+    * [Build your own adapter](#build-your-own-adapter)
+  * [Development](#development)
+  * [Contributing](#contributing)
+  * [License](#license)
+  * [Code of Conduct](#code-of-conduct)
 
 ## Installation
 
@@ -107,6 +109,7 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [x] [Retrieve group shorten counts (`GET /v4/groups/{group_guid}/shorten_counts`)](https://dev.bitly.com/api-reference/#getGroupShortenCounts)
 - [x] [Retrieve click metrics for a group by referring networks (`GET /v4/groups/{group_guid}/referring_networks`)](https://dev.bitly.com/api-reference/#GetGroupMetricsByReferringNetworks)
 - [x] [Retrieve click metrics for a group by countries (`GET /v4/groups/{group_guid}/countries`)](https://dev.bitly.com/api-reference/#getGroupMetricsByCountries)
+- [X] [Retrieve QR codes for a group (`GET /v4/groups/{group_guid}/qr-codes`)](https://dev.bitly.com/api-reference/#listQRMinimal)
 - [ ] __[premium]__ [Retrieve click metrics for a group by city (`GET /v4/groups/{group_guid}/cities`)](https://dev.bitly.com/api-reference/#getGroupMetricsByCities)
 - [ ] __[premium]__ [Get group overrides (`GET /v4/groups/{group_guid}/overrides`)](https://dev.bitly.com/api-reference/#getOverridesForGroups)
 
@@ -143,9 +146,14 @@ This gem supports the following active v4 API endpoints for the[Bitly API](https
 - [x] [Get metrics for a Bitlink by referrers by domain (`GET /v4/bitlinks/{bitlink}/referrers_by_domains`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByReferrersByDomains)
 - [ ] __[premium]__ [Get metrics for a Bitlink by city (`GET /v4/bitlinks/{bitlink}/cities`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByCities)
 - [ ] __[premium]__ [Get metrics for a Bitlink by device type (`GET /v4/bitlinks/{bitlink}/devices`)](https://dev.bitly.com/api-reference/#getMetricsForBitlinkByDevices)
-- [ ] __[premium]__ [Retrieve a QR code for a Bitlink (`GET /v4/bitlinks/{bitlink}/qr`)](https://dev.bitly.com/api-reference/#getBitlinkQRCode)
-- [ ] __[premium]__ [Update a QR code (`PATCH /v4/bitlinks/{bitlink}/qr`)](https://dev.bitly.com/api-reference/#updateBitlinkQRCode)
-- [ ] __[premium]__ [Create a QR code (`POST /v4/bitlinks/{bitlink}/qr`)](https://dev.bitly.com/api-reference/#createBitlinkQRCode)
+
+### QR codes
+
+[QR codes documentation](docs/qrcodes.md)
+
+- [x] [Retrieve a QR code (`GET /v4/qr-codes/{qrcode_id}`)](https://dev.bitly.com/api-reference/#getQRCodeByIdPublic)
+- [x] [Retrieve the scans summary for a QR code (`GET /v4/qr-codes/{qrcode_id}/scans/summary`)](https://dev.bitly.com/api-reference/#getScanMetricsSummaryForQRCode)
+- [x] [Retrieve a QR code image (`GET /v4/qr-codes/{qrcode_id}/image`)](https://dev.bitly.com/api-reference/#getQRCodeImagePublic)
 
 ### Custom Bitlinks
 
