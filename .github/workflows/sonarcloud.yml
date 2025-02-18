@@ -26,7 +26,7 @@ jobs:
       - name: fix code coverage paths
         working-directory: ./coverage
         run: |
-          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.json
+          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace@g' coverage.json
       - name: print coverage
         working-directory: ./coverage
         run: cat coverage.json
