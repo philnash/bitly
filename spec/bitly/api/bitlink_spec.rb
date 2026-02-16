@@ -336,7 +336,7 @@ RSpec.describe Bitly::API::Bitlink do
           headers: {}
         )
         expect(client).to receive(:request)
-          .with(path: "/groups/def456/bitlinks", params: { "page" => ["2"] })
+          .with(path: "/groups/def456/bitlinks", params: { "page" => "2" })
           .and_return(response)
         new_list = list.next_page
         expect(new_list).to be_instance_of(Bitly::API::Bitlink::PaginatedList)

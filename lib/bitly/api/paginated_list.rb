@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require "cgi"
 require "uri"
 
 module Bitly
@@ -47,7 +46,7 @@ module Bitly
       private
 
       def get_page(uri:)
-        response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: CGI.parse(uri.query))
+        response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: Hash[URI.decode_www_form(uri.query)])
         self.class.new(response: response, client: @client)
       end
 
